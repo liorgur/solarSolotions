@@ -1,0 +1,27 @@
+package com.xmed.dao;
+
+import com.xmed.Objects.Requests.QuestionActionsRequest;
+import org.springframework.stereotype.Component;
+
+import static com.xmed.Objects.Tables.ANSWERS_TABLE;
+
+/**
+ * @author Dan Feldman
+ */
+@Component
+public class QuestionActionsDao {
+
+    public String markQuestionQuery(QuestionActionsRequest request) {
+        return " UPDATE " + ANSWERS_TABLE + " " +
+                " SET is_marked = " + request.getIsMark() + " " +
+                " WHERE user_id = " + request.getUserId() + " " +
+                " AND question_id = " + request.getQuestionId();
+    }
+
+    public String commentQuestionQuery(QuestionActionsRequest request) {
+        return " UPDATE " + ANSWERS_TABLE + " " +
+                " SET comment = " + request.getComment() + " " +
+                " WHERE user_id = " + request.getUserId() + " " +
+                " AND question_id = " + request.getQuestionId();
+    }
+}

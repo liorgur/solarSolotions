@@ -16,7 +16,11 @@
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="SwaggerConfig" removed="false">
+          <file>file://$MODULE_DIR$/src/main/java/com/xmed/config/SwaggerConfig.java</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
 </module>

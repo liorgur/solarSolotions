@@ -5,7 +5,7 @@ import com.xmed.Objects.Question;
 import java.util.List;
 
 /**
- * @author Dan Feldman
+ * @author Lior Gur
  */
 public class NewTestResponse {
     public NewTestResponse(List<Question> questions) {
@@ -20,5 +20,5 @@ public class NewTestResponse {
         this.questions = questions;
     }
 
-    List<Question> questions;
+    private List<Question> questions;
 }

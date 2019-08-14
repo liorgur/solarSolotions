@@ -1,9 +1,9 @@
 package com.xmed.Objects.Requests;
 
 /**
- * @author Dan Feldman
+ * @author Lior Gur
  */
-public class GetFinishedTestsRequest {
+public class FinishedTestsRequest {
 
     private int userId;
     private int testId;

@@ -5,13 +5,13 @@ import com.xmed.Objects.FinishedTestDetails;
 import java.util.List;
 
 /**
- * @author Dan Feldman
+ * @author Lior Gur
  */
-public class FinishedTestResponse {
-    List<FinishedTestDetails> finishedTestDetails;
+public class FinishedTestsResponse {
+    private List<FinishedTestDetails> finishedTestDetails;
 
 
-    public FinishedTestResponse(List<FinishedTestDetails> finishedTestDetails) {
+    public FinishedTestsResponse(List<FinishedTestDetails> finishedTestDetails) {
         this.finishedTestDetails = finishedTestDetails;
     }
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author Dan Feldman
+ * @author Lior Gur
  */
 @Data
 @Builder

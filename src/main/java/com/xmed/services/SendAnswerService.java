@@ -6,8 +6,10 @@ import com.xmed.dao.SendAnswerDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 /**
@@ -15,37 +17,43 @@ import java.util.Arrays;
  */
 @Service
 @Slf4j
+@Transactional
 public class SendAnswerService {
 
     @Autowired
     SendAnswerDao dao;
 
-    public void SendAnswer(SendAnserRequest request) {
+    @Autowired
+    DbHelper dbHelper;
 
-        //todo move all queries to batch
-        DbHelper.executeQuery(dao.updateAnswerTable(request));
-        DbHelper.executeQuery(dao.updateTestTable(request));
-        DbHelper.executeQuery(dao.updateTestQuestionTable(request));
+    public void SendAnswer(SendAnserRequest request) throws SQLException {
+
+        dbHelper.executeBatchQueries(Arrays.asList(
+                dao.updateAnswerTable(request),
+                dao.updateTestTable(request),
+                dao.updateTestQuestionTable(request)));
 
         if (isFirstTimeAnswerThisQuestion(dao.isFirstTimeAnswerThisQuestion(request))) {
-            DbHelper.executeBatchQueries(
-                    Arrays.asList(dao.getCorrectAnswerSum(request), dao.updateDifficulty(request)));
+            dbHelper.executeBatchQueries(Arrays.asList(
+                    dao.getCorrectAnswerSum(request),
+                    dao.updateDifficulty(request)));
         }
 
         if (request.isLastQuestion()) {
             String updateGradeQuery = dao.updateGradeQuery(request);
-            DbHelper.executeQuery(updateGradeQuery);
+            dbHelper.executeQuery(updateGradeQuery);
         }
     }
 
-    private boolean isFirstTimeAnswerThisQuestion(String isFirstTimeAnswerThisQuestionQuery) {
-        ResultSet rs = DbHelper.executeQueryToResultSet(isFirstTimeAnswerThisQuestionQuery);
+    private boolean isFirstTimeAnswerThisQuestion(String isFirstTimeAnswerThisQuestionQuery) throws SQLException {
+        ResultSet rs = dbHelper.executeQueryToResultSet(isFirstTimeAnswerThisQuestionQuery);
         boolean isFirstTimeAnswerThisQuestion = false;
         try {
             while (rs.next()) {
                 isFirstTimeAnswerThisQuestion = rs.getInt(1) == 1;
             }
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
         return isFirstTimeAnswerThisQuestion;
     }

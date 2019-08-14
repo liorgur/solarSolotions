@@ -1,4 +1,4 @@
-package com.xmed.Objects;
+package com.xmed.Objects.Enums;
 
 /**
  * @author Lior Gur

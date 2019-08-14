@@ -1,8 +1,8 @@
 package com.xmed.Objects.Requests;
 
-import com.xmed.Objects.Difficulty;
-import com.xmed.Objects.QuestionType;
-import com.xmed.Objects.TestType;
+import com.xmed.Objects.Enums.Difficulty;
+import com.xmed.Objects.Enums.QuestionType;
+import com.xmed.Objects.Enums.TestType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @author Dan Feldman
+ * @author Lior Gur
  */
 @Data
 @Builder

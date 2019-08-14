@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Swagger documentation endpoint configuration.
  *
- * @author Dan Feldman
+ * @author Lior Gur
  */
 @Configuration
 @EnableSwagger2

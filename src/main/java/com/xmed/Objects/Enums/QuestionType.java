@@ -1,4 +1,4 @@
-package com.xmed.Objects;
+package com.xmed.Objects.Enums;
 
 public enum QuestionType {
     WRONG('W'),
@@ -13,9 +13,4 @@ public enum QuestionType {
     }
 
     public char getValue() { return value; }
-
-    //WRONG,
-    //CORRECT,
-    //UNSOLVED,
-    //MARKED
 }

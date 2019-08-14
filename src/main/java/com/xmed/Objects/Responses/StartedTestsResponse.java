@@ -5,9 +5,9 @@ import com.xmed.Objects.StartedTestDetails;
 import java.util.List;
 
 /**
- * @author Dan Feldman
+ * @author Lior Gur
  */
-public class StartedTestResponse {
+public class StartedTestsResponse {
 
     private List<StartedTestDetails> startedTestDetailsList;
 
@@ -20,7 +20,7 @@ public class StartedTestResponse {
         this.startedTestDetailsList = startedTestDetailsList;
     }
 
-    public StartedTestResponse(List<StartedTestDetails> startedTestDetailsList) {
+    public StartedTestsResponse(List<StartedTestDetails> startedTestDetailsList) {
         this.startedTestDetailsList = startedTestDetailsList;
     }
 }
