@@ -1,11 +1,11 @@
 package com.xmed.dao;
 
-import com.xmed.Objects.Requests.FinishedTestsRequest;
-import com.xmed.Objects.Requests.StartedTestsRequest;
+import com.xmed.models.Requests.FinishedTestsRequest;
+import com.xmed.models.Requests.StartedTestsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.xmed.Objects.Tables.TEST_TABLE;
+import static com.xmed.models.Tables.TEST_TABLE;
 
 /**
  * @author Lior Gur

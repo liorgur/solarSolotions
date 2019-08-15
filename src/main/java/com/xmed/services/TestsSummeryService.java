@@ -1,13 +1,12 @@
 package com.xmed.services;
 
-import ch.qos.logback.core.db.DBHelper;
-import com.xmed.Objects.FinishedTestDetails;
-import com.xmed.Objects.Requests.FinishedTestsRequest;
-import com.xmed.Objects.Requests.StartedTestsRequest;
-import com.xmed.Objects.Responses.FinishedTestsResponse;
-import com.xmed.Objects.Responses.StartedTestsResponse;
-import com.xmed.Objects.StartedTestDetails;
-import com.xmed.Utils.DbHelper;
+import com.xmed.models.FinishedTestDetails;
+import com.xmed.models.Requests.FinishedTestsRequest;
+import com.xmed.models.Requests.StartedTestsRequest;
+import com.xmed.models.Responses.FinishedTestsResponse;
+import com.xmed.models.Responses.StartedTestsResponse;
+import com.xmed.models.StartedTestDetails;
+import com.xmed.utils.DbHelper;
 import com.xmed.dao.TestsSummeryDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.xmed.services;
 
-import com.xmed.Objects.Requests.SendAnserRequest;
-import com.xmed.Utils.DbHelper;
+import com.xmed.models.Requests.SendAnserRequest;
+import com.xmed.utils.DbHelper;
 import com.xmed.dao.SendAnswerDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.xmed.Objects.Responses;
+package com.xmed.models.Responses;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

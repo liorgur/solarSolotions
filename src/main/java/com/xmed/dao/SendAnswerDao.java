@@ -1,12 +1,11 @@
 package com.xmed.dao;
 
-import com.xmed.Objects.Requests.SendAnserRequest;
+import com.xmed.models.Requests.SendAnserRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.stereotype.Component;
 
-import static com.xmed.Objects.Tables.*;
-import static com.xmed.Objects.Tables.TEST_QUESTION_TABLE;
+import static com.xmed.models.Tables.*;
+import static com.xmed.models.Tables.TEST_QUESTION_TABLE;
 
 /**
  * @author Lior Gur

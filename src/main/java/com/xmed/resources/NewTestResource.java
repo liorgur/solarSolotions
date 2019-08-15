@@ -1,7 +1,7 @@
 package com.xmed.resources;
 
-import com.xmed.Objects.Requests.CreateNewTestRequest;
-import com.xmed.Objects.Responses.NewTestResponse;
+import com.xmed.models.Requests.CreateNewTestRequest;
+import com.xmed.models.Responses.NewTestResponse;
 
 import com.xmed.services.NewTestService;
 import io.swagger.annotations.Api;

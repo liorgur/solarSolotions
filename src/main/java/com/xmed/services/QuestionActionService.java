@@ -1,7 +1,7 @@
 package com.xmed.services;
 
-import com.xmed.Objects.Requests.QuestionActionsRequest;
-import com.xmed.Utils.DbHelper;
+import com.xmed.models.Requests.QuestionActionsRequest;
+import com.xmed.utils.DbHelper;
 import com.xmed.dao.QuestionActionsDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

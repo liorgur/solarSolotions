@@ -1,6 +1,6 @@
 package com.xmed.resources;
 
-import com.xmed.Objects.Requests.SendAnserRequest;
+import com.xmed.models.Requests.SendAnserRequest;
 import com.xmed.services.SendAnswerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

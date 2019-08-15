@@ -1,6 +1,6 @@
-package com.xmed.Objects.Responses;
+package com.xmed.models.Responses;
 
-import com.xmed.Objects.StartedTestDetails;
+import com.xmed.models.StartedTestDetails;
 
 import java.util.List;
 

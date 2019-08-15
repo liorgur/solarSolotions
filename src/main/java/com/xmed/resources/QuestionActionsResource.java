@@ -1,21 +1,16 @@
 package com.xmed.resources;
 
-import com.xmed.Objects.Requests.QuestionActionsRequest;
-import com.xmed.Utils.DbHelper;
+import com.xmed.models.Requests.QuestionActionsRequest;
 import com.xmed.services.QuestionActionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import static com.xmed.Objects.Tables.ANSWERS_TABLE;
 
 /**
  * Handler for requests to Lambda function.

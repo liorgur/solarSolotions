@@ -1,4 +1,4 @@
-package com.xmed.Objects.Requests;
+package com.xmed.models.Requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,9 +1,9 @@
 package com.xmed.dao;
 
-import com.xmed.Objects.Enums.Difficulty;
-import com.xmed.Objects.Enums.QuestionType;
-import com.xmed.Objects.Requests.CreateNewTestRequest;
-import com.xmed.Objects.Requests.GetUserStatisticsRequest;
+import com.xmed.models.Enums.Difficulty;
+import com.xmed.models.Enums.QuestionType;
+import com.xmed.models.Requests.CreateNewTestRequest;
+import com.xmed.models.Requests.GetUserStatisticsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.xmed.Objects.Tables.*;
+import static com.xmed.models.Tables.*;
 
 /**
  * @author Dan Feldman

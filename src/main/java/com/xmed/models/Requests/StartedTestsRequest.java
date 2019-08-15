@@ -1,9 +1,10 @@
-package com.xmed.Objects.Requests;
+package com.xmed.models.Requests;
 
 /**
  * @author Lior Gur
  */
-public class GetUserStatisticsRequest {
+public class StartedTestsRequest {
+
     private int userId;
 
     public int getUserId() {

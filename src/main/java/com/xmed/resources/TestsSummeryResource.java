@@ -1,9 +1,9 @@
 package com.xmed.resources;
 
-import com.xmed.Objects.Requests.FinishedTestsRequest;
-import com.xmed.Objects.Requests.StartedTestsRequest;
-import com.xmed.Objects.Responses.FinishedTestsResponse;
-import com.xmed.Objects.Responses.StartedTestsResponse;
+import com.xmed.models.Requests.FinishedTestsRequest;
+import com.xmed.models.Requests.StartedTestsRequest;
+import com.xmed.models.Responses.FinishedTestsResponse;
+import com.xmed.models.Responses.StartedTestsResponse;
 import com.xmed.services.TestsSummeryService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

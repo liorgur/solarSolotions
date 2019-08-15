@@ -1,9 +1,9 @@
 package com.xmed.dao;
 
-import com.xmed.Objects.Requests.QuestionActionsRequest;
+import com.xmed.models.Requests.QuestionActionsRequest;
 import org.springframework.stereotype.Component;
 
-import static com.xmed.Objects.Tables.ANSWERS_TABLE;
+import static com.xmed.models.Tables.ANSWERS_TABLE;
 
 /**
  * @author Dan Feldman

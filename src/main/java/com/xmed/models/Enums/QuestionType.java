@@ -1,4 +1,4 @@
-package com.xmed.Objects.Enums;
+package com.xmed.models.Enums;
 
 public enum QuestionType {
     WRONG('W'),

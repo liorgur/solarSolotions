@@ -1,8 +1,8 @@
-package com.xmed.Objects.Requests;
+package com.xmed.models.Requests;
 
-import com.xmed.Objects.Enums.Difficulty;
-import com.xmed.Objects.Enums.QuestionType;
-import com.xmed.Objects.Enums.TestType;
+import com.xmed.models.Enums.Difficulty;
+import com.xmed.models.Enums.QuestionType;
+import com.xmed.models.Enums.TestType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

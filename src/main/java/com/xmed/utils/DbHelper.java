@@ -1,8 +1,7 @@
-package com.xmed.Utils;
+package com.xmed.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.DbUtils;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
