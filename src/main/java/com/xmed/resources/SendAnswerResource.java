@@ -1,6 +1,6 @@
 package com.xmed.resources;
 
-import com.xmed.models.Requests.SendAnserRequest;
+import com.xmed.models.Requests.SendAnswerRequest;
 import com.xmed.services.SendAnswerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class SendAnswerResource {
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ApiOperation(value = "sendAnswer")
     @ResponseBody
-    public ResponseEntity SendAnswer(SendAnserRequest request) {
+    public ResponseEntity SendAnswer(SendAnswerRequest request) {
 
         try {
             sendAnswerService.SendAnswer(request);

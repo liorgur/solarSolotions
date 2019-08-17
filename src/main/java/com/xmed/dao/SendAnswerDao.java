@@ -1,6 +1,6 @@
 package com.xmed.dao;
 
-import com.xmed.models.Requests.SendAnserRequest;
+import com.xmed.models.Requests.SendAnswerRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import static com.xmed.models.Tables.TEST_QUESTION_TABLE;
 @Component
 public class SendAnswerDao {
 
-    public String updateAnswerTable(SendAnserRequest request) {
+    public String updateAnswerTable(SendAnswerRequest request) {
         return " UPDATE " + ANSWERS_TABLE + " " +
                 " SET is_correct = " + request.isCorrect() + " " +
                 setComment(request.getComment()) +
@@ -23,7 +23,7 @@ public class SendAnswerDao {
                 " AND question_id = " + request.getQuestionId();
     }
 
-    public String updateTestTable(SendAnserRequest request) {
+    public String updateTestTable(SendAnswerRequest request) {
         return "UPDATE " + TEST_TABLE + " " +
                 " SET last_solved_question_id = " + request.getQuestionId() + " " +
                 setAnswered() +
@@ -31,7 +31,7 @@ public class SendAnswerDao {
                 " WHERE test_id = " + request.getTestId() + " ";
     }
 
-    public String updateTestQuestionTable(SendAnserRequest request) {
+    public String updateTestQuestionTable(SendAnswerRequest request) {
         return " UPDATE " + TEST_QUESTION_TABLE + " " +
                 " SET is_correct = " + request.isCorrect() + " " +
                 " WHERE test_id = " + request.getTestId() + " " +
@@ -39,7 +39,7 @@ public class SendAnswerDao {
     }
 
 
-    public String updateDifficulty(SendAnserRequest request) {
+    public String updateDifficulty(SendAnswerRequest request) {
         return
                 " update " + QUESTIONS_TABLE + " " +
                         " set difficulty = (((difficulty/100)*@sum)+" +
@@ -48,7 +48,7 @@ public class SendAnswerDao {
 
     }
 
-    public String getCorrectAnswerSum(SendAnserRequest request) {
+    public String getCorrectAnswerSum(SendAnswerRequest request) {
         return " SET @sum = ( " +
                 " SELECT sum(is_correct) " +
                 " FROM " + TEST_QUESTION_TABLE + "  a inner join (select min(test_id) as test_id from " +
@@ -57,14 +57,14 @@ public class SendAnswerDao {
                 " group by question_id ) ";
     }
 
-    public String isFirstTimeAnswerThisQuestion(SendAnserRequest request) {
+    public String isFirstTimeAnswerThisQuestion(SendAnswerRequest request) {
         return " select count(*) " +
                 " from " + TEST_QUESTION_TABLE +
                 " WHERE question_id = " + request.getQuestionId() +
                 " and user_id = " + request.getUserId();
     }
 
-    public String updateGradeQuery(SendAnserRequest request) {
+    public String updateGradeQuery(SendAnswerRequest request) {
         return " UPDATE " + TEST_TABLE + " "  +
                 " SET grade = (" +
                 " SELECT sum(is_correct)*100/ Count(*) as grade" +

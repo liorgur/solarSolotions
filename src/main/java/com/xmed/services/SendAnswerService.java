@@ -1,6 +1,6 @@
 package com.xmed.services;
 
-import com.xmed.models.Requests.SendAnserRequest;
+import com.xmed.models.Requests.SendAnswerRequest;
 import com.xmed.utils.DbHelper;
 import com.xmed.dao.SendAnswerDao;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class SendAnswerService {
     @Autowired
     DbHelper dbHelper;
 
-    public void SendAnswer(SendAnserRequest request) throws SQLException {
+    public void SendAnswer(SendAnswerRequest request) throws SQLException {
 
         dbHelper.executeBatchQueries(Arrays.asList(
                 dao.updateAnswerTable(request),

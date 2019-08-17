@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 //@Entity
-public class SendAnserRequest {
+public class SendAnswerRequest {
 
     private int userId;
     private int questionId;

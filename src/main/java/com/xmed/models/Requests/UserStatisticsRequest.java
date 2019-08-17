@@ -3,7 +3,7 @@ package com.xmed.models.Requests;
 /**
  * @author Lior Gur
  */
-public class GetUserStatisticsRequest {
+public class UserStatisticsRequest {
     private int userId;
 
     public int getUserId() {
