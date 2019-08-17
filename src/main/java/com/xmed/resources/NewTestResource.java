@@ -29,7 +29,7 @@ import java.sql.SQLException;
     @PostMapping(path = "/create", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Create New Test")
     @ResponseBody
-    public ResponseEntity CreateNewTest(CreateNewTestRequest newTestRequest) {
+    public ResponseEntity CreateNewTest(@RequestBody CreateNewTestRequest newTestRequest) {
 
         try {
             NewTestResponse newTestResponse = newTestService.CreateNewTest(newTestRequest);

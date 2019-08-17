@@ -19,10 +19,10 @@ import java.sql.SQLException;
  * Handler for requests to Lambda function.
  */
 @Slf4j
-@Api(value = "testSummery")
+@Api(value = "statistics")
 @RestController
-@RequestMapping("api/v1/testSummery")
-public class TestsSummeryResource {
+@RequestMapping("api/v1/statistics")
+public class StatisticsResource {
 
     @Autowired
     TestsSummeryService summeryService;

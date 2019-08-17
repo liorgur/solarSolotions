@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class DbHelper {
 
-    private static String url = "jdbc:mysql://127.0.0.1:3306/Xmed";
+    private static String url = "jdbc:mysql://xmed-db.cvtziznvjjvi.eu-west-1.rds.amazonaws.com:3306/Xmed";
     private static String username = "admin";
     private static String password = "password";
 

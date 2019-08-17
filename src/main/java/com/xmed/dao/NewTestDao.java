@@ -6,7 +6,9 @@ import com.xmed.models.Requests.CreateNewTestRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -68,12 +70,15 @@ public class NewTestDao {
     }
 
     public String insertNewTestQuery(CreateNewTestRequest newTestRequest) {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
         return " INSERT INTO  " + TEST_TABLE + " " +
                 " (test_name, user_id, date_created, is_with_time, question_type, comment, num_of_questions, is_with_solution, difficulties, test_type) " +
                 " VALUES('" +
                 newTestRequest.getName() + "'," +
                 newTestRequest.getUserId() + "," +
-                "'" + ZonedDateTime.now() + "'," +  //todo format time
+                "'" + LocalDateTime.now().format(dtf) + "'," +  //todo format time
                 newTestRequest.isTime() + "," +
                 newTestRequest.getQuestionTypeAsString() + "," +
                 newTestRequest.getComment() + "," +
