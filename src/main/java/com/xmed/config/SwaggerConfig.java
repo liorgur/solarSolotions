@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author Lior Gur
  */
 @Configuration
-//@EnableSwagger2
+@EnableSwagger2
 @Component
 @Primary
 public class SwaggerConfig {
