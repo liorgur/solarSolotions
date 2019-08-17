@@ -33,20 +33,21 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .enable(true)
-                .apiInfo(apiInfo());
+                //.apiInfo(apiInfo())
+                ;
     }
 
-    private ApiInfo apiInfo() {
-        Contact contactInfo = new Contact("Lior Gur", "https://github.com/liorgur", "liorgur2@gmail.com");
-        return new ApiInfo(
-                "Lior's coding task",
-                "",
-                "1.0.0",
-                "",
-                contactInfo,
-                "MIT",
-                "",
-                new ArrayList<>());
-    }
+    //private ApiInfo apiInfo() {
+    //    Contact contactInfo = new Contact("Lior Gur", "https://github.com/liorgur", "liorgur2@gmail.com");
+    //    return new ApiInfo(
+    //            "Lior's coding task",
+    //            "",
+    //            "1.0.0",
+    //            "",
+    //            contactInfo,
+    //            "MIT",
+    //            "",
+    //            new ArrayList<>());
+    //}
 
 }
