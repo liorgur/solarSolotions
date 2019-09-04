@@ -1,4 +1,4 @@
-package com.xmed.models;
+package com.xmed.models.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

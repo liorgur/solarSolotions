@@ -2,6 +2,7 @@ package com.xmed.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.DbUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -11,9 +12,12 @@ import java.util.List;
 @Component
 public class DbHelper {
 
-    private static String url = "jdbc:mysql://xmed-db.cvtziznvjjvi.eu-west-1.rds.amazonaws.com:3306/Xmed";
-    private static String username = "admin";
-    private static String password = "password";
+    @Value(value = "${url}")
+    private String url;
+    @Value(value = "${username}")
+    private String username;
+    @Value(value = "${password}")
+    private String password;
 
     public ResultSet executeQueryToResultSet(String query) throws SQLException {
         Connection connection = getConnection();

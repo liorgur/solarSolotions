@@ -1,11 +1,15 @@
 package com.xmed.services;
 
-import com.xmed.models.FinishedTestDetails;
+import com.xmed.models.Enums.TestType;
+import com.xmed.models.Objects.FinishedTestDetails;
 import com.xmed.models.Requests.FinishedTestsRequest;
 import com.xmed.models.Requests.StartedTestsRequest;
+import com.xmed.models.Requests.TestsSummeryRequest;
 import com.xmed.models.Responses.FinishedTestsResponse;
 import com.xmed.models.Responses.StartedTestsResponse;
-import com.xmed.models.StartedTestDetails;
+import com.xmed.models.Responses.TestsSummeryResponse;
+import com.xmed.models.Objects.StartedTestDetails;
+import com.xmed.models.Objects.TestDetails;
 import com.xmed.utils.DbHelper;
 import com.xmed.dao.TestsSummeryDao;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +20,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,10 +31,10 @@ import java.util.List;
 public class TestsSummeryService {
 
     @Autowired
-    TestsSummeryDao dao;
+    private TestsSummeryDao dao;
 
     @Autowired
-    DbHelper dbHelper;
+    private DbHelper dbHelper;
 
     public FinishedTestsResponse GetFinishedTestSummery(FinishedTestsRequest request) throws SQLException {
         ResultSet resultSet = dbHelper.executeQueryToResultSet(dao.getFinishedTestsQuery(request));
@@ -41,6 +46,12 @@ public class TestsSummeryService {
         return ResultSetToStartedTestResponse(resultSet);
 
     }
+    public TestsSummeryResponse GetTestSummery(TestsSummeryRequest request) throws SQLException {
+        ResultSet resultSet = dbHelper.executeQueryToResultSet(dao.getTestsSummertQuery(request));
+        return ResultSetToTestSummeryResponse(resultSet);
+
+    }
+
 
     private FinishedTestsResponse ResultSetToFinishedTestResponse(ResultSet resultSet) {
 
@@ -60,7 +71,35 @@ public class TestsSummeryService {
 
         } catch (Exception ex) {
             log.error(ex.getMessage());
-            log.debug(ex.getStackTrace().toString()); //todo
+            log.debug(Arrays.toString(ex.getStackTrace())); //todo
+        }
+        return null;
+    }
+
+    private TestsSummeryResponse ResultSetToTestSummeryResponse(ResultSet resultSet) {
+
+        List<TestDetails> list = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+                Date dateTime= resultSet.getDate("date_created");
+                String testName = resultSet.getString("test_name");
+                int numOfQuestions= resultSet.getInt("num_of_questions");
+                int answered= resultSet.getInt("answered");
+                int progress = (answered / numOfQuestions) * 100 ;
+                String difficulties=resultSet.getString("difficulties");
+                int grade = resultSet.getInt("grade");
+
+                TestType testType = TestType.valueOf(resultSet.getString("test_type"));
+
+                list.add(new TestDetails(dateTime,testName,numOfQuestions,progress,grade,difficulties,testType));
+            }
+            return new TestsSummeryResponse(list);
+        }
+        catch (Exception ex)
+        {
+            log.error(ex.getMessage());
+            log.debug(Arrays.toString(ex.getStackTrace())); //todo
         }
         return null;
     }
@@ -86,7 +125,7 @@ public class TestsSummeryService {
         catch (Exception ex)
         {
             log.error(ex.getMessage());
-            log.debug(ex.getStackTrace().toString()); //todo
+            log.debug(Arrays.toString(ex.getStackTrace())); //todo
         }
         return null;
     }

@@ -1,6 +1,6 @@
 package com.xmed.services;
 
-import com.xmed.models.Question;
+import com.xmed.models.Objects.Question;
 import com.xmed.models.Requests.CreateNewTestRequest;
 import com.xmed.models.Responses.NewTestResponse;
 import com.xmed.utils.DbHelper;
@@ -21,10 +21,10 @@ import java.util.List;
 @Slf4j
 public class NewTestService {
     @Autowired
-    NewTestDao dao;
+    private NewTestDao dao;
 
     @Autowired
-    DbHelper dbHelper;
+    private DbHelper dbHelper;
 
     public NewTestResponse CreateNewTest(CreateNewTestRequest request) throws SQLException {
 
@@ -50,7 +50,7 @@ public class NewTestService {
 
     private List<Question> GetQuestionListFromResultSet(ResultSet questionsResultSet) {
 
-        List<Question> questionList = new ArrayList();
+        ArrayList questionList = new ArrayList();
         try {
             while (questionsResultSet.next()) {
 
@@ -66,6 +66,7 @@ public class NewTestService {
                 int speciality_id = questionsResultSet.getInt("speciality_id");
                 int subject_id = questionsResultSet.getInt("subject_id");
 
+                //todo add urls
                 Question question1 = new Question(question_id, question, answer, distractor_1, distractor_2,
                         distractor_3, solution, reference, year, speciality_id, subject_id);
 

@@ -2,10 +2,11 @@ package com.xmed.dao;
 
 import com.xmed.models.Requests.FinishedTestsRequest;
 import com.xmed.models.Requests.StartedTestsRequest;
+import com.xmed.models.Requests.TestsSummeryRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.xmed.models.Tables.TEST_TABLE;
+import static com.xmed.models.Objects.Tables.TEST_TABLE;
 
 /**
  * @author Lior Gur
@@ -26,5 +27,12 @@ public class TestsSummeryDao {
                 " FROM " + TEST_TABLE +
                 " WHERE user_id = " + finishedTestsRequest.getUserId() + " " +
                 " AND is_done = 0";
+    }
+
+    public String getTestsSummertQuery(TestsSummeryRequest request) {
+        return " SELECT * " +
+                " FROM " + TEST_TABLE +
+                " WHERE user_id = " + request.getUserId() + "" +
+                " ORDER BY  date_created DESC" ;
     }
 }

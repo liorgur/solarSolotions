@@ -1,4 +1,4 @@
-package com.xmed.models.Requests;
+package com.xmed.models.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserStatisticsRequest {
-    private int userId;
-    private int specialityId;
+public
+class SubjectDistribution {
+    private int total;
+    private int corrects;
+    private int wrongs;
 }

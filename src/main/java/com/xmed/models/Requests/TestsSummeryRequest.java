@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserStatisticsRequest {
+public class TestsSummeryRequest {
     private int userId;
-    private int specialityId;
 }

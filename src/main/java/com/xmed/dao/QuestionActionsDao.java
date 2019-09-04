@@ -1,6 +1,7 @@
 package com.xmed.dao;
 
 import com.xmed.models.Requests.QuestionActionsRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import static com.xmed.models.Tables.ANSWERS_TABLE;
@@ -9,6 +10,8 @@ import static com.xmed.models.Tables.ANSWERS_TABLE;
  * @author Dan Feldman
  */
 @Component
+@Slf4j
+
 public class QuestionActionsDao {
 
     public String markQuestionQuery(QuestionActionsRequest request) {

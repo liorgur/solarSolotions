@@ -1,5 +1,6 @@
-package com.xmed.models;
+package com.xmed.models.Objects;
 
+import com.xmed.models.Enums.TestType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +15,14 @@ import java.sql.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FinishedTestDetails {
+public class TestDetails {
     private Date date;
     private String testName;
     private int numOfQuestions;
+    private int progress;
     private int grade;
     private String difficulties;
-    private String testType;
+    private TestType testType;
 
-   }
+
+}

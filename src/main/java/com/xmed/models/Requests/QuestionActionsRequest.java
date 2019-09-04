@@ -10,7 +10,7 @@ public class QuestionActionsRequest {
     private Boolean isShare;
     private Boolean isMark;
     private Boolean isHide;
-    private Boolean isComment;
+    //private Boolean isComment;
     private String comment;
     private Boolean isFeedback;
 

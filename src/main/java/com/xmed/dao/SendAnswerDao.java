@@ -4,8 +4,8 @@ import com.xmed.models.Requests.SendAnswerRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.xmed.models.Tables.*;
-import static com.xmed.models.Tables.TEST_QUESTION_TABLE;
+import static com.xmed.models.Objects.Tables.*;
+import static com.xmed.models.Objects.Tables.TEST_QUESTION_TABLE;
 
 /**
  * @author Lior Gur
@@ -17,8 +17,8 @@ public class SendAnswerDao {
     public String updateAnswerTable(SendAnswerRequest request) {
         return " UPDATE " + ANSWERS_TABLE + " " +
                 " SET is_correct = " + request.isCorrect() + " " +
-                setComment(request.getComment()) +
-                setMarked(request.getIsMarked()) +
+                //setComment(request.getComment()) +
+                //setMarked(request.getIsMarked()) + //todo remove
                 " WHERE user_id = " + request.getUserId() + " " +
                 " AND question_id = " + request.getQuestionId();
     }

@@ -1,6 +1,6 @@
 package com.xmed.models.Responses;
 
-import com.xmed.models.Question;
+import com.xmed.models.Objects.Question;
 
 import java.util.List;
 
