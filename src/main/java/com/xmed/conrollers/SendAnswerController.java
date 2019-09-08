@@ -22,11 +22,11 @@ import java.sql.SQLException;
 @Slf4j
 @RestController
 @RequestMapping("api/v1/sendAnswer")
-@Api(value = "sendAnswer.")
-public class SendAnswerResource {
+@Api(value = "sendAnswer")
+public class SendAnswerController {
 
     @Autowired
-    SendAnswerService sendAnswerService;
+    private SendAnswerService sendAnswerService;
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @ApiOperation(value = "sendAnswer")
