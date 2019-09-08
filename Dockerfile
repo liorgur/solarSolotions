@@ -6,7 +6,7 @@
 
 
 FROM openjdk:latest
-VOLUME /tmp
+#VOLUME /tmp
 ADD target/xmed-1.1-SNAPSHOT.jar app.jar
 ARG JAR_FILE
 #COPY ${JAR_FILE} app.jar
