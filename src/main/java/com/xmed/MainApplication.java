@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class MainApplication {
 
     public static void main(String[] args) {
-        log.info("Starting app");
+        log.info("Starting Xmed app !");
         SpringApplication.run(MainApplication.class, args);
     }
 
