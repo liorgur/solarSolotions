@@ -7,9 +7,9 @@
 
 FROM openjdk:latest
 VOLUME /tmp
-ADD ${JAR_FILE} app.jar
+ADD target/xmed-1.1-SNAPSHOT.jar app.jar
 ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
+#COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 EXPOSE 8080
 
