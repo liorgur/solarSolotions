@@ -26,4 +26,18 @@ public class QuestionActionService {
     public void commentQuestion(QuestionActionsRequest request) throws SQLException {
         dbHelper.executeQuery(dao.commentQuestionQuery(request));
     }
+
+    public void hideQuestion(QuestionActionsRequest request) throws SQLException {
+        dbHelper.executeQuery(dao.hideQuestionQuery(request));
+
+    }
+
+    public void markQuestion(QuestionActionsRequest request) throws SQLException {
+        dbHelper.executeQuery(dao.markQuestionQuery(request));
+    }
+
+    public void feedbackQuestion(QuestionActionsRequest request) throws SQLException {
+        dbHelper.executeQuery(dao.feedbackQuestionQuery(request));
+
+    }
 }

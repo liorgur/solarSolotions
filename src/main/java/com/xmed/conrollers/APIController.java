@@ -1,4 +1,4 @@
-package com.xmed.resources;
+package com.xmed.conrollers;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -22,6 +22,7 @@ public class APIController {
     @RequestMapping(value = "/api/private", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String privateEndpoint() {
+
         return new JSONObject()
                 .put("message", "All good. You can see this because you are Authenticated.")
                 .toString();

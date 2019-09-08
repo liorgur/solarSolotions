@@ -19,99 +19,21 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateNewTestRequest {
 
-    //Create Test
+    private TestType testType;
     private String name;
     private boolean isTime;
     private boolean isWithSolutions;
     private List<Difficulty> difficulties;
     private List<QuestionType> questionTypes;
     private int numOfQuestions;
+    private int timeInMinutes;
     private int[] years;
     private int specialities;
     private int[] subjects;
     //private String comment;
     private int userId;
-    private TestType testType;
     private Boolean isMarked;
     private Boolean isHide ;
-
-    public Boolean getMarked() {
-        return isMarked;
-    }
-
-    public void setMarked(Boolean marked) {
-        isMarked = marked;
-    }
-
-    public Boolean getHide() {
-        return isHide;
-    }
-
-    public void setHide(Boolean hide) {
-        isHide = hide;
-    }
-
-    public List<QuestionType> getQuestionTypes() {
-        return questionTypes;
-    }
-
-    public TestType getTestType() {
-        return testType;
-    }
-
-    public void setTestType(TestType testType) {
-        this.testType = testType;
-    }
-
-
-    public void setDifficulties(List<Difficulty> difficulties) {
-        this.difficulties = difficulties;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isTime() {
-        return isTime;
-    }
-
-    public void setTime(boolean time) {
-        isTime = time;
-    }
-
-    public boolean isWithSolutions() {
-        return isWithSolutions;
-    }
-
-    public void setWithSolutions(boolean withSolutions) {
-        isWithSolutions = withSolutions;
-    }
-
-    public List<Difficulty> getDifficulties() {
-        return difficulties;
-    }
 
     public String getDifficultiesAsString() {
         StringBuilder difficulties = new StringBuilder();
@@ -126,14 +48,6 @@ public class CreateNewTestRequest {
         difficulties.append("'");
 
         return difficulties.toString();
-    }
-
-    public void setDifficulty(List<Difficulty> difficulty) {
-        this.difficulties = difficulty;
-    }
-
-    public List<QuestionType> getQuestionTypeList() {
-        return questionTypes;
     }
 
     public String getQuestionTypeAsString() {
@@ -151,39 +65,4 @@ public class CreateNewTestRequest {
         return questionTypes.toString();
     }
 
-    public void setQuestionTypes(List<QuestionType> questionTypes) {
-        this.questionTypes = questionTypes;
-    }
-
-    public int getNumOfQuestions() {
-        return numOfQuestions;
-    }
-
-    public void setNumOfQuestions(int numOfQuestions) {
-        this.numOfQuestions = numOfQuestions;
-    }
-
-    public int[] getYears() {
-        return years;
-    }
-
-    public void setYears(int[] years) {
-        this.years = years;
-    }
-
-    public int[] getSpecialities() {
-        return specialities;
-    }
-
-    public void setSpecialities(int[] specialities) {
-        this.specialities = specialities;
-    }
-
-    public int[] getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(int[] subjects) {
-        this.subjects = subjects;
-    }
 }

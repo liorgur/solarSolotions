@@ -1,4 +1,4 @@
-package com.xmed.models;
+package com.xmed.models.Objects;
 
 /**
  * @author Lior Gur
@@ -10,5 +10,7 @@ public class Tables {
     public static final String TEST_TABLE = "tests";
     public static final String TEST_QUESTION_TABLE = "test_questions";
     public static final String SUBJECTS_QUESTION_TABLE = "subjects";
+    public static final String FEEDBACK_QUESTION_TABLE = "feedbacks";
+
 
 }

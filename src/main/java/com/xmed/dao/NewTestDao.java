@@ -32,10 +32,10 @@ public class NewTestDao {
         return " SELECT * " +
                 " FROM " + QUESTIONS_TABLE + " left join " + ANSWERS_TABLE +
                 " on questions.question_id = answers.question_id " +
-                addOnStatement(newTestRequest.getQuestionTypeList(), newTestRequest.getUserId()) +
+                addOnStatement(newTestRequest.getQuestionTypes(), newTestRequest.getUserId()) +
                 " WHERE 1=1 " +
                 getDifficultyWhere(newTestRequest.getDifficulties()) +
-                getQuestionTypeWhere(newTestRequest.getQuestionTypeList()) +
+                getQuestionTypeWhere(newTestRequest.getQuestionTypes()) +
                 getYearsWhere(newTestRequest.getYears()) +
                 getSubjectsWhere(newTestRequest.getSubjects()) +
                 getSpecialityWhere(newTestRequest.getSpecialities()) +
@@ -68,15 +68,15 @@ public class NewTestDao {
 
 
     private String getHideWhere(CreateNewTestRequest request) {
-        if (request.getMarked() != null) {
-            return " AND is_marked = " + request.getMarked();
+        if (request.getIsMarked() != null) {
+            return " AND is_marked = " + request.getIsMarked();
         }
         return "";
     }
 
     private String getMarkedWhere(CreateNewTestRequest request) {
-        if (request.getHide() != null) {
-            return " AND is_hide = " + request.getHide();
+        if (request.getIsHide() != null) {
+            return " AND is_hide = " + request.getIsHide();
         }
         return "";
     }

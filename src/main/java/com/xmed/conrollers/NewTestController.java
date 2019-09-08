@@ -1,4 +1,4 @@
-package com.xmed.resources;
+package com.xmed.conrollers;
 
 import com.xmed.models.Requests.CreateNewTestRequest;
 import com.xmed.models.Responses.NewTestResponse;
@@ -10,13 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.core.MediaType;
 import java.sql.SQLException;
 
 /**
@@ -26,7 +21,7 @@ import java.sql.SQLException;
 @Api(value = "NewTest")
 @RestController
 @RequestMapping("api/v1/newTest")
-public class NewTestResource {
+public class NewTestController {
 
     @Autowired
     private NewTestService newTestService;
@@ -37,11 +32,11 @@ public class NewTestResource {
     //@RolesAllowed()
     public ResponseEntity CreateNewTest(@RequestBody CreateNewTestRequest newTestRequest) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-        }
-
+        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //if (!(authentication instanceof AnonymousAuthenticationToken)) {
+        //    String currentUserName = authentication.getName();
+        //}
+        log.info("Create New Test");
 
         try {
             NewTestResponse newTestResponse = newTestService.CreateNewTest(newTestRequest);

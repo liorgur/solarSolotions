@@ -1,4 +1,4 @@
-package com.xmed.resources;
+package com.xmed.conrollers;
 
 import com.xmed.models.Requests.FinishedTestsRequest;
 import com.xmed.models.Requests.StartedTestsRequest;
@@ -25,7 +25,7 @@ import java.sql.SQLException;
 @Api(value = "statistics")
 @RestController
 @RequestMapping("api/v1/statistics")
-public class StatisticsResource {
+public class StatisticsController {
 
     @Autowired
     private TestsSummeryService summeryService;

@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @PropertySources({
         @PropertySource("classpath:application.properties"),
-        @PropertySource("classpath:auth0.properties")
+        @PropertySource("classpath:application.db.properties"),
+        @PropertySource("classpath:auth0.properties"),
+        //@PropertySource("log4j2.properties")
+
 })
 public class MainApplication {
 

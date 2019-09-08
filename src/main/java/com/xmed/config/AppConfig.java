@@ -43,11 +43,9 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
                 .forRS256(apiAudience, issuer)
                 .configure(http)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/public").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/private").authenticated()
-                .antMatchers(HttpMethod.GET, "/api/private-scoped").hasAuthority("read:messages")
-                .antMatchers(HttpMethod.POST, "/api/v1/newTest/create").authenticated();
-        ;
+                .antMatchers(HttpMethod.POST, "/")
+                //.anyRequest() //todo
+                .authenticated();
     }
 
 }

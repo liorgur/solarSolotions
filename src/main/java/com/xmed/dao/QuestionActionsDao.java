@@ -4,7 +4,7 @@ import com.xmed.models.Requests.QuestionActionsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.xmed.models.Tables.ANSWERS_TABLE;
+import static com.xmed.models.Objects.Tables.*;
 
 /**
  * @author Dan Feldman
@@ -26,5 +26,18 @@ public class QuestionActionsDao {
                 " SET comment = " + request.getComment() + " " +
                 " WHERE user_id = " + request.getUserId() + " " +
                 " AND question_id = " + request.getQuestionId();
+    }
+
+    public String hideQuestionQuery(QuestionActionsRequest request) {
+        return " UPDATE " + ANSWERS_TABLE + " " +
+                " SET hide = " + request.getIsMark() + " " +
+                " WHERE user_id = " + request.getUserId() + " " +
+                " AND question_id = " + request.getQuestionId();
+    }
+
+    public String feedbackQuestionQuery(QuestionActionsRequest request) {
+        return "INSERT INTO " + FEEDBACK_QUESTION_TABLE + " " +
+                " (question_id, user_id, feedback) " +
+                " VALUES (" + request.getQuestionId() + "," + request.getUserId() +  "," +  request.getFeedback() + ")";
     }
 }
