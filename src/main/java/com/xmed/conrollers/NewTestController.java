@@ -29,7 +29,7 @@ import java.sql.SQLException;
 public class NewTestResource {
 
     @Autowired
-    NewTestService newTestService;
+    private NewTestService newTestService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ApiOperation(value = "Create New Test")
@@ -45,7 +45,7 @@ public class NewTestResource {
 
         try {
             NewTestResponse newTestResponse = newTestService.CreateNewTest(newTestRequest);
-            return ResponseEntity.ok()
+            return ResponseEntity.ok() //todo created ?
                     .body(newTestResponse);
         } catch (SQLException e) {
             e.printStackTrace();

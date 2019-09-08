@@ -4,8 +4,6 @@ import com.xmed.models.Requests.FinishedTestsRequest;
 import com.xmed.models.Requests.StartedTestsRequest;
 import com.xmed.models.Requests.TestsSummeryRequest;
 import com.xmed.models.Requests.UserStatisticsRequest;
-import com.xmed.models.Responses.FinishedTestsResponse;
-import com.xmed.models.Responses.StartedTestsResponse;
 import com.xmed.models.Responses.TestsSummeryResponse;
 import com.xmed.models.Responses.UserStatisticsResponse;
 import com.xmed.services.StatisticsService;
@@ -79,7 +77,7 @@ public class StatisticsResource {
     public ResponseEntity GetFinishedTests(FinishedTestsRequest request) {
 
         try {
-            FinishedTestsResponse finishedTestsResponse = summeryService.GetFinishedTestSummery(request);
+            TestsSummeryResponse finishedTestsResponse = summeryService.GetFinishedTestSummery(request);
 
             return ResponseEntity.ok()
                     .body(finishedTestsResponse);
@@ -101,7 +99,7 @@ public class StatisticsResource {
     public ResponseEntity GetStartedTests(StartedTestsRequest request) {
 
         try {
-            StartedTestsResponse startedTestsResponse = summeryService.GetStartedTestSummery(request);
+            TestsSummeryResponse startedTestsResponse = summeryService.GetStartedTestSummery(request);
 
             return ResponseEntity.ok()
                     .body(startedTestsResponse);

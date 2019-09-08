@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.net.URL;
+
 /**
  * @author Lior Gur
  */
@@ -25,4 +27,6 @@ public class Question {
     int year;
     int speciality_id;
     int subject_id;
+    URL questionImage;
+    URL solutionImage;
 }

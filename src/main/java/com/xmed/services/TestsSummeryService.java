@@ -5,8 +5,6 @@ import com.xmed.models.Objects.FinishedTestDetails;
 import com.xmed.models.Requests.FinishedTestsRequest;
 import com.xmed.models.Requests.StartedTestsRequest;
 import com.xmed.models.Requests.TestsSummeryRequest;
-import com.xmed.models.Responses.FinishedTestsResponse;
-import com.xmed.models.Responses.StartedTestsResponse;
 import com.xmed.models.Responses.TestsSummeryResponse;
 import com.xmed.models.Objects.StartedTestDetails;
 import com.xmed.models.Objects.TestDetails;
@@ -36,44 +34,20 @@ public class TestsSummeryService {
     @Autowired
     private DbHelper dbHelper;
 
-    public FinishedTestsResponse GetFinishedTestSummery(FinishedTestsRequest request) throws SQLException {
+    public TestsSummeryResponse GetFinishedTestSummery(FinishedTestsRequest request) throws SQLException {
         ResultSet resultSet = dbHelper.executeQueryToResultSet(dao.getFinishedTestsQuery(request));
-        return ResultSetToFinishedTestResponse(resultSet);
+        return ResultSetToTestSummeryResponse(resultSet);
     }
 
-    public StartedTestsResponse GetStartedTestSummery(StartedTestsRequest request) throws SQLException {
+    public TestsSummeryResponse GetStartedTestSummery(StartedTestsRequest request) throws SQLException {
         ResultSet resultSet = dbHelper.executeQueryToResultSet(dao.getStartedTestsQuery(request));
-        return ResultSetToStartedTestResponse(resultSet);
-
-    }
-    public TestsSummeryResponse GetTestSummery(TestsSummeryRequest request) throws SQLException {
-        ResultSet resultSet = dbHelper.executeQueryToResultSet(dao.getTestsSummertQuery(request));
         return ResultSetToTestSummeryResponse(resultSet);
 
     }
+    public TestsSummeryResponse GetTestSummery(TestsSummeryRequest request) throws SQLException {
+        ResultSet resultSet = dbHelper.executeQueryToResultSet(dao.getTestsSummeryQuery(request));
+        return ResultSetToTestSummeryResponse(resultSet);
 
-
-    private FinishedTestsResponse ResultSetToFinishedTestResponse(ResultSet resultSet) {
-
-        List<FinishedTestDetails> list = new ArrayList<>();
-        try {
-            while (resultSet.next()) {
-
-                Date dateTime = resultSet.getDate("date_created");
-                String testName = resultSet.getString("test_name");
-                int numOfQuestions = resultSet.getInt("num_of_questions");
-                String difficulties = resultSet.getString("difficulties");
-                String testType = resultSet.getString("test_type");
-                int grade = resultSet.getInt("grade");
-                list.add(new FinishedTestDetails(dateTime, testName, numOfQuestions, grade, difficulties, testType));
-            }
-            return new FinishedTestsResponse(list);
-
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            log.debug(Arrays.toString(ex.getStackTrace())); //todo
-        }
-        return null;
     }
 
     private TestsSummeryResponse ResultSetToTestSummeryResponse(ResultSet resultSet) {
@@ -82,52 +56,73 @@ public class TestsSummeryService {
 
         try {
             while (resultSet.next()) {
-                Date dateTime= resultSet.getDate("date_created");
                 String testName = resultSet.getString("test_name");
+                Date dateTime= resultSet.getDate("date_created");
                 int numOfQuestions= resultSet.getInt("num_of_questions");
                 int answered= resultSet.getInt("answered");
                 int progress = (answered / numOfQuestions) * 100 ;
                 String difficulties=resultSet.getString("difficulties");
                 int grade = resultSet.getInt("grade");
-
                 TestType testType = TestType.valueOf(resultSet.getString("test_type"));
-
-                list.add(new TestDetails(dateTime,testName,numOfQuestions,progress,grade,difficulties,testType));
+                boolean isDone = (answered == numOfQuestions);
+                list.add(new TestDetails(dateTime,testName,numOfQuestions,progress,grade,difficulties,testType, isDone));
             }
             return new TestsSummeryResponse(list);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             log.error(ex.getMessage());
             log.debug(Arrays.toString(ex.getStackTrace())); //todo
         }
         return null;
     }
 
-    private StartedTestsResponse ResultSetToStartedTestResponse(ResultSet resultSet) {
-
-        List<StartedTestDetails> list = new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                Date dateTime= resultSet.getDate("date_created");
-                String testName = resultSet.getString("test_name");
-                int numOfQuestions= resultSet.getInt("num_of_questions");
-                int answered= resultSet.getInt("answered");
-                int progress = (answered / numOfQuestions) * 100 ;
-                String difficulties=resultSet.getString("difficulties");
-                String testType = resultSet.getString("test_type");
-
-                list.add(new StartedTestDetails(dateTime,testName,numOfQuestions,progress,difficulties,testType));
-            }
-            return new StartedTestsResponse(list);
-        }
-        catch (Exception ex)
-        {
-            log.error(ex.getMessage());
-            log.debug(Arrays.toString(ex.getStackTrace())); //todo
-        }
-        return null;
-    }
+    //private TestsSummeryResponse ResultSetToFinishedTestResponse(ResultSet resultSet) {
+    //
+    //    List<FinishedTestDetails> list = new ArrayList<>();
+    //    try {
+    //        while (resultSet.next()) {
+    //
+    //            Date dateTime = resultSet.getDate("date_created");
+    //            String testName = resultSet.getString("test_name");
+    //            int numOfQuestions = resultSet.getInt("num_of_questions");
+    //            String difficulties = resultSet.getString("difficulties");
+    //            String testType = resultSet.getString("test_type");
+    //            int grade = resultSet.getInt("grade");
+    //            list.add(new FinishedTestDetails(dateTime, testName, numOfQuestions, grade, difficulties, testType));
+    //        }
+    //        return new FinishedTestsResponse(list);
+    //
+    //    } catch (Exception ex) {
+    //        log.error(ex.getMessage());
+    //        log.debug(Arrays.toString(ex.getStackTrace())); //todo
+    //    }
+    //    return null;
+    //}
+    //
+    //private StartedTestsResponse ResultSetToStartedTestResponse(ResultSet resultSet) {
+    //
+    //    List<StartedTestDetails> list = new ArrayList<>();
+    //
+    //    try {
+    //        while (resultSet.next()) {
+    //            Date dateTime= resultSet.getDate("date_created");
+    //            String testName = resultSet.getString("test_name");
+    //            int numOfQuestions= resultSet.getInt("num_of_questions");
+    //            int answered= resultSet.getInt("answered");
+    //            int progress = (answered / numOfQuestions) * 100 ;
+    //            String difficulties=resultSet.getString("difficulties");
+    //            String testType = resultSet.getString("test_type");
+    //
+    //            list.add(new StartedTestDetails(dateTime,testName,numOfQuestions,progress,difficulties,testType));
+    //        }
+    //        return new StartedTestsResponse(list);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        log.error(ex.getMessage());
+    //        log.debug(Arrays.toString(ex.getStackTrace())); //todo
+    //    }
+    //    return null;
+    //}
 
 }

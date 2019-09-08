@@ -1,6 +1,7 @@
 package com.xmed.models.Enums;
 
 public enum QuestionType {
+    ALL('A'),
     WRONG('W'),
     CORRECT('C'),
     UNSOLVED('U'),

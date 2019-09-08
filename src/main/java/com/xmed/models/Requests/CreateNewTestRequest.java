@@ -27,9 +27,9 @@ public class CreateNewTestRequest {
     private List<QuestionType> questionTypes;
     private int numOfQuestions;
     private int[] years;
-    private int[] specialities;
+    private int specialities;
     private int[] subjects;
-    private String comment;
+    //private String comment;
     private int userId;
     private TestType testType;
     private Boolean isMarked;

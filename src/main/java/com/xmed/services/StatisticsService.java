@@ -5,7 +5,9 @@ import com.xmed.models.Objects.SubjectDistribution;
 import com.xmed.models.Requests.UserStatisticsRequest;
 import com.xmed.models.Responses.UserStatisticsResponse;
 import com.xmed.utils.DbHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +17,8 @@ import java.util.List;
 /**
  * @author Lior Gur
  */
-
+@Service
+@Slf4j
 public class StatisticsService {
 
     @Autowired
@@ -36,13 +39,11 @@ public class StatisticsService {
         ResultSet solvedPercentageQuestionsRs = dbHelper
                 .executeQueryToResultSet(dao.getSolvedPercentageQuestions(request));
 
-
         return UserStatisticsResponse(userCorrectPercentage, subjectDistributionRs, numOfTestsRs,
                 solvedPercentageQuestionsRs);
-
     }
 
-    private UserStatisticsResponse UserStatisticsResponse(ResultSet correctPercentageRs,
+        private UserStatisticsResponse UserStatisticsResponse(ResultSet correctPercentageRs,
             ResultSet subjectDistributionRs, ResultSet numOfTestsRs, ResultSet solvedPercentageQuestionsRs) {
         List<SubjectDistribution> list = new ArrayList<>();
         int correctPercentage = 0;
@@ -68,7 +69,6 @@ public class StatisticsService {
             if (solvedPercentageQuestionsRs.next()) {
                 totalQuestion = solvedPercentageQuestionsRs.getInt("total");
                 solvedPercentage = subjectDistributionRs.getInt("solved_percentage");
-
             }
             return new UserStatisticsResponse(correctPercentage, totalCorrect, list, numOfTests, totalQuestion,
                     solvedPercentage);

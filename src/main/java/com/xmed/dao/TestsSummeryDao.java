@@ -19,17 +19,20 @@ public class TestsSummeryDao {
         return " SELECT * " +
                 " FROM " + TEST_TABLE +
                 " WHERE user_id = " + finishedTestsRequest.getUserId() + " " +
-                " AND is_done = 1";
+                " AND is_done = 1 " +
+                " ORDER BY  date_created DESC" ;
     }
 
     public String getStartedTestsQuery(StartedTestsRequest finishedTestsRequest) {
         return " SELECT * " +
                 " FROM " + TEST_TABLE +
                 " WHERE user_id = " + finishedTestsRequest.getUserId() + " " +
-                " AND is_done = 0";
+                " AND is_done = 0 " +
+                " ORDER BY  date_created DESC" ;
+
     }
 
-    public String getTestsSummertQuery(TestsSummeryRequest request) {
+    public String getTestsSummeryQuery(TestsSummeryRequest request) {
         return " SELECT * " +
                 " FROM " + TEST_TABLE +
                 " WHERE user_id = " + request.getUserId() + "" +

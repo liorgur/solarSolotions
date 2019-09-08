@@ -23,6 +23,6 @@ public class TestDetails {
     private int grade;
     private String difficulties;
     private TestType testType;
-
+    private boolean isDone;
 
 }

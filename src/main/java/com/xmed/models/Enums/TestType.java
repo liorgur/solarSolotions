@@ -3,7 +3,7 @@ package com.xmed.models.Enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TestType {
-    WRONGS("Wrongs"),
+    MISTAKES("Wrongs"),
     UNSEEN("Unseen"),
     SURPRISE("Surprise"),
     CUSTOM("Custom");

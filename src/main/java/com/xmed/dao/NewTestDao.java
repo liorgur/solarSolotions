@@ -28,7 +28,7 @@ public class NewTestDao {
                 " VALUES (" + testId + "," + questionId + ")";
     }
 
-    public String createQueryCreateTest(CreateNewTestRequest newTestRequest) {
+    public String createQueryCreateCustomTest(CreateNewTestRequest newTestRequest) {
         return " SELECT * " +
                 " FROM " + QUESTIONS_TABLE + " left join " + ANSWERS_TABLE +
                 " on questions.question_id = answers.question_id " +
@@ -43,6 +43,29 @@ public class NewTestDao {
                 getHideWhere(newTestRequest) +
                 " ORDER BY RAND() ";
     }
+
+    public String createQueryCreateMistakeTest(CreateNewTestRequest newTestRequest) {
+        return " SELECT * " +
+                " FROM " + QUESTIONS_TABLE + " left join " + ANSWERS_TABLE +
+                " on questions.question_id = answers.question_id " +
+                " WHERE is_correct = 0" ;
+    }
+
+    public String createQueryCreateUnseenQuestionTest(CreateNewTestRequest newTestRequest) {
+        return " SELECT * " +
+                " FROM " + QUESTIONS_TABLE + " left join " + TEST_QUESTION_TABLE +
+                " on questions.question_id = test_questions.question_id " +
+                " WHERE is_correct = NULL" ;
+    }
+
+    public String createQueryCreateSurpriseTest(CreateNewTestRequest newTestRequest) {
+        return createQueryCreateMistakeTest (newTestRequest) +
+                " UNION " +
+                createQueryCreateUnseenQuestionTest (newTestRequest);
+
+    }
+
+
 
     private String getHideWhere(CreateNewTestRequest request) {
         if (request.getMarked() != null) {
@@ -73,22 +96,21 @@ public class NewTestDao {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
         return " INSERT INTO  " + TEST_TABLE + " " +
-                " (test_name, user_id, date_created, is_with_time, question_type, comment, num_of_questions, is_with_solution, difficulties, test_type) " +
+                " (test_name, user_id, date_created, is_with_time, question_type, num_of_questions, is_with_solution, difficulties, test_type) " +
                 " VALUES('" +
                 newTestRequest.getName() + "'," +
                 newTestRequest.getUserId() + "," +
                 "'" + LocalDateTime.now().format(dtf) + "'," +  //todo format time
                 newTestRequest.isTime() + "," +
                 newTestRequest.getQuestionTypeAsString() + "," +
-                newTestRequest.getComment() + "," +
+                //newTestRequest.getComment() + "," +
                 newTestRequest.getNumOfQuestions() + "," +
                 newTestRequest.isWithSolutions() + "," +
                 newTestRequest.getDifficultiesAsString() + "," +
-                newTestRequest.getTestType() +
+                "'" + newTestRequest.getTestType() + "' " +
                 "); " +
 
                 " ";
-
     }
 
 
@@ -103,15 +125,15 @@ public class NewTestDao {
         return years != null ? " AND year in (" + years + ") " : " ";
     }
 
-    private String getSpecialityWhere(int[] specialitiesParam) {
+    private String getSpecialityWhere(int specialitiesParam) {
 
-        String specialities = null;
-        if (specialitiesParam != null && specialitiesParam.length != 0) {
+        String specialities;
+        //if (specialitiesParam != null && specialitiesParam.length != 0) {
             specialities = IntStream.of(specialitiesParam)
                     .mapToObj(Integer::toString)
                     .collect(Collectors.joining(", "));
-        }
-        return specialities != null ? " AND speciality_id in (" + specialities + ") " : " ";
+        //}
+        return specialities != null ? " AND questions.speciality_id in (" + specialities + ") " : " ";
     }
 
     private String getSubjectsWhere(int[] subjectsParam) {
@@ -141,8 +163,6 @@ public class NewTestDao {
     }
 
     private String getDifficultyWhere(List<Difficulty> difficulties) {
-
-
         StringBuilder where;
         if (difficulties == null || difficulties.size() == 0) {
             return " ";
