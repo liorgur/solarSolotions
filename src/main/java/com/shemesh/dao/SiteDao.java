@@ -3,6 +3,7 @@ package com.shemesh.dao;
 import com.shemesh.models.Enums.Difficulty;
 import com.shemesh.models.Enums.QuestionType;
 import com.shemesh.models.Requests.CreateNewTestRequest;
+import com.shemesh.models.Requests.UpdateSiteRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,12 @@ public class SiteDao {
     public String CreateGetSitesQuery() {
         return " SELECT *" +
                 " FROM  " + SITES_TABLE + " ";
+    }
+
+    public String CreateUpdateSiteQuery(UpdateSiteRequest updateSiteRequest) {
+        return " UPDATE " + SITES_TABLE +
+                " SET name =  \'" + updateSiteRequest.getName() + "\' " +
+                " WHERE id = " + updateSiteRequest.getId();
+
     }
 }

@@ -2,6 +2,7 @@ package com.shemesh.conrollers;
 
 import com.shemesh.models.Requests.CreateNewSiteRequest;
 import com.shemesh.models.Requests.CreateNewTestRequest;
+import com.shemesh.models.Requests.UpdateSiteRequest;
 import com.shemesh.models.Responses.NewSiteResponse;
 import com.shemesh.models.Responses.NewTestResponse;
 import com.shemesh.models.Responses.SitesResponse;
@@ -22,7 +23,7 @@ import java.sql.SQLException;
 @Slf4j
 @Api(value = "NewTest")
 @RestController
-@RequestMapping("api/v1/Site")
+@RequestMapping("api/v1/Sites")
 public class SiteController {
 
     @Autowired
@@ -49,6 +50,27 @@ public class SiteController {
                 .body("Create New Site Failed");
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json")
+    @ApiOperation(value = "Update New Site")
+    @ResponseBody
+    //@RolesAllowed()
+    public ResponseEntity UpdateSite(@RequestBody UpdateSiteRequest updateSiteRequest) {
+
+        log.info("Update Site");
+
+        try {
+            siteService.UpdateSite(updateSiteRequest);
+            return ResponseEntity.ok()
+                    .body("Update Site successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("Update Site Error " + e.getMessage());
+
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Update Site Failed");
+    }
+
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET , produces = "application/json")
@@ -57,7 +79,7 @@ public class SiteController {
     //@RolesAllowed()
     public ResponseEntity CreateNewSite() {
 
-        log.info("Create New Site");
+        log.info("Get All Sites");
 
         try {
             SitesResponse newSiteResponse = siteService.GetSites();

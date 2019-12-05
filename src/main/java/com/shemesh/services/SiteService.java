@@ -3,6 +3,7 @@ package com.shemesh.services;
 import com.shemesh.dao.SiteDao;
 import com.shemesh.models.Objects.Site;
 import com.shemesh.models.Requests.CreateNewSiteRequest;
+import com.shemesh.models.Requests.UpdateSiteRequest;
 import com.shemesh.models.Responses.NewSiteResponse;
 import com.shemesh.models.Responses.SitesResponse;
 import com.shemesh.utils.DbHelper;
@@ -43,6 +44,10 @@ public class SiteService {
         return ResultSetToSite(sites);
     }
 
+    public void UpdateSite(UpdateSiteRequest updateSiteRequest) throws SQLException {
+        String queryUpdateSite = dao.CreateUpdateSiteQuery(updateSiteRequest);
+        dbHelper.executeQuery(queryUpdateSite);
+    }
 
     private SitesResponse ResultSetToSite(ResultSet resultSet) {
 
@@ -63,4 +68,6 @@ public class SiteService {
         }
         return null;
     }
+
+
 }
