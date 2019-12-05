@@ -4,6 +4,7 @@ import com.shemesh.models.Requests.CreateNewSiteRequest;
 import com.shemesh.models.Requests.CreateNewTestRequest;
 import com.shemesh.models.Responses.NewSiteResponse;
 import com.shemesh.models.Responses.NewTestResponse;
+import com.shemesh.models.Responses.SitesResponse;
 import com.shemesh.services.SiteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +38,29 @@ public class SiteController {
 
         try {
             NewSiteResponse newSiteResponse = siteService.CreateNewSite(newSiteRequest);
+            return ResponseEntity.ok()
+                    .body(newSiteResponse);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("Create New Site Error " + e.getMessage());
+
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Create New Site Failed");
+    }
+
+
+
+    @RequestMapping(value = "/", method = RequestMethod.GET , produces = "application/json")
+    @ApiOperation(value = "Get all Sites")
+    @ResponseBody
+    //@RolesAllowed()
+    public ResponseEntity CreateNewSite() {
+
+        log.info("Create New Site");
+
+        try {
+            SitesResponse newSiteResponse = siteService.GetSites();
             return ResponseEntity.ok()
                     .body(newSiteResponse);
         } catch (SQLException e) {

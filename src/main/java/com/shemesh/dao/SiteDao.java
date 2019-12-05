@@ -26,4 +26,9 @@ public class SiteDao {
                 " (name) " +
                 " VALUES (\"" + name + "\")";
     }
+
+    public String CreateGetSitesQuery() {
+        return " SELECT *" +
+                " FROM  " + SITES_TABLE + " ";
+    }
 }
