@@ -6,6 +6,6 @@ RUN mvn -f /usr/src/app/pom.xml package
 
 FROM openjdk:latest
 ENV VERSION=1.1-SNAPSHOT
-COPY --from=build /usr/src/app/target/xmed-${VERSION}.jar app.jar
+COPY --from=build /usr/src/app/target/solar.solutions-${VERSION}.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
