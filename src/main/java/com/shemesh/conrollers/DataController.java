@@ -33,10 +33,10 @@ public class DataController {
     @ApiOperation(value = "Add new Data")
     //@RolesAllowed()
     public ResponseEntity CreateNewSite(@RequestParam("ip") String ip,
-                                        @RequestParam(value = "tmp", required = false) Integer tmp,
-                                        @RequestParam(value = "volt", required = false) Integer volt,
-                                        @RequestParam(value = "humidity", required = false) Integer humidity,
-                                        @RequestParam(value = "light", required = false) Integer light) {
+                                        @RequestParam(value = "tmp", required = false) Float tmp,
+                                        @RequestParam(value = "volt", required = false) Float volt,
+                                        @RequestParam(value = "humidity", required = false) Float humidity,
+                                        @RequestParam(value = "light", required = false) Float light) {
 
         SendDataRequest request = new SendDataRequest(ip, tmp, humidity, volt, light);
 
