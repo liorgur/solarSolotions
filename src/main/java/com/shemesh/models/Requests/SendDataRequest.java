@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 public class SendDataRequest
 {
     private String ip;
-    private int tmp;
-    private int humidity;
-    private int volt;
-    private int light;
+    private Integer tmp;
+    private Integer humidity;
+    private Integer volt;
+    private Integer light;
 
 
 

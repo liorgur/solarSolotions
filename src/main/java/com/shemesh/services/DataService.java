@@ -32,7 +32,7 @@ public class DataService {
 
         String queryInsertData = dao.CreateInsertDataQuery(request);
 
-       dbHelper.executeInsertQuery(queryInsertData);
+       dbHelper.executeQuery(queryInsertData);
 
     }
 

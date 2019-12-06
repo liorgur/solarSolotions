@@ -23,7 +23,7 @@ import java.sql.SQLException;
 @Slf4j
 @Api(value = "Data")
 @RestController
-@RequestMapping("api/v1/Data")
+@RequestMapping("api/v1/data")
 public class DataController {
 
     @Autowired
@@ -31,15 +31,14 @@ public class DataController {
 
     @RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Add new Data")
-    @ResponseBody
     //@RolesAllowed()
     public ResponseEntity CreateNewSite(@RequestParam("ip") String ip,
-                                        @RequestParam("tmp") int tmp,
-                                        @RequestParam("volt") int volt,
-                                        @RequestParam("humidity") int humidity,
-                                        @RequestParam("light") int light) {
+                                        @RequestParam(value = "tmp", required = false) Integer tmp,
+                                        @RequestParam(value = "volt", required = false) Integer volt,
+                                        @RequestParam(value = "humidity", required = false) Integer humidity,
+                                        @RequestParam(value = "light", required = false) Integer light) {
 
-        SendDataRequest request = new SendDataRequest(ip,tmp,humidity,volt,light);
+        SendDataRequest request = new SendDataRequest(ip, tmp, humidity, volt, light);
 
         log.info("Add new Data");
 
