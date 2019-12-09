@@ -1,10 +1,31 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head> 
-    <title>Getting Started: Serving Web Content</title> 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+    <script type="text/javascript" src='app.js'> </script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Lior</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
 </head>
 <body>
-    <p>Get your greeting <a href="/greeting">here</a></p>
+<div id="map"></div>
+<script>
+initMap();
+    </script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_h2O6ZXzUWt5xBBO3kBufhGeL6HWJ6bM&callback=initMap">
+</script>
 </body>
 </html>
