@@ -1,14 +1,15 @@
 function initMap() {
+  //console.log("adsasd");
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5,
+    zoom: 8,
     center: { lat: 32.1192362, lng: 35.5750295 }
   });
 
   var bounds = {
     north: 32.1,
     south: 32.2,
-    east: 35.55,
-    west: 35.59
+    east: 34.90,
+    west: 34.80
   };
 
 
@@ -23,10 +24,10 @@ function initMap() {
   var lngSpan = bounds.east - bounds.west;
   var latSpan = bounds.north - bounds.south;
 
-  // var client = new httpGetAsync();
-  // client.get('http://localhost:8082/api/v1/Sites', function (response) {
-  //   log(response)
-  // });
+        var client = new HttpClient();
+        client.get('http://63.35.216.142/api/v1/Sites/', function (response) {
+          log(response)
+        });
 
   for (var i = 0; i < secretMessages.length; ++i) {
     var marker = new google.maps.Marker({
@@ -53,12 +54,25 @@ function attachSecretMessage(marker, secretMessage) {
   });
 }
 
-// function httpGetAsync(theUrl, callback) {
-//   var xmlHttp = new XMLHttpRequest();
-//   xmlHttp.onreadystatechange = function () {
-//     if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-//       callback(xmlHttp.responseText);
-//   }
-//   xmlHttp.open("GET", theUrl, true); // true for asynchronous
-//   xmlHttp.send(null);
-// }
+function httpGetAsync(theUrl, callback) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function () {
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+      callback(xmlHttp.responseText);
+  }
+  xmlHttp.open("GET", theUrl, true); // true for asynchronous
+  xmlHttp.send(null);
+}
+
+var HttpClient = function() {
+  this.get = function(aUrl, aCallback) {
+      var anHttpRequest = new XMLHttpRequest();
+      anHttpRequest.onreadystatechange = function() { 
+          if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+              aCallback(anHttpRequest.responseText);
+      }
+
+      anHttpRequest.open( "GET", aUrl, true );            
+      anHttpRequest.send( null );
+  }
+}
