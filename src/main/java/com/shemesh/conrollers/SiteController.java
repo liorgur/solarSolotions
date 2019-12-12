@@ -1,10 +1,8 @@
 package com.shemesh.conrollers;
 
 import com.shemesh.models.Requests.CreateNewSiteRequest;
-import com.shemesh.models.Requests.CreateNewTestRequest;
 import com.shemesh.models.Requests.UpdateSiteRequest;
 import com.shemesh.models.Responses.NewSiteResponse;
-import com.shemesh.models.Responses.NewTestResponse;
 import com.shemesh.models.Responses.SitesResponse;
 import com.shemesh.services.SiteService;
 import io.swagger.annotations.Api;
@@ -23,6 +21,7 @@ import java.sql.SQLException;
 @Slf4j
 @Api(value = "NewTest")
 @RestController
+@CrossOrigin()
 @RequestMapping("api/v1/Sites")
 public class SiteController {
 
@@ -70,7 +69,6 @@ public class SiteController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Update Site Failed");
     }
-
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET , produces = "application/json")

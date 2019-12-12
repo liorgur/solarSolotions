@@ -56,9 +56,16 @@ public class SiteService {
         try {
             while (resultSet.next()) {
 
+                int id = resultSet.getInt("id");
+                String ip = resultSet.getString("ip");
                 String siteName = resultSet.getString("name");
+                String contact_person = resultSet.getString("contact_person");
+                String contact_phone = resultSet.getString("contact_phone");
+                double lat = resultSet.getDouble("lat");
+                double lon = resultSet.getDouble("lon");
+                String description = resultSet.getString("description");
 
-                list.add(new Site(siteName));
+                list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description));
             }
             return new SitesResponse(list);
         }

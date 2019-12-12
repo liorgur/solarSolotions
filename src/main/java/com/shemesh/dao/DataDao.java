@@ -1,7 +1,6 @@
 package com.shemesh.dao;
 
 import com.shemesh.models.Requests.SendDataRequest;
-import com.shemesh.models.Requests.UpdateSiteRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.shemesh.models.Objects.Tables.DATA_TABLE;
-import static com.shemesh.models.Objects.Tables.SITES_TABLE;
 
 /**
  * @author Dan Feldman
@@ -31,5 +29,11 @@ public class DataDao {
                         request.getLight() + "," +
                         request.getTmp() + ", " +
                  "\'" + formatter.format(date) +"\'" + " ) ";
+    }
+
+    public String CreateGetDataQuery(String ip) {
+        return "SELECT * " +
+                " FROM " + DATA_TABLE + " " +
+                " WHERE ip = " + ip;
     }
 }

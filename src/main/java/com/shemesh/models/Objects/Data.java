@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class Data {
 
     private String ip;
-    private int tmp;
-    private int humidity;
-    private int volt;
-    private int light;
+    private float tmp;
+    private float humidity;
+    private float volt;
+    private float light;
 
 }

@@ -17,12 +17,12 @@ import java.net.URL;
 public class Site {
 
     private int id;
+    private String ip;
     private String name;
-    private String owner;
-    private int lat;
-    private int lon;
+    private String contact_person;
+    private String contact_phone;
+    private double lat;
+    private double lon;
     private String description;
 
-    public Site(String siteName) {
-    }
 }

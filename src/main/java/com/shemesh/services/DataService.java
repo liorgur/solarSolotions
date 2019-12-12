@@ -1,13 +1,9 @@
 package com.shemesh.services;
 
 import com.shemesh.dao.DataDao;
-import com.shemesh.dao.SiteDao;
-import com.shemesh.models.Objects.Site;
-import com.shemesh.models.Requests.CreateNewSiteRequest;
+import com.shemesh.models.Objects.Data;
 import com.shemesh.models.Requests.SendDataRequest;
-import com.shemesh.models.Requests.UpdateSiteRequest;
-import com.shemesh.models.Responses.NewSiteResponse;
-import com.shemesh.models.Responses.SitesResponse;
+import com.shemesh.models.Responses.DataResponse;
 import com.shemesh.utils.DbHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +31,38 @@ public class DataService {
        dbHelper.executeQuery(queryInsertData);
 
     }
+
+    public void GetData(String ip)throws SQLException {
+        String queryInsertData = dao.CreateGetDataQuery(ip);
+
+        ResultSet resultSet = dbHelper.executeQueryToResultSet(queryInsertData);
+    }
+
+    private DataResponse ResultSetToSite(ResultSet resultSet) {
+
+        List<Data> list = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+
+
+                String ip = resultSet.getString("ip");
+                float volt = resultSet.getFloat("volt");
+                float humidity = resultSet.getFloat("humidity");
+                float tmp = resultSet.getFloat("tmp");
+                float light = resultSet.getFloat("light");
+
+                list.add(new Data(ip,tmp,humidity,volt,light));
+            }
+            return new DataResponse(list);
+        }
+        catch (Exception ex) {
+            log.error(ex.getMessage());
+            log.debug(Arrays.toString(ex.getStackTrace())); //todo
+        }
+        return null;
+    }
+
 
 
 

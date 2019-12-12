@@ -1,12 +1,7 @@
 package com.shemesh.conrollers;
 
-import com.shemesh.models.Requests.CreateNewSiteRequest;
 import com.shemesh.models.Requests.SendDataRequest;
-import com.shemesh.models.Requests.UpdateSiteRequest;
-import com.shemesh.models.Responses.NewSiteResponse;
-import com.shemesh.models.Responses.SitesResponse;
 import com.shemesh.services.DataService;
-import com.shemesh.services.SiteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +18,7 @@ import java.sql.SQLException;
 @Slf4j
 @Api(value = "Data")
 @RestController
+@CrossOrigin()
 @RequestMapping("api/v1/data")
 public class DataController {
 
@@ -32,7 +28,7 @@ public class DataController {
     @RequestMapping(value = "/add", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Add new Data")
     //@RolesAllowed()
-    public ResponseEntity CreateNewSite(@RequestParam("ip") String ip,
+    public ResponseEntity AddData(@RequestParam("ip") String ip,
                                         @RequestParam(value = "tmp", required = false) Float tmp,
                                         @RequestParam(value = "volt", required = false) Float volt,
                                         @RequestParam(value = "humidity", required = false) Float humidity,
@@ -44,6 +40,25 @@ public class DataController {
 
         try {
             dataService.SendData(request);
+            return ResponseEntity.ok()
+                    .body("Data inserted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("Data insert Error " + e.getMessage());
+
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Data insert Failed");
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    @ApiOperation(value = "Add new Data")
+    //@RolesAllowed()
+    public ResponseEntity GetData(@RequestParam("ip") String ip) {
+        log.info("Get Data");
+
+        try {
+            dataService.GetData(ip);
             return ResponseEntity.ok()
                     .body("Data inserted");
         } catch (SQLException e) {

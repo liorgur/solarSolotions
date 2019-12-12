@@ -1,6 +1,5 @@
 package com.shemesh.models.Responses;
 
-import com.shemesh.models.Objects.Question;
 import com.shemesh.models.Objects.Site;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

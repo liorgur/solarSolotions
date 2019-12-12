@@ -1,12 +1,8 @@
 package com.shemesh.models.Responses;
 
-import com.shemesh.models.Objects.Question;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 /**
  * @author Lior Gur

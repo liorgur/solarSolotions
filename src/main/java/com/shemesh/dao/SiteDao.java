@@ -1,17 +1,8 @@
 package com.shemesh.dao;
 
-import com.shemesh.models.Enums.Difficulty;
-import com.shemesh.models.Enums.QuestionType;
-import com.shemesh.models.Requests.CreateNewTestRequest;
 import com.shemesh.models.Requests.UpdateSiteRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static com.shemesh.models.Objects.Tables.*;
 

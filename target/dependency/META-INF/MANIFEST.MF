@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Implementation-Title: solar.solutions
+Implementation-Version: 1.1-SNAPSHOT
+Archiver-Version: Plexus Archiver
+Built-By: lior.g
+Implementation-Vendor-Id: com.shemesh
+Created-By: Apache Maven 3.6.2
+Build-Jdk: 1.8.0_231
+Implementation-URL: https://projects.spring.io/spring-boot/solar.solut
+ ions/
+Implementation-Vendor: Pivotal Software, Inc.
+
