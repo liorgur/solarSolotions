@@ -9,8 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,10 +31,12 @@ public class DataService {
 
     }
 
-    public void GetData(String ip)throws SQLException {
+    public DataResponse GetData(String ip)throws SQLException {
         String queryInsertData = dao.CreateGetDataQuery(ip);
 
         ResultSet resultSet = dbHelper.executeQueryToResultSet(queryInsertData);
+        DataResponse dataResponse = ResultSetToSite(resultSet);
+        return dataResponse;
     }
 
     private DataResponse ResultSetToSite(ResultSet resultSet) {
@@ -51,8 +52,9 @@ public class DataService {
                 float humidity = resultSet.getFloat("humidity");
                 float tmp = resultSet.getFloat("tmp");
                 float light = resultSet.getFloat("light");
+                Timestamp time = resultSet.getTimestamp("time");
 
-                list.add(new Data(ip,tmp,humidity,volt,light));
+                list.add(new Data(ip,time,tmp,humidity,volt,light));
             }
             return new DataResponse(list);
         }

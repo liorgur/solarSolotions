@@ -34,6 +34,7 @@ public class DataDao {
     public String CreateGetDataQuery(String ip) {
         return "SELECT * " +
                 " FROM " + DATA_TABLE + " " +
-                " WHERE ip = " + ip;
+                " WHERE ip = '" + ip + "'" +
+                " LIMIT 50";
     }
 }

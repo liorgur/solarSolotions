@@ -1,6 +1,7 @@
 package com.shemesh.conrollers;
 
 import com.shemesh.models.Requests.SendDataRequest;
+import com.shemesh.models.Responses.DataResponse;
 import com.shemesh.services.DataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,18 +53,18 @@ public class DataController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
-    @ApiOperation(value = "Add new Data")
+    @ApiOperation(value = "Get site Data")
     //@RolesAllowed()
     public ResponseEntity GetData(@RequestParam("ip") String ip) {
-        log.info("Get Data");
+        log.info("Get site Data");
 
         try {
-            dataService.GetData(ip);
+            DataResponse response = dataService.GetData(ip);
             return ResponseEntity.ok()
-                    .body("Data inserted");
+                    .body(response);
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("Data insert Error " + e.getMessage());
+            log.error("Get site Data " + e.getMessage());
 
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
