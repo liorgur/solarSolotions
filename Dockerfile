@@ -5,7 +5,7 @@ COPY solar.solutions.iml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml package
 
 FROM openjdk:latest
-ENV VERSION=1.1-SNAPSHOT
+ENV VERSION=0.0.1-SNAPSHOT
 COPY --from=build /usr/src/app/target/solar.solutions-${VERSION}.jar app.jar
 EXPOSE 8082
 ENTRYPOINT ["java", "-jar", "/app.jar"]

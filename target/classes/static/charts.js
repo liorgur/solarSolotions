@@ -23,9 +23,7 @@ function drawBasic(jsonData) {
 
   var options = {
     hAxis: {
-      title: 'Time',
-         format: 'd/M hh:mm',
-              gridlines: {count: 9}
+      title: 'Time'
     },
     vAxis: {
       title: 'Values'
@@ -37,7 +35,7 @@ function drawBasic(jsonData) {
   chart.draw(data, options);
 
  data.sort({
-      column: 0,
+      column: 2,
       desc: true
     });
   var table = new google.visualization.Table(document.getElementById('table_div'));
