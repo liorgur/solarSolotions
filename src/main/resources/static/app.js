@@ -18,7 +18,7 @@ function initMap() {
 
 
   var client = new HttpClient();
-  client.get('http://localhost:8082/api/v1/Sites/', function (response) {
+  client.get('/api/v1/Sites/', function (response) {
     drewSites(response)
   });
 
