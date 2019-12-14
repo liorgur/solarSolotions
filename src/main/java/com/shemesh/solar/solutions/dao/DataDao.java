@@ -35,6 +35,7 @@ public class DataDao {
         return "SELECT * " +
                 " FROM " + DATA_TABLE + " " +
                 " WHERE ip = '" + ip + "'" +
+                " ORDER BY time desc" +
                 " LIMIT 50";
     }
 }

@@ -1,4 +1,4 @@
-google.charts.load('current', { packages: ['corechart', 'line'] });
+google.charts.load('current', { packages: ['corechart', 'line','table'] });
 //google.charts.setOnLoadCallback(drawBasic);
 
 function start() {
@@ -17,19 +17,9 @@ function drawBasic(jsonData) {
   data.addColumn('number', 'volt');
   data.addColumn('number', 'light');
   data.addColumn('number', 'humidity');
-
-
   for (var i = 0; i < jsonData.length; i++) {
-//    var year = new Date(jsonData[i].time).getFullYear();
-//    var month = new Date(jsonData[i].time).getMonth();
-//    var day =new Date(jsonData[i].time).getDate();
-//    var hour =new Date(jsonData[i].time).getHours();
-//    var min =new Date(jsonData[i].time).getMinutes();
-//    data.addRow([new Date(year,month,day,hour,min), jsonData[i].tmp, jsonData[i].volt, jsonData[i].light, jsonData[i].humidity]);
         data.addRow([new Date(jsonData[i].time), jsonData[i].tmp, jsonData[i].volt, jsonData[i].light, jsonData[i].humidity]);
-
   }
-
 
   var options = {
     hAxis: {
@@ -43,7 +33,13 @@ function drawBasic(jsonData) {
   var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
   chart.draw(data, options);
+
+  var table = new google.visualization.Table(document.getElementById('table_div'));
+
+   table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
 }
+
+
 
 var HttpClient = function () {
   this.get = function (aUrl, aCallback) {
