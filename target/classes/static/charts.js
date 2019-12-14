@@ -53,3 +53,11 @@ var HttpClient = function () {
     anHttpRequest.send(null);
   }
 }
+
+function buttonClick(){
+   console.log("button clicked");
+var client = new HttpClient();
+  client.get('http://2.55.120.218:84/?on1', function (response) {
+   console.log(response);
+  });
+}
