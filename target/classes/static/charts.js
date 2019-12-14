@@ -34,6 +34,10 @@ function drawBasic(jsonData) {
 
   chart.draw(data, options);
 
+ data.sort({
+      column: 2,
+      desc: true
+    });
   var table = new google.visualization.Table(document.getElementById('table_div'));
 
    table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
@@ -52,12 +56,4 @@ var HttpClient = function () {
     anHttpRequest.open("GET", aUrl, true);
     anHttpRequest.send(null);
   }
-}
-
-function buttonClick(){
-   console.log("button clicked");
-var client = new HttpClient();
-  client.get('http://2.55.120.218:84/?on1', function (response) {
-   console.log(response);
-  });
 }
