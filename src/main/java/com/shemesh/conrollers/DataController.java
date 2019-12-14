@@ -54,6 +54,7 @@ public class DataController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Get site Data")
+    @CrossOrigin(origins = "*")
     //@RolesAllowed()
     public ResponseEntity GetData(@RequestParam("ip") String ip) {
         log.info("Get site Data");

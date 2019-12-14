@@ -74,6 +74,7 @@ public class SiteController {
     @RequestMapping(value = "/", method = RequestMethod.GET , produces = "application/json")
     @ApiOperation(value = "Get all Sites")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     //@RolesAllowed()
     public ResponseEntity CreateNewSite() {
 
