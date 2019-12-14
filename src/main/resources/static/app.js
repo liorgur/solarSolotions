@@ -18,7 +18,7 @@ function initMap() {
 
 
   var client = new HttpClient();
-  client.get('/api/v1/Sites/', function (response) {
+  client.get('http://63.35.216.142/api/v1/Sites/', function (response) {
     drewSites(response)
   });
 
