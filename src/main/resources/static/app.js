@@ -20,12 +20,11 @@ function initMap() {
 
 
   var client = new HttpClient();
-//  client.get('http://63.35.216.142/api/v1/Sites/', function (response) {
-  client.get('/api/v1/Sites/', function (response) {
+  client.get('http://63.35.216.142/api/v1/Sites/', function (response) {
+//  client.get('/api/v1/Sites/', function (response) {
 
     drewSites(response)
   });
-
 
   function drewSites(response) {
     var jsonResponse = JSON.parse(response);
@@ -40,7 +39,6 @@ function initMap() {
       attachMessage(marker, jsonResponse.sites[i]);
     }
   }
-
   // Attaches an info window to a marker with the provided message. When the
   // marker is clicked, the info window will open with the secret message.
   function attachMessage(marker, message) {
