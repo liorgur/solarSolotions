@@ -1,4 +1,4 @@
-google.charts.load('current', { packages: ['corechart', 'line','table'] });
+google.charts.load('current', { packages: ['corechart','line','table'] });
 //google.charts.setOnLoadCallback(drawBasic);
 
 function start() {
