@@ -50,7 +50,7 @@ function initMap() {
       infowindow.open(marker.get('map'), marker);
     });
     marker.addListener('dblclick', function () {
-      location.href = "site.html";
+      location.href = "site_info.html";
     });
   }
 }
