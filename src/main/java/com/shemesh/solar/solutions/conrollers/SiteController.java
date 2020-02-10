@@ -85,11 +85,11 @@ public class SiteController {
                     .body(newSiteResponse);
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("Create New Site Error " + e.getMessage());
+            log.error("Get All  Ste Error " + e.getMessage());
 
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Create New Site Failed");
+                .body("Get All Site Failed");
     }
 
 

@@ -24,5 +24,11 @@ public class Site {
     private double lat;
     private double lon;
     private String description;
+    private String provider1;
+    private String provider2;
+    private String provider3;
+    private String provider4;
+
+
 
 }

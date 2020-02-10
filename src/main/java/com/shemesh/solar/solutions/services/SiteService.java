@@ -28,7 +28,7 @@ public class SiteService {
 
     public NewSiteResponse CreateNewSite(CreateNewSiteRequest request) throws SQLException {
 
-        String queryInsertNewSite = dao.CreateInsertIntoSiteQuery(request.getName());
+        String queryInsertNewSite = dao.CreateInsertIntoSiteQuery(request);
 
         int siteId = (int) dbHelper.executeInsertQuery(queryInsertNewSite);
 
@@ -65,7 +65,7 @@ public class SiteService {
                 double lon = resultSet.getDouble("lon");
                 String description = resultSet.getString("description");
 
-                list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description));
+                list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description,"","","",""));
             }
             return new SitesResponse(list);
         }
