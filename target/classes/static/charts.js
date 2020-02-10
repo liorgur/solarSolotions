@@ -4,7 +4,8 @@ google.charts.load('current', { packages: ['corechart', 'line','table'] });
 function start() {
 
   var client = new HttpClient();
-  client.get('http://63.35.216.142/api/v1/data/?ip=2.55.120.218', function (response) {
+//  client.get('http://63.35.216.142/api/v1/data/?ip=2.55.120.218', function (response) {
+  client.get('/api/v1/data/?ip=2.55.120.218', function (response) {
     var jsonData = JSON.parse(response);
     drawBasic(jsonData.data);
   });
@@ -23,7 +24,9 @@ function drawBasic(jsonData) {
 
   var options = {
     hAxis: {
-      title: 'Time'
+      title: 'Time',
+         format: 'hh:mm',
+              gridlines: {count: 9}
     },
     vAxis: {
       title: 'Values'
@@ -35,7 +38,7 @@ function drawBasic(jsonData) {
   chart.draw(data, options);
 
  data.sort({
-      column: 2,
+      column: 0,
       desc: true
     });
   var table = new google.visualization.Table(document.getElementById('table_div'));
