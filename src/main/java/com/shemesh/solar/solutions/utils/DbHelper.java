@@ -2,6 +2,9 @@ package com.shemesh.solar.solutions.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.DbUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -11,12 +14,12 @@ import java.util.List;
 @Component
 public class DbHelper {
 
-//    @Value(value = "${url}")
-    private String url= "jdbc:mysql://xmed-db.cvtziznvjjvi.eu-west-1.rds.amazonaws.com:3306/SolarSolutions?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8";
-//    @Value(value = "${username}")
-    private String username = "admin";
-//    @Value(value = "${password}")
-    private String password = "password";
+    @Value(value = "${url}")
+    private String url;
+    @Value(value = "${username}")
+    private String username;
+    @Value(value = "${password}")
+    private String password;
 
     public ResultSet executeQueryToResultSet(String query) throws SQLException {
         Connection connection = getConnection();

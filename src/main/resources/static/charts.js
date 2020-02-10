@@ -5,6 +5,7 @@ function start() {
 
   var client = new HttpClient();
   client.get('http://63.35.216.142/api/v1/data/?ip=2.55.120.218', function (response) {
+//  client.get('/api/v1/data/?ip=2.55.120.218', function (response) {
     var jsonData = JSON.parse(response);
     drawBasic(jsonData.data);
   });
