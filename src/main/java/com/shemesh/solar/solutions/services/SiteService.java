@@ -27,20 +27,14 @@ public class SiteService {
     private DbHelper dbHelper;
 
     public NewSiteResponse CreateNewSite(CreateNewSiteRequest request) throws SQLException {
-
         String queryInsertNewSite = dao.CreateInsertIntoSiteQuery(request);
-
         int siteId = (int) dbHelper.executeInsertQuery(queryInsertNewSite);
-
         return new NewSiteResponse(siteId);
     }
 
     public SitesResponse GetSites() throws SQLException {
         String queryGetSites= dao.CreateGetSitesQuery();
-
         ResultSet sites = dbHelper.executeQueryToResultSet(queryGetSites);
-
-
         return ResultSetToSite(sites);
     }
 
@@ -50,9 +44,7 @@ public class SiteService {
     }
 
     private SitesResponse ResultSetToSite(ResultSet resultSet) {
-
         List<Site> list = new ArrayList<>();
-
         try {
             while (resultSet.next()) {
 
@@ -64,8 +56,12 @@ public class SiteService {
                 double lat = resultSet.getDouble("lat");
                 double lon = resultSet.getDouble("lon");
                 String description = resultSet.getString("description");
+                String provider1 = resultSet.getString("provider1");
+                String provider2 = resultSet.getString("provider2");
+                String provider3 = resultSet.getString("provider3");
+                String provider4 = resultSet.getString("provider4");
 
-                list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description,"","","",""));
+                list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description,provider1,provider2,provider3,provider4));
             }
             return new SitesResponse(list);
         }

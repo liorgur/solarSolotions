@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Data {
+public class DataPoint {
 
     private String ip;
     private Timestamp time;

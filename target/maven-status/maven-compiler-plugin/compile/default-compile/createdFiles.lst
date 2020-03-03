@@ -1,3 +1,4 @@
+com/shemesh/solar/solutions/config/SwaggerConfig.class
 com/shemesh/solar/solutions/dao/DataDao.class
 com/shemesh/solar/solutions/models/Objects/Data$DataBuilder.class
 com/shemesh/solar/solutions/models/Requests/GetSiteRequest.class

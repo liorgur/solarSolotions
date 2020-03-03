@@ -38,4 +38,6 @@ public class DataDao {
                 " ORDER BY time desc" +
                 " LIMIT 50";
     }
+
+
 }

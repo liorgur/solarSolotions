@@ -49,31 +49,31 @@ function initMap() {
     marker.addListener('click', function () {
       infowindow.open(marker.get('map'), marker);
     });
-    marker.addListener('dblclick', function () {
-//      location.href = "site_info.html";
-    drawBasic2()
-    });
+    marker.addListener('dblclick', handleDB)
   }
 }
-function drawBasic2() {
 
-var client = new HttpClient();
-  client.get('http://63.35.216.142/api/v1/data/?ip=2.55.120.218', function (response) {
-//  client.get('/api/v1/data/?ip=2.55.120.218', function (response) {
-    var jsonData = JSON.parse(response);
-    drawBasic(jsonData.data);
-  });
-}
-function drawBasic(jsonData) {
+function handleDB(){
+//    console.log(message.name)
+//        console.log(message.ip)
+fetch('http://63.35.216.142/api/v1/data/?ip=2.55.120.218').then(data=>data.json()).then((jsonDataRaw)=>{
+const jsonData = jsonDataRaw.data
   var data = new google.visualization.DataTable();
-  data.addColumn('datetime', 'time');
-  data.addColumn('number', 'tmp');
-  data.addColumn('number', 'volt');
-  data.addColumn('number', 'light');
-  data.addColumn('number', 'humidity');
-  for (var i = 0; i < jsonData.length; i++) {
-        data.addRow([new Date(jsonData[i].time), jsonData[i].tmp, jsonData[i].volt, jsonData[i].light, jsonData[i].humidity]);
-  }
+    data.addColumn('datetime', 'time');
+    data.addColumn('number', 'tmp');
+    data.addColumn('number', 'volt');
+    data.addColumn('number', 'light');
+    data.addColumn('number', 'humidity');
+    for (var i = 0; i < jsonData.length; i++) {
+          data.addRow([new Date(jsonData[i].time), jsonData[i].tmp, jsonData[i].volt, jsonData[i].light, jsonData[i].humidity]);
+    }
+   drawTable(data)
+    drawChart(data)
+})
+
+}
+
+function drawChart(data) {
 
   var options = {
     hAxis: {
@@ -89,6 +89,8 @@ function drawBasic(jsonData) {
   var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
   chart.draw(data, options);
+}
+function drawTable(data) {
 
  data.sort({
       column: 0,
@@ -99,7 +101,6 @@ function drawBasic(jsonData) {
    table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
 }
 
-
 var HttpClient = function () {
   this.get = function (aUrl, aCallback) {
     var anHttpRequest = new XMLHttpRequest();
@@ -107,13 +108,8 @@ var HttpClient = function () {
       if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
         aCallback(anHttpRequest.responseText);
     }
-
     anHttpRequest.open("GET", aUrl, true);
     // anHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
     anHttpRequest.send(null);
   }
-
-
-
-
 }

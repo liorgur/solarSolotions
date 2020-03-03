@@ -1,6 +1,6 @@
 package com.shemesh.solar.solutions.models.Responses;
 
-import com.shemesh.solar.solutions.models.Objects.DataPoint;
+import com.shemesh.solar.solutions.models.Objects.Alert;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataResponse {
+public class AlertResponse {
 
-    private List<DataPoint> data;
+    private List<Alert> alerts;
 }

@@ -1,7 +1,7 @@
 package com.shemesh.solar.solutions.services;
 
 import com.shemesh.solar.solutions.dao.DataDao;
-import com.shemesh.solar.solutions.models.Objects.Data;
+import com.shemesh.solar.solutions.models.Objects.DataPoint;
 import com.shemesh.solar.solutions.models.Requests.SendDataRequest;
 import com.shemesh.solar.solutions.models.Responses.DataResponse;
 import com.shemesh.solar.solutions.utils.DbHelper;
@@ -25,30 +25,25 @@ public class DataService {
     @Autowired
     private DbHelper dbHelper;
 
+    @Autowired
+    private AlertsService alertsService;
+
     public void SendData(SendDataRequest request) throws SQLException {
-
         String queryInsertData = dao.CreateInsertDataQuery(request);
-
-       dbHelper.executeQuery(queryInsertData);
-
+        dbHelper.executeQuery(queryInsertData);
+        alertsService.CreateAlertIfNeeded(request);
     }
 
-    public DataResponse GetData(String ip)throws SQLException {
+    public DataResponse GetData(String ip) throws SQLException {
         String queryInsertData = dao.CreateGetDataQuery(ip);
-
         ResultSet resultSet = dbHelper.executeQueryToResultSet(queryInsertData);
-        DataResponse dataResponse = ResultSetToSite(resultSet);
-        return dataResponse;
+        return ResultSetToData(resultSet);
     }
 
-    private DataResponse ResultSetToSite(ResultSet resultSet) {
-
-        List<Data> list = new ArrayList<>();
-
+    private DataResponse ResultSetToData(ResultSet resultSet) {
+        List<DataPoint> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
-
-
                 String ip = resultSet.getString("ip");
                 float volt = resultSet.getFloat("volt");
                 float humidity = resultSet.getFloat("humidity");
@@ -56,19 +51,15 @@ public class DataService {
                 float light = resultSet.getFloat("light");
                 Timestamp time = resultSet.getTimestamp("time");
 
-                list.add(new Data(ip,time,tmp,humidity,volt,light));
+                list.add(new DataPoint(ip, time, tmp, humidity, volt, light));
             }
             return new DataResponse(list);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             log.error(ex.getMessage());
             log.debug(Arrays.toString(ex.getStackTrace())); //todo
         }
         return null;
     }
-
-
-
 
 
 }

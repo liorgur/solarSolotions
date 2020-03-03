@@ -1,3 +1,5 @@
+google.charts.load('current', { packages: ['corechart','line','table'] });
+
 function initMap() {
 
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -24,7 +26,6 @@ function initMap() {
     drewSites(response)
   });
 
-
   function drewSites(response) {
     var jsonResponse = JSON.parse(response);
     for (var i = 0; i < jsonResponse.sites.length; ++i) {
@@ -38,7 +39,6 @@ function initMap() {
       attachMessage(marker, jsonResponse.sites[i]);
     }
   }
-
   // Attaches an info window to a marker with the provided message. When the
   // marker is clicked, the info window will open with the secret message.
   function attachMessage(marker, message) {
@@ -50,11 +50,56 @@ function initMap() {
       infowindow.open(marker.get('map'), marker);
     });
     marker.addListener('dblclick', function () {
-      location.href = "site.html";
+//      location.href = "site_info.html";
+        console.log(message.name)
+        console.log(message.ip)
+//    drawBasic2()
+fetch('http://63.35.216.142/api/v1/data/?ip=2.55.120.218').then(jsonData=>{
+const data = JSON.parse(jsonData)
+   drawTable(data)
+    drawChart(data)
+})
+
+
     });
   }
 }
+function drawChart(data) {
+  var data = new google.visualization.DataTable();
+  data.addColumn('datetime', 'time');
+  data.addColumn('number', 'tmp');
+  data.addColumn('number', 'volt');
+  data.addColumn('number', 'light');
+  data.addColumn('number', 'humidity');
+  for (var i = 0; i < jsonData.length; i++) {
+        data.addRow([new Date(jsonData[i].time), jsonData[i].tmp, jsonData[i].volt, jsonData[i].light, jsonData[i].humidity]);
+  }
 
+  var options = {
+    hAxis: {
+      title: 'Time',
+         format: 'hh:mm',
+              gridlines: {count: 9}
+    },
+    vAxis: {
+      title: 'Values'
+    }
+  };
+
+  var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+  chart.draw(data, options);
+}
+function drawTable(data) {
+
+ data.sort({
+      column: 0,
+      desc: true
+    });
+  var table = new google.visualization.Table(document.getElementById('table_div'));
+
+   table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+}
 
 var HttpClient = function () {
   this.get = function (aUrl, aCallback) {
@@ -63,13 +108,8 @@ var HttpClient = function () {
       if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
         aCallback(anHttpRequest.responseText);
     }
-
     anHttpRequest.open("GET", aUrl, true);
     // anHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
     anHttpRequest.send(null);
   }
-
-
-
-
 }
