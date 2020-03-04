@@ -35,8 +35,6 @@ div#main {
     flex-direction: column;
 }
 
-div#alerts {}
-
 div#alerts {
     flex: 1;
 }
@@ -49,13 +47,28 @@ div#table_div {
     flex: 1;
     overflow:hidden
 }
+
+div#meters_div {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+div#tmp_gauge {
+    flex: 1;
+}
+div#volt_gauge {
+    flex: 1;
+}
+div#light_gauge {
+    flex: 1;
+}
+div#humidity_div {
+    flex: 1;
+}
+
 div#map {
     flex: 3;
 }
-
-
-
-
 
     </style>
 </head>
@@ -65,9 +78,16 @@ div#map {
     <div id="main">
         <div id="chart_div"></div>
         <div id="table_div"></div>
+        <div id="meters_div">
+            <div id="tmp_gauge"></div>
+            <div id="volt_gauge"></div>
+            <div id="light_gauge"></div>
+            <div id="humidity_gauge"></div>
+        </div>
         <div id="map"></div>
     </div>
     <div id="alerts"></div>
+        <label>"Alerts 1</label>
 </div>
 
 <script async defer
