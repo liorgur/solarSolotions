@@ -21,9 +21,12 @@ public class SiteDao {
                 " VALUES (\"" + request.getSite().getName() + "\")";
     }
 
-    public String CreateGetSitesQuery() {
+    public String CreateGetSitesQuery(Integer id) {
+        String where = (id != null) ? "WHERE id = " + id  : " ";
+
         return " SELECT * " +
-                " FROM  " + SITES_TABLE + " ";
+                " FROM  " + SITES_TABLE + " " +
+                where;
     }
 
     public String CreateUpdateSiteQuery(UpdateSiteRequest updateSiteRequest) {

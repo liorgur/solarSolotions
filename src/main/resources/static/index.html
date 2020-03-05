@@ -37,6 +37,18 @@ div#main {
 
 div#alerts {
     flex: 1;
+     display: flex;
+    flex-direction: column;
+}
+div#all_alerts {
+    flex: 1;
+}
+div#site_alerts {
+    flex: 1;
+}
+
+div#site_info_div {
+    flex: 1;
 }
 
 div#chart_div {
@@ -70,12 +82,14 @@ div#map {
     flex: 3;
 }
 
+
     </style>
 </head>
 <body>
 <div id="app">
     <div id="site-list"></div>
     <div id="main">
+        <div id="site_info_div"></div>
         <div id="chart_div"></div>
         <div id="table_div"></div>
         <div id="meters_div">
@@ -86,8 +100,18 @@ div#map {
         </div>
         <div id="map"></div>
     </div>
-    <div id="alerts"></div>
-        <label>"Alerts 1</label>
+    <div id="alerts">
+        <div id="site_alerts"></div>
+        <label>"Spesific site alert 1"</label><br/>
+        <label>"Spesific site alert 2"</label><br/>
+        <label>"Spesific site alert 3"</label><br/>
+
+        <div id="all_alerts"></div>
+        <label>"Alerts 1</label><br/>
+        <label>"Alerts 2</label><br/>
+        <label>"Alerts 3</label><br/>
+
+    </div>
 </div>
 
 <script async defer

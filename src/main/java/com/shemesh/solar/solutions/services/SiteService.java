@@ -32,8 +32,8 @@ public class SiteService {
         return new NewSiteResponse(siteId);
     }
 
-    public SitesResponse GetSites() throws SQLException {
-        String queryGetSites= dao.CreateGetSitesQuery();
+    public SitesResponse GetSites(Integer id) throws SQLException {
+        String queryGetSites= dao.CreateGetSitesQuery(id);
         ResultSet sites = dbHelper.executeQueryToResultSet(queryGetSites);
         return ResultSetToSite(sites);
     }

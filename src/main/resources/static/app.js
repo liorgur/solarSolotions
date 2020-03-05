@@ -21,8 +21,12 @@ function initMap() {
   getSitesData().then(data => drawSitesOnMap(map, data)).then(data => drawSiteTable(data));
 }
 
-async function getSitesData() {
-  let response = await fetch('http://' + ip +'/api/v1/Sites/');
+async function getSitesData(id) {
+  let param = " "
+  if(id !=null){
+    param = "?id="+ id
+  }
+  let response = await fetch('http://' + ip +'/api/v1/Sites/' + param);
   let data = await response.json()
   return data.sites;
 
@@ -69,6 +73,9 @@ function handleDB(massage) {
     drawChart(data)
     drawMeters(siteData[siteData.length -1])
   })
+
+  getSitesData(massage.id).then(data => drawSiteInfo(data))//todo remove array to json
+
 
 }
 
@@ -179,3 +186,27 @@ function drawMeters(data) {
 
 
       }
+
+function drawSiteInfo(siteInfo) {
+
+var data = new google.visualization.DataTable();
+    data.addColumn('string', 'type');
+        data.addColumn('string', 'data');
+
+
+      data.addRow(['name', siteInfo[0].name]); //todo remove array
+      data.addRow(['ip', siteInfo[0].ip]);
+        data.addRow(['lat', siteInfo[0].lat.toString()]);
+          data.addRow(['lon', siteInfo[0].lon.toString()]);
+            data.addRow(['description', siteInfo[0].description]);
+              data.addRow(['id', siteInfo[0].id.toString()]);
+              data.addRow(['provider1', siteInfo[0].provider1]);
+                data.addRow(['provider2', siteInfo[0].provider2]);
+
+
+
+
+  var table = new google.visualization.Table(document.getElementById('site_info_div'));
+
+  table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+}

@@ -75,18 +75,15 @@ public class SiteController {
     @ApiOperation(value = "Get all Sites")
     @ResponseBody
     //@RolesAllowed()
-    public ResponseEntity GetSites() {
-
+    public ResponseEntity GetSites(@RequestParam(value = "id", required = false) Integer id) {
         log.info("Get All Sites");
-
         try {
-            SitesResponse newSiteResponse = siteService.GetSites();
+            SitesResponse newSiteResponse = siteService.GetSites(id);
             return ResponseEntity.ok()
                     .body(newSiteResponse);
         } catch (SQLException e) {
             e.printStackTrace();
             log.error("Get All  Ste Error " + e.getMessage());
-
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Get All Site Failed");

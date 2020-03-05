@@ -1,3 +1,6 @@
+var ip = 'localhost:8082'
+var ip2 = '63.35.216.142'
+
 google.charts.load('current', { packages: ['corechart', 'line', 'table', 'gauge'] });
 var sitesLior;
 function initMap() {
@@ -18,8 +21,12 @@ function initMap() {
   getSitesData().then(data => drawSitesOnMap(map, data)).then(data => drawSiteTable(data));
 }
 
-async function getSitesData() {
-  let response = await fetch('http://localhost:8082/api/v1/Sites/');
+async function getSitesData(id) {
+  let param = " "
+  if(id !=null){
+    param = "?id="+ id
+  }
+  let response = await fetch('http://' + ip +'/api/v1/Sites/' + param);
   let data = await response.json()
   return data.sites;
 
@@ -34,26 +41,24 @@ function drawSitesOnMap(map, sitesData){
         },
         map: map
       });
-      attachMessage(marker, sitesData[i]);
+      attachMassage(marker, sitesData[i]);
     }
     return sitesData;
 }
 
-function attachMessage(marker, message) {
+function attachMassage(marker, massage) {
   var infowindow = new google.maps.InfoWindow({
-    content: (message.name)
+    content: (massage.name)
   });
 
   marker.addListener('click', function () {
     infowindow.open(marker.get('map'), marker);
   });
-  marker.addListener('dblclick', handleDB)
+  marker.addListener('dblclick', function(){handleDB(massage);});
 }
 
-function handleDB() {
-  //    console.log(message.name)
-  //        console.log(message.ip)
-  fetch('http://63.35.216.142/api/v1/data/?ip=2.55.120.218').then(data => data.json()).then((jsonDataRaw) => {
+function handleDB(massage) {
+  fetch('http://' + ip +'/api/v1/data/?ip='+ massage.ip).then(data => data.json()).then((jsonDataRaw) => {
     const siteData = jsonDataRaw.data
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'time');
@@ -68,6 +73,9 @@ function handleDB() {
     drawChart(data)
     drawMeters(siteData[siteData.length -1])
   })
+
+  getSitesData(massage.id).then(data => drawSiteInfo(data))
+
 
 }
 
@@ -104,11 +112,9 @@ function drawSiteTable(sitesData) {
 
 var data = new google.visualization.DataTable();
     data.addColumn('string', 'name');
-//        data.addColumn('string', 'name2');
 
     for (var i = 0; i < sitesData.length; i++) {
       data.addRow([sitesData[i].name, ]);
-
     }
 
   data.sort({
@@ -122,21 +128,21 @@ var data = new google.visualization.DataTable();
 
 function drawMeters(data) {
 
-    var tmp = google.visualization.arrayToDataTable([
+    var tmp_data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
           ["tmp", data["tmp"]]
         ]);
 
-    var humidity = google.visualization.arrayToDataTable([
+    var humidity_data = google.visualization.arrayToDataTable([
               ['Label', 'Value'],
               ["humidity", data["humidity"]]
             ]);
 
-    var volt = google.visualization.arrayToDataTable([
+    var volt_data = google.visualization.arrayToDataTable([
                ['Label', 'Value'],
                ["volt", data["volt"]]
              ]);
-    var light = google.visualization.arrayToDataTable([
+    var light_data = google.visualization.arrayToDataTable([
               ['Label', 'Value'],
               ["light", data["light"]]
             ]);
@@ -173,10 +179,34 @@ function drawMeters(data) {
         var light_gauge = new google.visualization.Gauge(document.getElementById('light_gauge'));
 
 
-        chart.draw(tmp_gauge, tmp_options);
-        chart.draw(humidity_gauge, humidity_options);
-        chart.draw(volt_gauge, volt_options);
-        chart.draw(light_gauge, light_options);
+        tmp_gauge.draw(tmp_data, tmp_options);
+        humidity_gauge.draw(humidity_data, humidity_options);
+        volt_gauge.draw(volt_data, volt_options);
+        light_gauge.draw(light_data, light_options);
 
 
       }
+
+function drawSiteInfo(siteInfo) {
+
+var data = new google.visualization.DataTable();
+    data.addColumn('string', 'type');
+        data.addColumn('string', 'data');
+
+
+      data.addRow(['name', siteInfo.name]);
+      data.addRow(['ip', siteInfo.ip]);
+        data.addRow(['lat', siteInfo.lat]);
+          data.addRow(['lon', siteInfo.lon]);
+            data.addRow(['description', siteInfo.description]);
+              data.addRow(['id', siteInfo.id]);
+              data.addRow(['provider1', siteInfo.provider1]);
+                data.addRow(['provider2', siteInfo.provider2]);
+
+
+
+
+  var table = new google.visualization.Table(document.getElementById('site_info_div'));
+
+  table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+}
