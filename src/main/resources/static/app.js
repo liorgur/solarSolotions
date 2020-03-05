@@ -35,7 +35,7 @@ function initMap() {
             setTimeout(()=> {
 
             drawSiteTable(data)
-                },200)
+                },800)
             });
 
 }
@@ -62,7 +62,7 @@ function drawSitesOnMap(map, sitesData) {
         });
         attachMassage(marker, sitesData[i]);
     }
-    return sitesData; //todo why neede?
+//    return sitesData; //todo why neede?
 }
 
 function attachMassage(marker, massage) {
@@ -143,8 +143,8 @@ function drawSiteTable(sitesData) {
     });
     var table = new google.visualization.Table(document.getElementById('site-list'));
 
+
     table.draw(data, {
-        showRowNumber: true,
         width: '100%',
         height: '100%'
     });
@@ -173,35 +173,36 @@ function drawMeters(data) {
 
 
     var tmp_options = {
-        width: 400,
-        height: 120,
-        redFrom: 90,
+        width: 500,
+        height: 150,
+        redFrom: 60,
         redTo: 100,
-        yellowFrom: 75,
-        yellowTo: 90,
+        yellowFrom: 40,
+        yellowTo: 60,
         minorTicks: 5
     };
     var humidity_options = {
-        width: 400,
-        height: 120,
-        redFrom: 90,
+        width: 500,
+        height: 150,
+        redFrom: 60,
         redTo: 100,
-        yellowFrom: 75,
-        yellowTo: 90,
+        yellowFrom: 40,
+        yellowTo: 60,
         minorTicks: 5
     };
     var volt_options = {
-        width: 400,
-        height: 120,
-        redFrom: 90,
-        redTo: 100,
-        yellowFrom: 75,
-        yellowTo: 90,
-        minorTicks: 5
+        width: 500,
+        height: 150,
+        redFrom: 30,
+        redTo: 40,
+        yellowFrom: 0,
+        yellowTo: 23,
+        minorTicks: 5,
+        max:40
     };
     var light_options = {
-        width: 400,
-        height: 120,
+        width: 500,
+        height: 150,
         redFrom: 90,
         redTo: 100,
         yellowFrom: 75,
@@ -245,7 +246,6 @@ function drawSiteInfo(siteInfo) {
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
 
     table.draw(data, {
-        showRowNumber: true,
         width: '100%',
         height: '100%'
     });
