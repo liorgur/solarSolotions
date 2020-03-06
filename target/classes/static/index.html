@@ -37,6 +37,14 @@ div#main {
 
 div#alerts {
     flex: 1;
+     display: flex;
+    flex-direction: column;
+}
+div#all_alerts {
+    flex: 1;
+}
+div#site_alerts {
+    flex: 1;
 }
 
 div#site_info_div {
@@ -44,12 +52,12 @@ div#site_info_div {
 }
 
 div#chart_div {
-    flex: 1;
+flex:1
 }
 
 div#table_div {
-    flex: 1;
-    overflow:hidden
+    overflow:hidden;
+    flex:1;
 }
 
 div#meters_div {
@@ -73,17 +81,43 @@ div#humidity_div {
 div#map {
     flex: 3;
 }
+#modal{
+top: 0;
+    z-index: 1;
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #0000006b;
+
+
+}
+#inner-modal{
+width:70%;
+height:70%;
+    background-color: white;
+    border-radius: 25px;
+    display:flex;
+        flex-direction: column;
+}
 
     </style>
 </head>
 <body>
+<div id="modal">
+    <button id="close" onclick="closeModal()">close</button>
+    <div id="inner-modal">
+    <div id="chart_div"></div>
+        <div id="table_div"></div>
+    </div>
+</div>
 <div id="app">
     <div id="site-list"></div>
     <div id="main">
-        <div id="site_info_div"></div>
-        <div id="chart_div"></div>
-        <div id="table_div"></div>
-        <div id="meters_div">
+        <div id="meters_div" ondblclick="showModal()">
             <div id="tmp_gauge"></div>
             <div id="volt_gauge"></div>
             <div id="light_gauge"></div>
@@ -91,8 +125,16 @@ div#map {
         </div>
         <div id="map"></div>
     </div>
-    <div id="alerts"></div>
-        <label>"Alerts 1</label>
+    <div id="alerts">
+        <div id="site_info_div"></div>
+
+        <div id="site_alerts"></div>
+
+
+        <div id="all_alerts"></div>
+
+
+    </div>
 </div>
 
 <script async defer

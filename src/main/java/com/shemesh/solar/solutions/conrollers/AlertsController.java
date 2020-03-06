@@ -32,23 +32,27 @@ public class AlertsController {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Get alerts")
     //@RolesAllowed()
-    public ResponseEntity GetAlerts(@RequestParam("ip") String ip) {
-        log.info("Get site Data");
+    public ResponseEntity GetAlerts(@RequestParam(value = "site_id", required = false) Integer site_id) {
+        log.info("Get Alerts");
 
         try {
-            AlertResponse response = alertsService.GetAlerts(ip);
+            AlertResponse response = alertsService.GetAlerts(site_id);
             return ResponseEntity.ok()
                     .body(response);
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("Get site Data " + e.getMessage());
+            log.error("Get Alerts  " + e.getMessage());
 
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Data insert Failed");
     }
 
-    public ResponseEntity ResetAlerts(@RequestParam("ip") int id) {
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/reset", method = RequestMethod.GET, produces = "application/json")
+    @ApiOperation(value = "Reset alert")
+    public ResponseEntity ResetAlerts(@RequestParam("id") int id) {
         log.info("Reset Alerts");
 
         try {

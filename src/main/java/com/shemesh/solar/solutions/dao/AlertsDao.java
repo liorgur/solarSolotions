@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.shemesh.solar.solutions.models.Objects.Tables.DATA_TABLE;
+import static com.shemesh.solar.solutions.models.Objects.Tables.*;
 
 /**
  * @author Lior Gur
@@ -16,24 +16,34 @@ import static com.shemesh.solar.solutions.models.Objects.Tables.DATA_TABLE;
 @Component
 @Slf4j
 public class AlertsDao {
-    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd : HH:mm:ss");
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd : HH:mm:ss");
 
-    public String CreateResetAlertQuery(int id)
-    {
-        //todo create query
-        return null;
+    public String CreateResetAlertQuery(int site_id) {
+        return " UPDATE " + ALERTS_TABLE +
+                " SET status = 0" +
+                " WHERE site_id = " + site_id;
     }
 
-    public String CreateGetAlertsQuery(String ip) {
-        //todo create query
-        return null;
+    public String CreateGetAlertsQuery(Integer site_id) {
+        String where = (site_id != null) ? "WHERE site_id = " + site_id : " ";
+
+        return " SELECT * " +
+                " FROM  " + ALERTS_TABLE + " " +
+                where;
     }
 
     public String CreateAlertQuery(Alert alert) {
-        //todo create query
-        return null;
+        Date date = new Date(System.currentTimeMillis());
+        String site_idQuery = GetSiteIdQuery(alert.getIp());
+
+        return "INSERT INTO " + ALERTS_TABLE + " " +
+                " (type,value, site_id, time) " +
+                " VALUES ('" + alert.getType() + "'," + "'" + alert.getValue() + "','" + "'" + site_idQuery  + "','" + "'" + formatter.format(date) + "','" + " )";
     }
 
+    private String GetSiteIdQuery(String ip){
+        return "SELECT site_id from " + SITES_TABLE + "where ip = " +ip;
+    }
 
 
 }

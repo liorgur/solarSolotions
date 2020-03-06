@@ -1,17 +1,28 @@
-var ip2 = 'localhost:8082'
-var ip = '63.35.216.142'
+var ip = 'localhost:8082'
+var ip2 = '63.35.216.142'
 
 google.charts.load('current', {
     packages: ['corechart', 'line', 'table', 'gauge']
 });
-var sitesLior;
 
-function showModal(){
-document.querySelector('#modal').style.display='flex';
-
-}function closeModal(){
-document.querySelector('#modal').style.display='none';
+function showModal() {
+    document.querySelector('#modal').style.display = 'flex';
 }
+
+function button1_action(){
+    window.alert("button1_action");
+
+}
+function button2_action() {
+window.alert("button2_action");
+
+}
+
+function reset() {
+    window.alert("reset");
+    fetch('http://' + ip + '/api/v1/Sites/' + param);
+}
+
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
@@ -30,13 +41,20 @@ function initMap() {
 
     // Display the area between the location southWest and northEast.
     map.fitBounds(bounds);
-    getSitesData().then(data => {
-            drawSitesOnMap(map, data);
-            setTimeout(()=> {
 
-            drawSiteTable(data)
-                },800)
-            });
+    getSitesData().then(data => {
+        drawSitesOnMap(map, data);
+        setTimeout(() => {
+            drawSiteTable(data);
+        }, 800)
+    });
+
+
+    getAlertsData().then(data => {
+            drawAllAlerts(data);
+    });
+
+
 
 }
 
@@ -51,6 +69,18 @@ async function getSitesData(id) {
 
 }
 
+async function getAlertsData(site_id) {
+    let param = " "
+    if (site_id != null) {
+        param = "?site_id=" + site_id
+    }
+    let response = await fetch('http://' + ip + '/api/v1/alerts/' + param);
+    let data = await response.json()
+    return data.alerts;
+
+}
+
+
 function drawSitesOnMap(map, sitesData) {
     for (var i = 0; i < sitesData.length; ++i) {
         var marker = new google.maps.Marker({
@@ -62,7 +92,7 @@ function drawSitesOnMap(map, sitesData) {
         });
         attachMassage(marker, sitesData[i]);
     }
-//    return sitesData; //todo why neede?
+    //    return sitesData; //todo why neede?
 }
 
 function attachMassage(marker, massage) {
@@ -95,6 +125,8 @@ function handleDB(massage) {
         drawMeters(siteData[siteData.length - 1])
     })
     getSitesData(massage.id).then(data => drawSiteInfo(data)) //todo remove array to json
+    getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
+
 }
 
 function drawChart(data) {
@@ -130,8 +162,8 @@ function drawDataTable(data) {
 
 function drawSiteTable(sitesData) {
 
-     const data = new google.visualization.DataTable();
-       data.addColumn('string', 'name');
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'name');
 
     for (var i = 0; i < sitesData.length; i++) {
         data.addRow([sitesData[i].name, ]);
@@ -191,17 +223,17 @@ function drawMeters(data) {
         minorTicks: 5
     };
     var volt_options = {
-        width: 500,
+        width: 600,
         height: 150,
         redFrom: 30,
         redTo: 40,
         yellowFrom: 0,
         yellowTo: 23,
         minorTicks: 5,
-        max:40
+        max: 40
     };
     var light_options = {
-        width: 500,
+        width: 600,
         height: 150,
         redFrom: 90,
         redTo: 100,
@@ -240,10 +272,52 @@ function drawSiteInfo(siteInfo) {
     data.addRow(['provider1', siteInfo[0].provider1]);
     data.addRow(['provider2', siteInfo[0].provider2]);
 
-
-
-
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
+
+    table.draw(data, {
+        width: '100%',
+        height: '100%'
+    });
+}
+
+function drawSiteAlerts(alerts) {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('datetime', 'time');
+    data.addColumn('string', 'type');
+    data.addColumn('number', 'value');
+
+    for (var i = 0; i < alerts.length; i++) {
+        data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
+    }
+
+    var table = new google.visualization.Table(document.getElementById('site_alerts'));
+
+    table.draw(data, {
+        width: '100%',
+        height: '100%'
+    });
+}
+
+function drawAllAlerts(alerts) {
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('datetime', 'time');
+    data.addColumn('string', 'type');
+    data.addColumn('number', 'value');
+
+    for (var i = 0; i < alerts.length; i++) {
+        data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
+    }
+
+
+    data.addRow([new Date('Mar 5, 2020, 10:28:40 PM'), 'volt', 0.1]);
+    data.addRow([new Date('Mar 5, 2020, 11:28:40 PM'), 'tmp', 50.1]);
+    data.addRow([new Date('Mar 5, 2020, 12:28:40 PM'), 'volt', 35.1]);
+    data.addRow([new Date('Mar 5, 2020, 14:28:40 PM'), 'light', 0.]);
+
+
+    var table = new google.visualization.Table(document.getElementById('all_alerts'));
 
     table.draw(data, {
         width: '100%',

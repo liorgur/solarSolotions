@@ -4,7 +4,8 @@ import com.shemesh.solar.solutions.models.Enums.AlertType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+
+import java.sql.Timestamp;
 
 /**
  * @author Lior Gur
@@ -15,11 +16,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Alert {
 
-//    private int id;
+    private int site_id;
     private String ip;
-    private LocalDateTime time;
+    private Timestamp time;
     private AlertType type;
     private Float value;
+    private boolean status;
 
 
 }
