@@ -5,9 +5,9 @@ package com.shemesh.solar.solutions.models.Objects;
  */
 public class Tables {
 
-    public static final String SITES_TABLE = "sites";
-    public static final String DATA_TABLE = "data";
-    public static final String ALERTS_TABLE = "alerts";
+    public static final String SITES_TABLE = "SolarSolutions.sites";
+    public static final String DATA_TABLE = "SolarSolutions.data";
+    public static final String ALERTS_TABLE = "SolarSolutions.alerts";
 
 
 

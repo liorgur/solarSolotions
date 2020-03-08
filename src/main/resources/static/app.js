@@ -326,6 +326,11 @@ function drawSiteAlerts(alerts) {
         data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
     }
 
+    data.sort({
+            column: 0,
+            desc: true
+        });
+
     var table = new google.visualization.Table(document.getElementById('site_alerts'));
 
     table.draw(data, {
@@ -345,12 +350,15 @@ function drawAllAlerts(alerts) {
         data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
     }
 
-
     data.addRow([new Date('Mar 5, 2020, 10:28:40 PM'), 'volt', 0.1]);
     data.addRow([new Date('Mar 5, 2020, 11:28:40 PM'), 'tmp', 50.1]);
     data.addRow([new Date('Mar 5, 2020, 12:28:40 PM'), 'volt', 35.1]);
     data.addRow([new Date('Mar 5, 2020, 14:28:40 PM'), 'light', 0.]);
 
+    data.sort({
+            column: 0,
+            desc: true
+        });
 
     var table = new google.visualization.Table(document.getElementById('all_alerts'));
 

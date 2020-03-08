@@ -38,11 +38,11 @@ public class AlertsDao {
 
         return "INSERT INTO " + ALERTS_TABLE + " " +
                 " (type,value, site_id, time) " +
-                " VALUES ('" + alert.getType() + "'," + "'" + alert.getValue() + "','" + "'" + site_idQuery  + "','" + "'" + formatter.format(date) + "','" + " )";
+                " VALUES ('" + alert.getType() + "','" + alert.getValue() + "',(" + site_idQuery  + ",'"  + formatter.format(date) + "')";
     }
 
     private String GetSiteIdQuery(String ip){
-        return "SELECT site_id from " + SITES_TABLE + "where ip = " +ip;
+        return "SELECT id from " + SITES_TABLE + " where ip = '" +ip + "')";
     }
 
 

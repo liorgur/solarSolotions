@@ -8,6 +8,7 @@ import com.shemesh.solar.solutions.models.Requests.SendDataRequest;
 import com.shemesh.solar.solutions.models.Responses.AlertResponse;
 import com.shemesh.solar.solutions.utils.DbHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,10 @@ public class AlertsService {
     @Autowired
     private DbHelper dbHelper;
 
+    private Date lastTmpAlert;
+    private Date lastVoltAlert;
+
+
 
     public void CreateAlert(Alert alert) throws SQLException {
         String queryCreateAlert = dao.CreateAlertQuery(alert);
@@ -39,8 +44,23 @@ public class AlertsService {
     public void CreateAlertIfNeeded(SendDataRequest request) throws SQLException {
         Timestamp date = new Timestamp(System.currentTimeMillis());
 
-        if (request.getTmp() > 100) //todo
-            CreateAlert(new Alert(0,request.getIp(), date , AlertType.TMP, request.getTmp(),false));
+        if (isTmpAlert(request)) {
+            CreateAlert(new Alert(0, request.getIp(), date, AlertType.TMP, request.getTmp(), false));
+            lastTmpAlert = new Date(System.currentTimeMillis());
+        }
+        if (isVoltAlert(request)) {
+            CreateAlert(new Alert(0, request.getIp(), date, AlertType.VOLT, request.getVolt(), false));
+            lastVoltAlert = new Date(System.currentTimeMillis());
+
+        }
+    }
+
+    private boolean isVoltAlert(SendDataRequest request) {
+        return (lastVoltAlert == null || (DateUtils.addHours(lastVoltAlert, 1)).before(new Date(System.currentTimeMillis()))) && (request.getVolt() < 23 || request.getVolt() > 30);
+    }
+
+    private boolean isTmpAlert(SendDataRequest request) {
+        return (lastTmpAlert == null || (DateUtils.addHours(lastTmpAlert, 1)).before(new Date(System.currentTimeMillis()))) && (request.getTmp() > 40 || request.getTmp() < 0);
     }
 
     public AlertResponse GetAlerts(Integer site_id) throws SQLException {
