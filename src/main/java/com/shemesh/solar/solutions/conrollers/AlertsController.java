@@ -31,6 +31,7 @@ public class AlertsController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Get alerts")
+    @ResponseBody
     //@RolesAllowed()
     public ResponseEntity GetAlerts(@RequestParam(value = "site_id", required = false) Integer site_id) {
         log.info("Get Alerts");

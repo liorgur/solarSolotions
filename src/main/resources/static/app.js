@@ -1,5 +1,5 @@
-var ip = 'localhost:8082'
-var ip2 = '63.35.216.142'
+var ip2 = 'localhost:8082'
+var ip = '52.30.206.53'
 
 google.charts.load('current', {
     packages: ['corechart', 'line', 'table', 'gauge']
@@ -7,6 +7,10 @@ google.charts.load('current', {
 
 function showModal() {
     document.querySelector('#modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.querySelector('#modal').style.display = 'none';
 }
 
 function button1_action(){
