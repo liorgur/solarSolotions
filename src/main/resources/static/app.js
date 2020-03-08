@@ -134,6 +134,7 @@ function handleClick(massage) {
 
     document.querySelector('#buttons').style.display = 'flex';
     document.querySelector('#buttons').style.flex = '1';
+    document.querySelector('#extra_data').style.display = 'flex';
     document.getElementById("button1").onclick = function() {button1_action(massage.ip)}
     document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
     document.getElementById("reset").onclick = function() {reset(massage.ip)}

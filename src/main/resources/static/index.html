@@ -65,6 +65,10 @@ div#meters_div {
     display: flex;
     flex-direction: row;
 }
+
+button#extra_data{
+display:none;
+}
 div#tmp_gauge {
     flex: 1;
 }
@@ -132,11 +136,13 @@ height:70%;
 <div id="app">
     <div id="site-list"></div>
     <div id="main">
-        <div id="meters_div" ondblclick="showModal()">
+        <div id="meters_div" >
             <div id="tmp_gauge"></div>
             <div id="volt_gauge"></div>
             <div id="light_gauge"></div>
             <div id="humidity_gauge"></div>
+            <button id="extra_data" onclick="showModal()">extra_data</button>
+
         </div>
         <div id="buttons">
             <button id="reset" onclick="reset()">reset</button>
