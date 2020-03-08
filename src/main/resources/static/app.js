@@ -55,7 +55,9 @@ function initMap() {
 
 
     getAlertsData().then(data => {
+     setTimeout(() => {
             drawAllAlerts(data);
+              }, 800)
     });
 
 
@@ -96,7 +98,6 @@ function drawSitesOnMap(map, sitesData) {
         });
         attachMassage(marker, sitesData[i]);
     }
-    //    return sitesData; //todo why neede?
 }
 
 function attachMassage(marker, massage) {
@@ -104,15 +105,15 @@ function attachMassage(marker, massage) {
         content: (massage.name)
     });
 
-    marker.addListener('click', function() {
+    marker.addListener('mouseover', function() {
         infowindow.open(marker.get('map'), marker);
     });
-    marker.addListener('dblclick', function() {
-        handleDB(massage);
+    marker.addListener('click', function() {
+        handleClick(massage);
     });
 }
 
-function handleDB(massage) {
+function handleClick(massage) {
     fetch('http://' + ip + '/api/v1/data/?ip=' + massage.ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
@@ -168,23 +169,45 @@ function drawSiteTable(sitesData) {
 
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'name');
+    data.addColumn('string', 'ip');
+    data.addColumn('number', 'id');
+
 
     for (var i = 0; i < sitesData.length; i++) {
-        data.addRow([sitesData[i].name, ]);
+        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
+
     }
 
     data.sort({
         column: 0,
         desc: true
     });
+
+    var view = new google.visualization.DataView(data);
+
+     view.setColumns([0]);//only use the first column
+
     var table = new google.visualization.Table(document.getElementById('site-list'));
 
 
-    table.draw(data, {
+    table.draw(view, {
         width: '100%',
         height: '100%'
     });
+
+    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
+
+    function siteTableClickHandler(massage){
+        var selection = table.getSelection();
+        var item = selection[selection.length -1];
+
+       var ip = data.getFormattedValue(item.row, 1);
+       var id =  data.getFormattedValue(item.row, 2);
+       handleClick({ip,id})
 }
+}
+
+
 
 function drawMeters(data) {
 
