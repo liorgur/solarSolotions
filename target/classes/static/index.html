@@ -81,6 +81,20 @@ div#humidity_div {
 div#map {
     flex: 3;
 }
+div#buttons {
+    flex: 0.5;
+     display: flex;
+    flex-direction: row;
+}
+button#reset {
+    flex: 1;
+}
+button#button1 {
+    flex: 1;
+}
+button#button2 {
+    flex: 1;
+}
 #modal{
 top: 0;
     z-index: 1;
@@ -92,8 +106,6 @@ top: 0;
     justify-content: center;
     align-items: center;
     background-color: #0000006b;
-
-
 }
 #inner-modal{
 width:70%;
@@ -104,13 +116,14 @@ height:70%;
         flex-direction: column;
 }
 
+
     </style>
 </head>
 <body>
 <div id="modal">
     <button id="close" onclick="closeModal()">close</button>
     <div id="inner-modal">
-    <div id="chart_div"></div>
+        <div id="chart_div"></div>
         <div id="table_div"></div>
     </div>
 </div>
@@ -123,17 +136,17 @@ height:70%;
             <div id="light_gauge"></div>
             <div id="humidity_gauge"></div>
         </div>
+        <div id="buttons">
+            <button id="reset" onclick="reset()">reset</button>
+            <button id="button1" onclick="button1_action()">button1</button>
+            <button id="button2" onclick="button2_action()">button2</button>
+        </div>
         <div id="map"></div>
     </div>
     <div id="alerts">
         <div id="site_info_div"></div>
-
         <div id="site_alerts"></div>
-
-
         <div id="all_alerts"></div>
-
-
     </div>
 </div>
 

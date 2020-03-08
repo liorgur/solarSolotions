@@ -13,18 +13,18 @@ function closeModal() {
     document.querySelector('#modal').style.display = 'none';
 }
 
-function button1_action(){
-    window.alert("button1_action");
+function button1_action(ip){
+    window.alert("button1_action "+ ip);
 
 }
-function button2_action() {
-window.alert("button2_action");
+function button2_action(ip) {
+window.alert("button2_action "+ ip);
 
 }
 
-function reset() {
-    window.alert("reset");
-    fetch('http://' + ip + '/api/v1/sites' + param);
+function reset(ip) {
+    window.alert("reset ip " + ip);
+    fetch('http://' + ip + "?/reset");
 }
 
 function initMap() {
@@ -131,6 +131,13 @@ function handleClick(massage) {
     })
     getSitesData(massage.id).then(data => drawSiteInfo(data)) //todo remove array to json
     getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
+
+    document.querySelector('#buttons').style.display = 'flex';
+    document.querySelector('#buttons').style.flex = '1';
+    document.getElementById("button1").onclick = function() {button1_action(massage.ip)}
+    document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
+    document.getElementById("reset").onclick = function() {reset(massage.ip)}
+
 
 }
 
