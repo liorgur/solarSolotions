@@ -1,5 +1,5 @@
-var ip = 'localhost:8082'
-var ip2 = '63.35.216.142'
+var ip2 = 'localhost:8082'
+var ip = '52.30.206.53'
 
 google.charts.load('current', {
     packages: ['corechart', 'line', 'table', 'gauge']
@@ -11,6 +11,20 @@ function showModal() {
 
 function closeModal() {
     document.querySelector('#modal').style.display = 'none';
+}
+
+function button1_action(){
+    window.alert("button1_action");
+
+}
+function button2_action() {
+window.alert("button2_action");
+
+}
+
+function reset() {
+    window.alert("reset");
+    fetch('http://' + ip + '/api/v1/sites' + param);
 }
 
 function initMap() {
@@ -41,9 +55,7 @@ function initMap() {
 
 
     getAlertsData().then(data => {
-        setTimeout(() => {
             drawAllAlerts(data);
-        }, 800)
     });
 
 
@@ -55,7 +67,7 @@ async function getSitesData(id) {
     if (id != null) {
         param = "?id=" + id
     }
-    let response = await fetch('http://' + ip + '/api/v1/Sites/' + param);
+    let response = await fetch('http://' + ip + '/api/v1/sites' + param);
     let data = await response.json()
     return data.sites;
 
@@ -66,7 +78,7 @@ async function getAlertsData(site_id) {
     if (site_id != null) {
         param = "?site_id=" + site_id
     }
-    let response = await fetch('http://' + ip + '/api/v1/alerts/' + param);
+    let response = await fetch('http://' + ip + '/api/v1/alerts' + param);
     let data = await response.json()
     return data.alerts;
 
