@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @Slf4j
 @Api(value = "Data")
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)   //使用于前端的跨域
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("api/v1/data")
 public class DataController {
 
@@ -53,8 +53,9 @@ public class DataController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Get site Data")
+    @ResponseBody
     //@RolesAllowed()
     public ResponseEntity GetData(@RequestParam("ip") String ip) {
         log.info("Get site Data");

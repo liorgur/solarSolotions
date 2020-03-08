@@ -19,10 +19,10 @@ import java.sql.SQLException;
  * Handler for requests to Lambda function.
  */
 @Slf4j
-@Api(value = "NewTest")
+@Api(value = "Sites")
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)   //使用于前端的跨域
-@RequestMapping("api/v1/Sites")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping("api/v1/sites")
 public class SiteController {
 
     @Autowired
@@ -71,7 +71,7 @@ public class SiteController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/", method = RequestMethod.GET , produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.GET , produces = "application/json")
     @ApiOperation(value = "Get all Sites")
     @ResponseBody
     //@RolesAllowed()

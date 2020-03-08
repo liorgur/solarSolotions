@@ -24,7 +24,7 @@ window.alert("button2_action");
 
 function reset() {
     window.alert("reset");
-    fetch('http://' + ip + '/api/v1/Sites/' + param);
+    fetch('http://' + ip + '/api/v1/sites' + param);
 }
 
 function initMap() {
@@ -67,7 +67,7 @@ async function getSitesData(id) {
     if (id != null) {
         param = "?id=" + id
     }
-    let response = await fetch('http://' + ip + '/api/v1/Sites/' + param);
+    let response = await fetch('http://' + ip + '/api/v1/sites' + param);
     let data = await response.json()
     return data.sites;
 
@@ -78,7 +78,7 @@ async function getAlertsData(site_id) {
     if (site_id != null) {
         param = "?site_id=" + site_id
     }
-    let response = await fetch('http://' + ip + '/api/v1/alerts/' + param);
+    let response = await fetch('http://' + ip + '/api/v1/alerts' + param);
     let data = await response.json()
     return data.alerts;
 

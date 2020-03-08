@@ -19,9 +19,9 @@ import java.sql.SQLException;
  * Handler for requests to Lambda function.
  */
 @Slf4j
-@Api(value = "Data")
+@Api(value = "Alerts")
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)   //使用于前端的跨域
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("api/v1/alerts")
 public class AlertsController {
 
@@ -29,7 +29,7 @@ public class AlertsController {
     private AlertsService alertsService;
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Get alerts")
     @ResponseBody
     //@RolesAllowed()
