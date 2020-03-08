@@ -22,9 +22,15 @@ window.alert("button2_action "+ ip);
 
 }
 
-function reset(ip) {
-    window.alert("reset ip " + ip);
-    fetch('http://' + ip + "?/reset");
+function reset(ip) { //todo
+    fetch('http://' + ip + ":84?reset_off");
+    setTimeout(function(){ alert("waiting to reset on"); }, 3000);
+    fetch('http://' + ip + ":84?reset_on");
+             setTimeout(function(){  }, 100);
+
+alert("reset on");
+
+
 }
 
 function initMap() {
