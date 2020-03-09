@@ -1,0 +1,151 @@
+    div#app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+     background-color: #414141;
+  color: white;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+div#site-list {
+    flex: 1;
+}
+
+div#main {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+div#alerts {
+    flex: 1;
+     display: flex;
+    flex-direction: column;
+}
+div#all_alerts {
+    flex: 1;
+}
+div#site_alerts {
+    flex: 1;
+}
+
+div#site_info_div {
+    flex: 1;
+}
+
+div#chart_div {
+flex:1
+}
+
+div#table_div {
+    overflow:hidden;
+    flex:1;
+}
+
+div#meters_div {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+button#extra_data{
+display:none;
+}
+div#tmp_gauge {
+    flex: 1;
+}
+div#volt_gauge {
+    flex: 1;
+}
+div#light_gauge {
+    flex: 1;
+}
+div#humidity_div {
+    flex: 1;
+}
+
+div#map {
+    flex: 3;
+}
+div#buttons {
+display:none;
+    flex-direction: row;
+}
+button#reset {
+    flex: 1;
+
+}
+button#button1 {
+    flex: 1;
+   color: #fff !important;
+   text-transform: uppercase;
+   text-decoration: none;
+   background: #ed3330;
+   padding: 20px;
+   border-radius: 5px;
+   display: inline-block;
+   border: none;
+   transition: all 0.4s ease 0s;
+}
+button#button2 {
+    flex: 1;
+}
+#modal{
+top: 0;
+    z-index: 1;
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #0000006b;
+}
+#inner-modal{
+width:70%;
+height:70%;
+    background-color: white;
+    border-radius: 25px;
+    display:flex;
+        flex-direction: column;
+}
+
+/* Tables */
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgb(83, 133, 180);
+  border-color: #313131 ;
+  color: white;
+}
+
+.oddTableRow {
+    background-color:#525252;
+         color: #ca3e47;
+
+}
+
+.tableRow { background-color:#414141;
+     color: #ca3e47;
+}
+
+tr:hover {background-color: rgba(233, 235, 154, 0.76) !important;}
+.selectedTableRow {
+    background-color: rgba(141, 186, 238, 0.76) !important;
+}
+
+
+

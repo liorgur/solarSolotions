@@ -8,122 +8,8 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Lior</title>
-    <style>
-    div#app {
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
+    <link rel="stylesheet"  type="text/css" href="style.css" media="screen"/>
 
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
-
-html {
-    width: 100%;
-    height: 100%;
-}
-div#site-list {
-    flex: 1;
-}
-
-div#main {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-}
-
-div#alerts {
-    flex: 1;
-     display: flex;
-    flex-direction: column;
-}
-div#all_alerts {
-    flex: 1;
-}
-div#site_alerts {
-    flex: 1;
-}
-
-div#site_info_div {
-    flex: 1;
-}
-
-div#chart_div {
-flex:1
-}
-
-div#table_div {
-    overflow:hidden;
-    flex:1;
-}
-
-div#meters_div {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-}
-
-button#extra_data{
-display:none;
-}
-div#tmp_gauge {
-    flex: 1;
-}
-div#volt_gauge {
-    flex: 1;
-}
-div#light_gauge {
-    flex: 1;
-}
-div#humidity_div {
-    flex: 1;
-}
-
-div#map {
-    flex: 3;
-}
-div#buttons {
-display:none;
-    flex-direction: row;
-}
-button#reset {
-    flex: 1;
-
-}
-button#button1 {
-    flex: 1;
-}
-button#button2 {
-    flex: 1;
-}
-#modal{
-top: 0;
-    z-index: 1;
-    display: none;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    justify-content: center;
-    align-items: center;
-    background-color: #0000006b;
-}
-#inner-modal{
-width:70%;
-height:70%;
-    background-color: white;
-    border-radius: 25px;
-    display:flex;
-        flex-direction: column;
-}
-
-
-
-
-    </style>
 </head>
 <body>
 <div id="modal">
@@ -146,7 +32,7 @@ height:70%;
         </div>
         <div id="buttons">
             <button id="reset" onclick="reset()">reset</button>
-            <button id="button1" onclick="button1_action()">button1</button>
+            <button id="button1" rel="nofollow noopener" onclick="button1_action()">button1</button>
             <button id="button2" onclick="button2_action()">button2</button>
         </div>
         <div id="map"></div>

@@ -13,18 +13,18 @@ function closeModal() {
     document.querySelector('#modal').style.display = 'none';
 }
 
-function button1_action(){
-    window.alert("button1_action");
+function button1_action(ip){
+    window.alert("button1_action "+ ip);
 
 }
-function button2_action() {
-window.alert("button2_action");
+function button2_action(ip) {
+window.alert("button2_action "+ ip);
 
 }
 
-function reset() {
-    window.alert("reset");
-    fetch('http://' + ip + '/api/v1/sites' + param);
+function reset(ip) {
+    window.alert("reset ip " + ip);
+    fetch('http://' + ip + "?/reset");
 }
 
 function initMap() {
@@ -55,7 +55,9 @@ function initMap() {
 
 
     getAlertsData().then(data => {
+     setTimeout(() => {
             drawAllAlerts(data);
+              }, 800)
     });
 
 
@@ -96,7 +98,6 @@ function drawSitesOnMap(map, sitesData) {
         });
         attachMassage(marker, sitesData[i]);
     }
-    //    return sitesData; //todo why neede?
 }
 
 function attachMassage(marker, massage) {
@@ -104,15 +105,15 @@ function attachMassage(marker, massage) {
         content: (massage.name)
     });
 
-    marker.addListener('click', function() {
+    marker.addListener('mouseover', function() {
         infowindow.open(marker.get('map'), marker);
     });
-    marker.addListener('dblclick', function() {
-        handleDB(massage);
+    marker.addListener('click', function() {
+        handleClick(massage);
     });
 }
 
-function handleDB(massage) {
+function handleClick(massage) {
     fetch('http://' + ip + '/api/v1/data/?ip=' + massage.ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
@@ -130,6 +131,14 @@ function handleDB(massage) {
     })
     getSitesData(massage.id).then(data => drawSiteInfo(data)) //todo remove array to json
     getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
+
+    document.querySelector('#buttons').style.display = 'flex';
+    document.querySelector('#buttons').style.flex = '1';
+    document.querySelector('#extra_data').style.display = 'flex';
+    document.getElementById("button1").onclick = function() {button1_action(massage.ip)}
+    document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
+    document.getElementById("reset").onclick = function() {reset(massage.ip)}
+
 
 }
 
@@ -168,23 +177,45 @@ function drawSiteTable(sitesData) {
 
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'name');
+    data.addColumn('string', 'ip');
+    data.addColumn('number', 'id');
+
 
     for (var i = 0; i < sitesData.length; i++) {
-        data.addRow([sitesData[i].name, ]);
+        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
+
     }
 
     data.sort({
         column: 0,
         desc: true
     });
+
+    var view = new google.visualization.DataView(data);
+
+     view.setColumns([0]);//only use the first column
+
     var table = new google.visualization.Table(document.getElementById('site-list'));
 
 
-    table.draw(data, {
+    table.draw(view, {
         width: '100%',
         height: '100%'
     });
+
+    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
+
+    function siteTableClickHandler(massage){
+        var selection = table.getSelection();
+        var item = selection[selection.length -1];
+
+       var ip = data.getFormattedValue(item.row, 1);
+       var id =  data.getFormattedValue(item.row, 2);
+       handleClick({ip,id})
 }
+}
+
+
 
 function drawMeters(data) {
 

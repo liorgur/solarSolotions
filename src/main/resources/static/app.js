@@ -22,14 +22,11 @@ window.alert("button2_action "+ ip);
 
 }
 
-function reset(ip) { //todo
-    fetch('http://' + ip + ":84?reset_off");
-    setTimeout(function(){ alert("waiting to reset on"); }, 3000);
-    fetch('http://' + ip + ":84?reset_on");
-             setTimeout(function(){  }, 100);
-
-alert("reset on");
-
+function reset(ip) {
+    window.alert("reset ip " + ip);
+//    fetch('http://' + ip + "?reset_off");
+//
+//    fetch('http://' + ip + "?reset_on");
 
 }
 
@@ -172,11 +169,26 @@ function drawDataTable(data) {
     });
     var table = new google.visualization.Table(document.getElementById('table_div'));
 
-    table.draw(data, {
-        showRowNumber: true,
-        width: '100%',
-        height: '100%'
-    });
+var options =
+     {
+       allowHtml: true,
+       showRowNumber: false,
+//       width: '100%',
+//       height: '100%'
+
+       cssClassNames: {
+         headerRow: 'headerRow',
+         tableRow: 'tableRow',
+         oddTableRow: 'oddTableRow',
+         selectedTableRow: 'selectedTableRow',
+         hoverTableRow: 'hoverTableRow',
+         headerCell: 'headerCell',
+         tableCell: 'tableCell',
+         rowNumberCell: 'rowNumberCell'
+       }
+
+     };
+    table.draw(data, options);
 }
 
 function drawSiteTable(sitesData) {
@@ -202,12 +214,28 @@ function drawSiteTable(sitesData) {
      view.setColumns([0]);//only use the first column
 
     var table = new google.visualization.Table(document.getElementById('site-list'));
+var options =
+     {
+       allowHtml: true,
+       showRowNumber: false,
+//       width: '100%',
+//       height: '100%'
+
+       cssClassNames: {
+         headerRow: 'headerRow',
+         tableRow: 'tableRow',
+         oddTableRow: 'oddTableRow',
+         selectedTableRow: 'selectedTableRow',
+         hoverTableRow: 'hoverTableRow',
+         headerCell: 'headerCell',
+         tableCell: 'tableCell',
+         rowNumberCell: 'rowNumberCell'
+       }
+
+     };
 
 
-    table.draw(view, {
-        width: '100%',
-        height: '100%'
-    });
+    table.draw(view,options);
 
     google.visualization.events.addListener(table, 'select', siteTableClickHandler);
 
@@ -315,10 +343,29 @@ function drawSiteInfo(siteInfo) {
 
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
 
-    table.draw(data, {
-        width: '100%',
-        height: '100%'
-    });
+   var options =
+        {
+          allowHtml: true,
+          showRowNumber: false,
+   //       width: '100%',
+   //       height: '100%'
+
+          cssClassNames: {
+            headerRow: 'headerRow',
+            tableRow: 'tableRow',
+            oddTableRow: 'oddTableRow',
+            selectedTableRow: 'selectedTableRow',
+            hoverTableRow: 'hoverTableRow',
+            headerCell: 'headerCell',
+            tableCell: 'tableCell',
+            rowNumberCell: 'rowNumberCell'
+          }
+
+        };
+
+
+
+       table.draw(data, options);
 }
 
 function drawSiteAlerts(alerts) {
@@ -339,10 +386,29 @@ function drawSiteAlerts(alerts) {
 
     var table = new google.visualization.Table(document.getElementById('site_alerts'));
 
-    table.draw(data, {
-        width: '100%',
-        height: '100%'
-    });
+   var options =
+        {
+          allowHtml: true,
+          showRowNumber: false,
+   //       width: '100%',
+   //       height: '100%'
+
+          cssClassNames: {
+            headerRow: 'headerRow',
+            tableRow: 'tableRow',
+            oddTableRow: 'oddTableRow',
+            selectedTableRow: 'selectedTableRow',
+            hoverTableRow: 'hoverTableRow',
+            headerCell: 'headerCell',
+            tableCell: 'tableCell',
+            rowNumberCell: 'rowNumberCell'
+          }
+
+        };
+
+
+
+       table.draw(data, options);
 }
 
 function drawAllAlerts(alerts) {
@@ -366,10 +432,33 @@ function drawAllAlerts(alerts) {
             desc: true
         });
 
-    var table = new google.visualization.Table(document.getElementById('all_alerts'));
+   var table = new google.visualization.Table(document.getElementById('all_alerts'));
+   var options =
+     {
+       allowHtml: true,
+       showRowNumber: false,
+//       width: '100%',
+//       height: '100%'
 
-    table.draw(data, {
-        width: '100%',
-        height: '100%'
-    });
+       cssClassNames: {
+         headerRow: 'headerRow',
+         tableRow: 'tableRow',
+         oddTableRow: 'oddTableRow',
+         selectedTableRow: 'selectedTableRow',
+         hoverTableRow: 'hoverTableRow',
+         headerCell: 'headerCell',
+         tableCell: 'tableCell',
+         rowNumberCell: 'rowNumberCell'
+       }
+
+     };
+
+
+
+    table.draw(data, options);
+
+//    {
+//            width: '100%',
+//            height: '100%'
+//        }
 }
