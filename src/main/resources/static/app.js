@@ -42,10 +42,14 @@ function closeModal() {
 
 function button1_action(ip){
     window.alert("button1_action "+ ip);
+         fetch('http://' + ip + ':84?buzz')
+
 
 }
 function button2_action(ip) {
 window.alert("button2_action "+ ip);
+         fetch('http://' + ip + ':84?button2')
+
 
 }
 
