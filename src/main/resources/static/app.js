@@ -4,12 +4,13 @@ var ip2  = '52.30.206.53'
 var sitsListData;
 
 window.onload = function () {
- getSitesData().then(data => fillDropDown(data))
-
+ getSitesData().then(data => {sitsListData = data;
+ fillDropDown(data);
+ initMap();
+})
 };
 
 function fillDropDown(sites){
-sitsListData = sites;
 var select = document.getElementById("sitesDropDown");
     select.options[0] = new Option("Select Site:", -1);
 
@@ -85,13 +86,14 @@ function initMap() {
     // Display the area between the location southWest and northEast.
     map.fitBounds(bounds);
 
-    getSitesData().then(data => {
-        drawSitesOnMap(map, data);
-//        setTimeout(() => {
-//            drawSiteTable(data);
-//        }, 800)
-    });
+//    getSitesData().then(data => {
+//        drawSitesOnMap(map, data);
+////        setTimeout(() => {
+////            drawSiteTable(data);
+////        }, 800)
+//    });
 
+    drawSitesOnMap(map, sitsListData);
 
     getAlertsData().then(data => {
      setTimeout(() => {
@@ -173,6 +175,7 @@ function handleSiteClick(massage) {
         drawChart(data)
         drawMeters(siteData[0])
     })
+
     getSitesData(massage.id).then(data => drawSiteInfo(data)) //todo remove array to json
     getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
 
@@ -182,6 +185,8 @@ function handleSiteClick(massage) {
     document.getElementById("button1").onclick = function() {button1_action(massage.ip)}
     document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
     document.getElementById("reset").onclick = function() {reset(massage.ip)}
+    document.getElementById("cameras").onclick = function() {goToCameras(sitsListData[massage.id-1].cameras_link)}
+
 
 
 }
@@ -197,7 +202,9 @@ function drawChart(data) {
         },
         vAxis: {
             title: 'Values'
-        }
+        },
+        width: '300%',
+               height:'300%'
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
@@ -214,8 +221,8 @@ var options =
      {
        allowHtml: true,
        showRowNumber: false,
-//       width: '100%',
-//       height: '100%'
+       width: '100%',
+       height: '100%',
 
        cssClassNames: {
          headerRow: 'headerRow',
@@ -381,8 +388,8 @@ function drawSiteInfo(siteInfo) {
         {
           allowHtml: true,
           showRowNumber: false,
-   //       width: '100%',
-   //       height: '100%'
+          width: '100%',
+          height: '100%',
 
           cssClassNames: {
             headerRow: 'headerRow',
@@ -424,8 +431,8 @@ function drawSiteAlerts(alerts) {
         {
           allowHtml: true,
           showRowNumber: false,
-   //       width: '100%',
-   //       height: '100%'
+          width: '100%',
+          height: '100%',
 
           cssClassNames: {
             headerRow: 'headerRow',
@@ -456,11 +463,6 @@ function drawAllAlerts(alerts) {
         data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
     }
 
-    data.addRow([new Date('Mar 5, 2020, 10:28:40 PM'), 'volt', 0.1]);
-    data.addRow([new Date('Mar 5, 2020, 11:28:40 PM'), 'tmp', 50.1]);
-    data.addRow([new Date('Mar 5, 2020, 12:28:40 PM'), 'volt', 35.1]);
-    data.addRow([new Date('Mar 5, 2020, 14:28:40 PM'), 'light', 0.]);
-
     data.sort({
             column: 0,
             desc: true
@@ -471,6 +473,8 @@ function drawAllAlerts(alerts) {
      {
        allowHtml: true,
        showRowNumber: false,
+                 width: '100%',
+                 height: '100%',
        cssClassNames: {
          headerRow: 'headerRow',
          tableRow: 'tableRow',
@@ -489,4 +493,4 @@ function drawAllAlerts(alerts) {
 
 function goToCameras(link)
 {
-window.open("https://www.google.com", '_blank');}
+window.open(link, '_blank');}

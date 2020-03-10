@@ -13,12 +13,7 @@
 </head>
 <body>
 
-<div class="sitesDropDown">
-    <div class="select">
-        <select id="sitesDropDown" name="sitesDropDown" onChange="OnSelectedIndexChange()">
-        </select>
-    </div>
-</div>
+
 
 <div id="modal">
     <button id="close" onclick="closeModal()">close</button>
@@ -28,8 +23,13 @@
     </div>
 </div>
 <div id="app">
-    <!--    <div id="site-list"></div>-->
     <div id="main">
+        <div class="sitesDropDown">
+            <div class="select">
+                <select id="sitesDropDown" name="sitesDropDown" onChange="OnSelectedIndexChange()">
+                </select>
+            </div>
+        </div>
         <div id="meters_div">
             <div id="tmp_gauge"></div>
             <div id="volt_gauge"></div>
@@ -41,24 +41,32 @@
             <button id="button1" rel="nofollow noopener" onclick="button1_action()">button1</button>
             <button id="button2" onclick="button2_action()">button2</button>
             <button id="extra_data" onclick="showModal()">extra_data</button>
-            <button id="cameras" onclick="goToCameras()">Cameras</button>
+            <button id="cameras">Cameras</button>
 
 
         </div>
         <div id="map"></div>
     </div>
-    <div id="alerts">
-        <label>Site Info</label>
-        <div id="site_info_div"></div>
-        <label>Site Alerts</label>
-        <div id="site_alerts"></div>
-        <label>All Alerts</label>
-        <div id="all_alerts"></div>
+    <div class="tables">
+        <div class="table">
+            <label class="lables">Site Info</label>
+            <div id="site_info_div"></div>
+        </div>
+
+        <div class="table">
+            <label class="lables">Site Alerts</label>
+            <div id="site_alerts"></div>
+        </div>
+
+        <div class="table">
+            <label class="lables">All Alerts</label>
+            <div id="all_alerts"></div>
+        </div>
     </div>
 </div>
 
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_h2O6ZXzUWt5xBBO3kBufhGeL6HWJ6bM&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_h2O6ZXzUWt5xBBO3kBufhGeL6HWJ6bM">
 </script>
 </body>
 </html>

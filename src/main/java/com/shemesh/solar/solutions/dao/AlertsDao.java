@@ -16,7 +16,7 @@ import static com.shemesh.solar.solutions.models.Objects.Tables.*;
 @Component
 @Slf4j
 public class AlertsDao {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd : HH:mm:ss");
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd : HH:mm:ss");
 
     public String CreateResetAlertQuery(int site_id) {
         return " UPDATE " + ALERTS_TABLE +
@@ -26,10 +26,12 @@ public class AlertsDao {
 
     public String CreateGetAlertsQuery(Integer site_id) {
         String where = (site_id != null) ? "WHERE site_id = " + site_id : " ";
+        String limit = " LIMIT " + ((site_id != null) ? " 10 " : " 20 ");
 
         return " SELECT * " +
                 " FROM  " + ALERTS_TABLE + " " +
-                where;
+                where +
+                limit ;
     }
 
     public String CreateAlertQuery(Alert alert) {
