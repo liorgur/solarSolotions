@@ -203,8 +203,8 @@ function drawChart(data) {
         vAxis: {
             title: 'Values'
         },
-        width: 100,
-               height: 100,
+        width: '300%',
+               height:'300%'
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
     chart.draw(data, options);
@@ -341,11 +341,13 @@ function drawMeters(data) {
     var light_options = {
         width: 600,
         height: 200,
-        redFrom: 90,
-        redTo: 100,
-        yellowFrom: 75,
-        yellowTo: 90,
-        minorTicks: 5
+        redFrom: 900,
+        redTo: 1024,
+        yellowFrom: 700,
+        yellowTo: 900,
+        minorTicks: 50,
+        majorTicks:['200','400','600','800'],
+        max:1024
     };
 
     var tmp_gauge = new google.visualization.Gauge(document.getElementById('tmp_gauge'));

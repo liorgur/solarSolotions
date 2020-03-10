@@ -341,11 +341,13 @@ function drawMeters(data) {
     var light_options = {
         width: 600,
         height: 200,
-        redFrom: 90,
-        redTo: 100,
-        yellowFrom: 75,
-        yellowTo: 90,
-        minorTicks: 5
+        redFrom: 900,
+        redTo: 1024,
+        yellowFrom: 700,
+        yellowTo: 900,
+        minorTicks: 5,
+//        majorTicks:['0','200','400','600','800'],
+        max:1024
     };
 
     var tmp_gauge = new google.visualization.Gauge(document.getElementById('tmp_gauge'));

@@ -83,7 +83,7 @@ public class SiteController {
                     .body(newSiteResponse);
         } catch (SQLException e) {
             e.printStackTrace();
-            log.error("Get All  Ste Error " + e.getMessage());
+            log.error("Get All Site Error " + e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Get All Site Failed");
