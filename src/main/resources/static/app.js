@@ -1,5 +1,5 @@
-var ip2 = 'localhost:8082'
-var ip = '52.30.206.53'
+var ip = 'localhost:8082'
+var ip2  = '52.30.206.53'
 
 var sitsListData;
 
@@ -11,8 +11,10 @@ window.onload = function () {
 function fillDropDown(sites){
 sitsListData = sites;
 var select = document.getElementById("sitesDropDown");
+    select.options[0] = new Option("Select Site:", -1);
+
     for (var i = 0; i < sites.length; ++i) {
-    select.options[select.options.length] = new Option(sites[i].name, sites[i].site_id);}
+    select.options[i+1] = new Option(sites[i].name, sites[i].site_id);}
 }
 
 
@@ -20,11 +22,10 @@ function OnSelectedIndexChange(){
 
 var site_name = document.getElementById('sitesDropDown').value;
 var site_id = document.getElementById('sitesDropDown').selectedIndex;
-//handleClick({sitsListData[site_id].ip,sitsListData[site_id].id})
 
-var ip = sitsListData[site_id].ip
-var id = sitsListData[site_id].id
-handleClick({ip,id});
+var ip = sitsListData[site_id-1].ip
+var id = sitsListData[site_id-1].id
+handleSiteClick({ip,id});
 
 }
 
@@ -150,11 +151,13 @@ function attachMassage(marker, massage) {
         infowindow.open(marker.get('map'), marker);
     });
     marker.addListener('click', function() {
-        handleClick(massage);
+        handleSiteClick(massage);
     });
 }
 
-function handleClick(massage) {
+function handleSiteClick(massage) {
+    var select = document.getElementById("sitesDropDown");
+    select.selectedIndex = massage.id
     fetch('http://' + ip + '/api/v1/data/?ip=' + massage.ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
@@ -168,7 +171,7 @@ function handleClick(massage) {
         }
         drawDataTable(data)
         drawChart(data)
-        drawMeters(siteData[siteData.length - 1])
+        drawMeters(siteData[0])
     })
     getSitesData(massage.id).then(data => drawSiteInfo(data)) //todo remove array to json
     getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
@@ -229,70 +232,54 @@ var options =
     table.draw(data, options);
 }
 
-function siteDropDownList(sitesData) {
-
-}
-
-
-function drawSiteTable(sitesData) {
-
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'name');
-    data.addColumn('string', 'ip');
-    data.addColumn('number', 'id');
-
-
-    for (var i = 0; i < sitesData.length; i++) {
-        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
-
-    }
-
-    data.sort({
-        column: 0,
-        desc: true
-    });
-
-    var view = new google.visualization.DataView(data);
-
-     view.setColumns([0]);//only use the first column
-
-    var table = new google.visualization.Table(document.getElementById('site-list'));
-var options =
-     {
-       allowHtml: true,
-       showRowNumber: false,
-//       width: '100%',
-//       height: '100%'
-
-       cssClassNames: {
-         headerRow: 'headerRow',
-         tableRow: 'tableRow',
-         oddTableRow: 'oddTableRow',
-         selectedTableRow: 'selectedTableRow',
-         hoverTableRow: 'hoverTableRow',
-         headerCell: 'headerCell',
-         tableCell: 'tableCell',
-         rowNumberCell: 'rowNumberCell'
-       }
-
-     };
-
-
-    table.draw(view,options);
-
-    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
-
-    function siteTableClickHandler(massage){
-        var selection = table.getSelection();
-        var item = selection[selection.length -1];
-
-       var ip = data.getFormattedValue(item.row, 1);
-       var id =  data.getFormattedValue(item.row, 2);
-       handleClick({ip,id})
-}
-}
-
-
+//function drawSiteTable(sitesData) {
+//
+//    const data = new google.visualization.DataTable();
+//    data.addColumn('string', 'name');
+//    data.addColumn('string', 'ip');
+//    data.addColumn('number', 'id');
+//
+//    for (var i = 0; i < sitesData.length; i++) {
+//        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
+//    }
+//
+//    data.sort({
+//        column: 0,
+//        desc: true
+//    });
+//
+//    var view = new google.visualization.DataView(data);
+//    view.setColumns([0]);//only use the first column
+//
+//    var table = new google.visualization.Table(document.getElementById('site-list'));
+//    var options =
+//     {
+//       allowHtml: true,
+//       showRowNumber: false,
+//
+//       cssClassNames: {
+//         headerRow: 'headerRow',
+//         tableRow: 'tableRow',
+//         oddTableRow: 'oddTableRow',
+//         selectedTableRow: 'selectedTableRow',
+//         hoverTableRow: 'hoverTableRow',
+//         headerCell: 'headerCell',
+//         tableCell: 'tableCell',
+//         rowNumberCell: 'rowNumberCell'
+//       }
+//     };
+//    table.draw(view,options);
+//    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
+//
+//    function siteTableClickHandler(massage){
+//        var selection = table.getSelection();
+//        var item = selection[selection.length -1];
+//
+//       var ip = data.getFormattedValue(item.row, 1);
+//       var id =  data.getFormattedValue(item.row, 2);
+//       handleSiteClick({ip,id})
+//}
+//}
 
 function drawMeters(data) {
 
@@ -318,7 +305,7 @@ function drawMeters(data) {
 
     var tmp_options = {
         width: 500,
-        height: 150,
+        height: 200,
         redFrom: 60,
         redTo: 100,
         yellowFrom: 40,
@@ -327,7 +314,7 @@ function drawMeters(data) {
     };
     var humidity_options = {
         width: 500,
-        height: 150,
+        height: 200,
         redFrom: 60,
         redTo: 100,
         yellowFrom: 40,
@@ -335,8 +322,8 @@ function drawMeters(data) {
         minorTicks: 5
     };
     var volt_options = {
-        width: 600,
-        height: 150,
+        width: 200,
+        height: 200,
         redFrom: 30,
         redTo: 40,
         yellowFrom: 0,
@@ -346,7 +333,7 @@ function drawMeters(data) {
     };
     var light_options = {
         width: 600,
-        height: 150,
+        height: 200,
         redFrom: 90,
         redTo: 100,
         yellowFrom: 75,
@@ -377,12 +364,16 @@ function drawSiteInfo(siteInfo) {
 
     data.addRow(['name', siteInfo[0].name]); //todo remove array
     data.addRow(['ip', siteInfo[0].ip]);
-    data.addRow(['lat', siteInfo[0].lat.toString()]);
-    data.addRow(['lon', siteInfo[0].lon.toString()]);
+    data.addRow(['location', siteInfo[0].lat.toString()   + " , " +  siteInfo[0].lon.toString()]);
     data.addRow(['description', siteInfo[0].description]);
-    data.addRow(['id', siteInfo[0].id.toString()]);
+    data.addRow(['cameras_link', siteInfo[0].cameras_link]);
     data.addRow(['provider1', siteInfo[0].provider1]);
     data.addRow(['provider2', siteInfo[0].provider2]);
+    data.addRow(['provider3', siteInfo[0].provider3]);
+    data.addRow(['provider4', siteInfo[0].provider4]);
+    data.addRow(['id', siteInfo[0].id.toString()]);
+
+
 
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
 
@@ -480,9 +471,6 @@ function drawAllAlerts(alerts) {
      {
        allowHtml: true,
        showRowNumber: false,
-//       width: '100%',
-//       height: '100%'
-
        cssClassNames: {
          headerRow: 'headerRow',
          tableRow: 'tableRow',
@@ -493,15 +481,12 @@ function drawAllAlerts(alerts) {
          tableCell: 'tableCell',
          rowNumberCell: 'rowNumberCell'
        }
-
      };
-
-
 
     table.draw(data, options);
 
-//    {
-//            width: '100%',
-//            height: '100%'
-//        }
 }
+
+function goToCameras(link)
+{
+window.open("https://www.google.com", '_blank');}

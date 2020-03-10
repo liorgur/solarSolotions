@@ -1,5 +1,33 @@
-var ip2 = 'localhost:8082'
-var ip = '52.30.206.53'
+var ip = 'localhost:8082'
+var ip2  = '52.30.206.53'
+
+var sitsListData;
+
+window.onload = function () {
+ getSitesData().then(data => fillDropDown(data))
+
+};
+
+function fillDropDown(sites){
+sitsListData = sites;
+var select = document.getElementById("sitesDropDown");
+    select.options[0] = new Option("Select Site:", -1);
+
+    for (var i = 0; i < sites.length; ++i) {
+    select.options[i+1] = new Option(sites[i].name, sites[i].site_id);}
+}
+
+
+function OnSelectedIndexChange(){
+
+var site_name = document.getElementById('sitesDropDown').value;
+var site_id = document.getElementById('sitesDropDown').selectedIndex;
+
+var ip = sitsListData[site_id-1].ip
+var id = sitsListData[site_id-1].id
+handleSiteClick({ip,id});
+
+}
 
 google.charts.load('current', {
     packages: ['corechart', 'line', 'table', 'gauge']
@@ -15,16 +43,27 @@ function closeModal() {
 
 function button1_action(ip){
     window.alert("button1_action "+ ip);
+         fetch('http://' + ip + ':84?buzz')
+
 
 }
 function button2_action(ip) {
 window.alert("button2_action "+ ip);
+         fetch('http://' + ip + ':84?button2')
+
 
 }
 
-function reset(ip) {
+ function reset(ip) {
     window.alert("reset ip " + ip);
-    fetch('http://' + ip + "?/reset");
+     fetch('http://' + ip + ':84?reset_off')
+drawSitesOnMap(map, data);
+        setTimeout(() => {
+fetch('http://' + ip + '84?reset_on');
+    window.alert("reset on ip " + ip) + " done ";
+
+        }, 800)
+
 }
 
 function initMap() {
@@ -48,9 +87,9 @@ function initMap() {
 
     getSitesData().then(data => {
         drawSitesOnMap(map, data);
-        setTimeout(() => {
-            drawSiteTable(data);
-        }, 800)
+//        setTimeout(() => {
+//            drawSiteTable(data);
+//        }, 800)
     });
 
 
@@ -92,9 +131,10 @@ function drawSitesOnMap(map, sitesData) {
         var marker = new google.maps.Marker({
             position: {
                 lat: sitesData[i].lat,
-                lng: sitesData[i].lon
+                lng: sitesData[i].lon,
             },
             map: map
+
         });
         attachMassage(marker, sitesData[i]);
     }
@@ -102,18 +142,22 @@ function drawSitesOnMap(map, sitesData) {
 
 function attachMassage(marker, massage) {
     var infowindow = new google.maps.InfoWindow({
-        content: (massage.name)
+        content: '<div id="infowindow">' +(massage.name) +  '</div>'
+
     });
+
 
     marker.addListener('mouseover', function() {
         infowindow.open(marker.get('map'), marker);
     });
     marker.addListener('click', function() {
-        handleClick(massage);
+        handleSiteClick(massage);
     });
 }
 
-function handleClick(massage) {
+function handleSiteClick(massage) {
+    var select = document.getElementById("sitesDropDown");
+    select.selectedIndex = massage.id
     fetch('http://' + ip + '/api/v1/data/?ip=' + massage.ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
@@ -133,7 +177,7 @@ function handleClick(massage) {
     getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
 
     document.querySelector('#buttons').style.display = 'flex';
-    document.querySelector('#buttons').style.flex = '1';
+    document.querySelector('#buttons').style.flex = '0.2';
     document.querySelector('#extra_data').style.display = 'flex';
     document.getElementById("button1").onclick = function() {button1_action(massage.ip)}
     document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
@@ -166,56 +210,76 @@ function drawDataTable(data) {
     });
     var table = new google.visualization.Table(document.getElementById('table_div'));
 
-    table.draw(data, {
-        showRowNumber: true,
-        width: '100%',
-        height: '100%'
-    });
+var options =
+     {
+       allowHtml: true,
+       showRowNumber: false,
+//       width: '100%',
+//       height: '100%'
+
+       cssClassNames: {
+         headerRow: 'headerRow',
+         tableRow: 'tableRow',
+         oddTableRow: 'oddTableRow',
+         selectedTableRow: 'selectedTableRow',
+         hoverTableRow: 'hoverTableRow',
+         headerCell: 'headerCell',
+         tableCell: 'tableCell',
+         rowNumberCell: 'rowNumberCell'
+       }
+
+     };
+    table.draw(data, options);
 }
 
-function drawSiteTable(sitesData) {
-
-    const data = new google.visualization.DataTable();
-    data.addColumn('string', 'name');
-    data.addColumn('string', 'ip');
-    data.addColumn('number', 'id');
-
-
-    for (var i = 0; i < sitesData.length; i++) {
-        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
-
-    }
-
-    data.sort({
-        column: 0,
-        desc: true
-    });
-
-    var view = new google.visualization.DataView(data);
-
-     view.setColumns([0]);//only use the first column
-
-    var table = new google.visualization.Table(document.getElementById('site-list'));
-
-
-    table.draw(view, {
-        width: '100%',
-        height: '100%'
-    });
-
-    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
-
-    function siteTableClickHandler(massage){
-        var selection = table.getSelection();
-        var item = selection[selection.length -1];
-
-       var ip = data.getFormattedValue(item.row, 1);
-       var id =  data.getFormattedValue(item.row, 2);
-       handleClick({ip,id})
-}
-}
-
-
+//function drawSiteTable(sitesData) {
+//
+//    const data = new google.visualization.DataTable();
+//    data.addColumn('string', 'name');
+//    data.addColumn('string', 'ip');
+//    data.addColumn('number', 'id');
+//
+//    for (var i = 0; i < sitesData.length; i++) {
+//        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
+//    }
+//
+//    data.sort({
+//        column: 0,
+//        desc: true
+//    });
+//
+//    var view = new google.visualization.DataView(data);
+//    view.setColumns([0]);//only use the first column
+//
+//    var table = new google.visualization.Table(document.getElementById('site-list'));
+//    var options =
+//     {
+//       allowHtml: true,
+//       showRowNumber: false,
+//
+//       cssClassNames: {
+//         headerRow: 'headerRow',
+//         tableRow: 'tableRow',
+//         oddTableRow: 'oddTableRow',
+//         selectedTableRow: 'selectedTableRow',
+//         hoverTableRow: 'hoverTableRow',
+//         headerCell: 'headerCell',
+//         tableCell: 'tableCell',
+//         rowNumberCell: 'rowNumberCell'
+//       }
+//     };
+//    table.draw(view,options);
+//    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
+//
+//    function siteTableClickHandler(massage){
+//        var selection = table.getSelection();
+//        var item = selection[selection.length -1];
+//
+//       var ip = data.getFormattedValue(item.row, 1);
+//       var id =  data.getFormattedValue(item.row, 2);
+//       handleSiteClick({ip,id})
+//}
+//}
 
 function drawMeters(data) {
 
@@ -241,7 +305,7 @@ function drawMeters(data) {
 
     var tmp_options = {
         width: 500,
-        height: 150,
+        height: 200,
         redFrom: 60,
         redTo: 100,
         yellowFrom: 40,
@@ -250,7 +314,7 @@ function drawMeters(data) {
     };
     var humidity_options = {
         width: 500,
-        height: 150,
+        height: 200,
         redFrom: 60,
         redTo: 100,
         yellowFrom: 40,
@@ -258,8 +322,8 @@ function drawMeters(data) {
         minorTicks: 5
     };
     var volt_options = {
-        width: 600,
-        height: 150,
+        width: 200,
+        height: 200,
         redFrom: 30,
         redTo: 40,
         yellowFrom: 0,
@@ -269,7 +333,7 @@ function drawMeters(data) {
     };
     var light_options = {
         width: 600,
-        height: 150,
+        height: 200,
         redFrom: 90,
         redTo: 100,
         yellowFrom: 75,
@@ -300,19 +364,42 @@ function drawSiteInfo(siteInfo) {
 
     data.addRow(['name', siteInfo[0].name]); //todo remove array
     data.addRow(['ip', siteInfo[0].ip]);
-    data.addRow(['lat', siteInfo[0].lat.toString()]);
-    data.addRow(['lon', siteInfo[0].lon.toString()]);
+    data.addRow(['location', siteInfo[0].lat.toString()   + " , " +  siteInfo[0].lon.toString()]);
     data.addRow(['description', siteInfo[0].description]);
-    data.addRow(['id', siteInfo[0].id.toString()]);
+    data.addRow(['cameras_link', siteInfo[0].cameras_link]);
     data.addRow(['provider1', siteInfo[0].provider1]);
     data.addRow(['provider2', siteInfo[0].provider2]);
+    data.addRow(['provider3', siteInfo[0].provider3]);
+    data.addRow(['provider4', siteInfo[0].provider4]);
+    data.addRow(['id', siteInfo[0].id.toString()]);
+
+
 
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
 
-    table.draw(data, {
-        width: '100%',
-        height: '100%'
-    });
+   var options =
+        {
+          allowHtml: true,
+          showRowNumber: false,
+   //       width: '100%',
+   //       height: '100%'
+
+          cssClassNames: {
+            headerRow: 'headerRow',
+            tableRow: 'tableRow',
+            oddTableRow: 'oddTableRow',
+            selectedTableRow: 'selectedTableRow',
+            hoverTableRow: 'hoverTableRow',
+            headerCell: 'headerCell',
+            tableCell: 'tableCell',
+            rowNumberCell: 'rowNumberCell'
+          }
+
+        };
+
+
+
+       table.draw(data, options);
 }
 
 function drawSiteAlerts(alerts) {
@@ -326,12 +413,36 @@ function drawSiteAlerts(alerts) {
         data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
     }
 
+    data.sort({
+            column: 0,
+            desc: true
+        });
+
     var table = new google.visualization.Table(document.getElementById('site_alerts'));
 
-    table.draw(data, {
-        width: '100%',
-        height: '100%'
-    });
+   var options =
+        {
+          allowHtml: true,
+          showRowNumber: false,
+   //       width: '100%',
+   //       height: '100%'
+
+          cssClassNames: {
+            headerRow: 'headerRow',
+            tableRow: 'tableRow',
+            oddTableRow: 'oddTableRow',
+            selectedTableRow: 'selectedTableRow',
+            hoverTableRow: 'hoverTableRow',
+            headerCell: 'headerCell',
+            tableCell: 'tableCell',
+            rowNumberCell: 'rowNumberCell'
+          }
+
+        };
+
+
+
+       table.draw(data, options);
 }
 
 function drawAllAlerts(alerts) {
@@ -345,17 +456,37 @@ function drawAllAlerts(alerts) {
         data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
     }
 
-
     data.addRow([new Date('Mar 5, 2020, 10:28:40 PM'), 'volt', 0.1]);
     data.addRow([new Date('Mar 5, 2020, 11:28:40 PM'), 'tmp', 50.1]);
     data.addRow([new Date('Mar 5, 2020, 12:28:40 PM'), 'volt', 35.1]);
     data.addRow([new Date('Mar 5, 2020, 14:28:40 PM'), 'light', 0.]);
 
+    data.sort({
+            column: 0,
+            desc: true
+        });
 
-    var table = new google.visualization.Table(document.getElementById('all_alerts'));
+   var table = new google.visualization.Table(document.getElementById('all_alerts'));
+   var options =
+     {
+       allowHtml: true,
+       showRowNumber: false,
+       cssClassNames: {
+         headerRow: 'headerRow',
+         tableRow: 'tableRow',
+         oddTableRow: 'oddTableRow',
+         selectedTableRow: 'selectedTableRow',
+         hoverTableRow: 'hoverTableRow',
+         headerCell: 'headerCell',
+         tableCell: 'tableCell',
+         rowNumberCell: 'rowNumberCell'
+       }
+     };
 
-    table.draw(data, {
-        width: '100%',
-        height: '100%'
-    });
+    table.draw(data, options);
+
 }
+
+function goToCameras(link)
+{
+window.open("https://www.google.com", '_blank');}

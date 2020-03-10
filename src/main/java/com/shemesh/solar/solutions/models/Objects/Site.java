@@ -28,6 +28,7 @@ public class Site {
     private String provider2;
     private String provider3;
     private String provider4;
+    private String cameras_link;
 
 
 

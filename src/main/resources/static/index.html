@@ -19,6 +19,7 @@
         </select>
     </div>
 </div>
+
 <div id="modal">
     <button id="close" onclick="closeModal()">close</button>
     <div id="inner-modal">
@@ -34,18 +35,24 @@
             <div id="volt_gauge"></div>
             <div id="light_gauge"></div>
             <div id="humidity_gauge"></div>
-            <button id="extra_data" onclick="showModal()">extra_data</button>
         </div>
         <div id="buttons">
             <button id="reset" onclick="reset()">reset</button>
             <button id="button1" rel="nofollow noopener" onclick="button1_action()">button1</button>
             <button id="button2" onclick="button2_action()">button2</button>
+            <button id="extra_data" onclick="showModal()">extra_data</button>
+            <button id="cameras" onclick="goToCameras()">Cameras</button>
+
+
         </div>
         <div id="map"></div>
     </div>
     <div id="alerts">
+        <label>Site Info</label>
         <div id="site_info_div"></div>
+        <label>Site Alerts</label>
         <div id="site_alerts"></div>
+        <label>All Alerts</label>
         <div id="all_alerts"></div>
     </div>
 </div>
