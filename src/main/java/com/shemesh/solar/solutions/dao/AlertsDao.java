@@ -1,5 +1,6 @@
 package com.shemesh.solar.solutions.dao;
 
+import com.shemesh.solar.solutions.models.Enums.AlertType;
 import com.shemesh.solar.solutions.models.Objects.Alert;
 import com.shemesh.solar.solutions.models.Requests.SendDataRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +25,27 @@ public class AlertsDao {
                 " WHERE site_id = " + site_id;
     }
 
-    public String CreateGetAlertsQuery(Integer site_id) {
-        String where = (site_id != null) ? "WHERE site_id = " + site_id : " ";
-        String limit = " LIMIT " + ((site_id != null) ? " 10 " : " 20 ");
+    public String UpdateAlertStatusTrue(String ip, float value, AlertType type) {
+        Date date = new Date(System.currentTimeMillis());
 
-        return " SELECT * " +
-                " FROM  " + ALERTS_TABLE + " " +
-                where +
-                limit ;
+        return " UPDATE " + ALERTS_TABLE +
+                " SET status = 0, time ='" +   formatter.format(date) + "' , value = " + value + " " +
+                " WHERE site_id =  (select id from "+SITES_TABLE+" where ip = '" + ip+  "')" + " and `type` = '" +  type + "'";
+    }
+
+    public String UpdateAlertStatus(String ip, AlertType type) {
+        return " UPDATE " + ALERTS_TABLE +
+                " SET status = status +1" +
+                " " +
+                " WHERE site_id =  (select id from "+SITES_TABLE+" where ip = '" + ip+  "')" + " and `type` = '" +  type + "' and status < 5";
+    }
+
+
+        public String CreateGetAlertsQuery(Integer site_id) {
+        String query = " SELECT time, name, type, value, status " +
+                " FROM " + ALERTS_TABLE+ " a inner join " + SITES_TABLE + " s on a.site_id = s.id " +
+                " WHERE status < 5 "  + ((site_id != null) ? "and site_id = " + site_id : " ") ;
+        return query;
     }
 
     public String CreateAlertQuery(Alert alert) {

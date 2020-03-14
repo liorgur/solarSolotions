@@ -2,11 +2,15 @@ var ip = 'localhost:8082'
 var ip2  = '52.30.206.53'
 
 var sitsListData;
+var map;
 
 window.onload = function () {
  getSitesData().then(data => {sitsListData = data;
  fillDropDown(data);
  initMap();
+ handleSiteClick(1);
+// document.getElementById('sitesDropDown').selectedIndex = 1
+
 })
 };
 
@@ -26,7 +30,7 @@ var site_id = document.getElementById('sitesDropDown').selectedIndex;
 
 var ip = sitsListData[site_id-1].ip
 var id = sitsListData[site_id-1].id
-handleSiteClick({ip,id});
+handleSiteClick(site_id);
 
 }
 
@@ -68,8 +72,8 @@ fetch('http://' + ip + '84?reset_on');
 }
 
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 9,
         center: {
             lat: 32.1192362,
             lng: 35.5750295
@@ -77,8 +81,8 @@ function initMap() {
     });
 
     var bounds = {
-        north: 32.1,
-        south: 32.2,
+        north: 32.0,
+        south: 32.3,
         east: 34.90,
         west: 34.80
     };
@@ -153,14 +157,15 @@ function attachMassage(marker, massage) {
         infowindow.open(marker.get('map'), marker);
     });
     marker.addListener('click', function() {
-        handleSiteClick(massage);
+        handleSiteClick(massage.id);
     });
 }
 
-function handleSiteClick(massage) {
+function handleSiteClick(id) {
+    var site_ip = sitsListData[id-1].ip
     var select = document.getElementById("sitesDropDown");
-    select.selectedIndex = massage.id
-    fetch('http://' + ip + '/api/v1/data/?ip=' + massage.ip).then(data => data.json()).then((jsonDataRaw) => {
+    select.selectedIndex = id
+    fetch('http://' + ip + '/api/v1/data/?ip=' + site_ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'time');
@@ -176,8 +181,8 @@ function handleSiteClick(massage) {
         drawMeters(siteData[0])
     })
 
-    getSitesData(massage.id).then(data => drawSiteInfo(data)) //todo remove array to json
-    getAlertsData(massage.id).then(data => drawSiteAlerts(data)) //todo remove array to json
+    getSitesData(id).then(data => drawSiteInfo(data)) //todo remove array to json
+    getAlertsData(id).then(data => drawSiteAlerts(data)) //todo remove array to json
 
     document.querySelector('#buttons').style.display = 'flex';
     document.querySelector('#buttons').style.flex = '0.2';
@@ -186,7 +191,17 @@ function handleSiteClick(massage) {
     document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
     document.getElementById("reset").onclick = function() {reset(massage.ip)}
     document.getElementById("cameras").onclick = function() {goToCameras(sitsListData[massage.id-1].cameras_link)}
+        var bounds = {
+        north: sitsListData[id-1].lat - 0.1,
+        south: sitsListData[id-1].lat + 0.1,
+//        east: sitsListData[massage.id-1].lon - 0.1,
+//        west: sitsListData[massage.id-1].lon + 0.1,
+   east: 34.90,
+        west: 34.80
+    };
 
+    // Display the area between the location southWest and northEast.
+    map.fitBounds(bounds);
 
 
 }
@@ -238,55 +253,6 @@ var options =
      };
     table.draw(data, options);
 }
-
-//function drawSiteTable(sitesData) {
-//
-//    const data = new google.visualization.DataTable();
-//    data.addColumn('string', 'name');
-//    data.addColumn('string', 'ip');
-//    data.addColumn('number', 'id');
-//
-//    for (var i = 0; i < sitesData.length; i++) {
-//        data.addRow([sitesData[i].name, sitesData[i].ip,sitesData[i].id,]);
-//    }
-//
-//    data.sort({
-//        column: 0,
-//        desc: true
-//    });
-//
-//    var view = new google.visualization.DataView(data);
-//    view.setColumns([0]);//only use the first column
-//
-//    var table = new google.visualization.Table(document.getElementById('site-list'));
-//    var options =
-//     {
-//       allowHtml: true,
-//       showRowNumber: false,
-//
-//       cssClassNames: {
-//         headerRow: 'headerRow',
-//         tableRow: 'tableRow',
-//         oddTableRow: 'oddTableRow',
-//         selectedTableRow: 'selectedTableRow',
-//         hoverTableRow: 'hoverTableRow',
-//         headerCell: 'headerCell',
-//         tableCell: 'tableCell',
-//         rowNumberCell: 'rowNumberCell'
-//       }
-//     };
-//    table.draw(view,options);
-//    google.visualization.events.addListener(table, 'select', siteTableClickHandler);
-//
-//    function siteTableClickHandler(massage){
-//        var selection = table.getSelection();
-//        var item = selection[selection.length -1];
-//
-//       var ip = data.getFormattedValue(item.row, 1);
-//       var id =  data.getFormattedValue(item.row, 2);
-//       handleSiteClick({ip,id})
-//}
-//}
 
 function drawMeters(data) {
 
@@ -345,8 +311,8 @@ function drawMeters(data) {
         redTo: 1024,
         yellowFrom: 700,
         yellowTo: 900,
-        minorTicks: 50,
-        majorTicks:['200','400','600','800'],
+        minorTicks: 5,
+//        majorTicks:['0','200','400','600','800'],
         max:1024
     };
 
@@ -373,16 +339,14 @@ function drawSiteInfo(siteInfo) {
 
     data.addRow(['name', siteInfo[0].name]); //todo remove array
     data.addRow(['ip', siteInfo[0].ip]);
-    data.addRow(['location', siteInfo[0].lat.toString()   + " , " +  siteInfo[0].lon.toString()]);
+//    data.addRow(['location', siteInfo[0].lat.toString()   + " , " +  siteInfo[0].lon.toString()]);
     data.addRow(['description', siteInfo[0].description]);
-    data.addRow(['cameras_link', siteInfo[0].cameras_link]);
+//    data.addRow(['cameras_link', siteInfo[0].cameras_link]);
     data.addRow(['provider1', siteInfo[0].provider1]);
     data.addRow(['provider2', siteInfo[0].provider2]);
     data.addRow(['provider3', siteInfo[0].provider3]);
     data.addRow(['provider4', siteInfo[0].provider4]);
-    data.addRow(['id', siteInfo[0].id.toString()]);
-
-
+//    data.addRow(['id', siteInfo[0].id.toString()]);
 
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
 
@@ -403,11 +367,7 @@ function drawSiteInfo(siteInfo) {
             tableCell: 'tableCell',
             rowNumberCell: 'rowNumberCell'
           }
-
         };
-
-
-
        table.draw(data, options);
 }
 
@@ -415,11 +375,12 @@ function drawSiteAlerts(alerts) {
 
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'time');
+    data.addColumn('string', 'name');
     data.addColumn('string', 'type');
     data.addColumn('number', 'value');
 
     for (var i = 0; i < alerts.length; i++) {
-        data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
+        data.addRow([new Date(alerts[i].time), alerts[i].name, alerts[i].type, alerts[i].value]);
     }
 
     data.sort({
@@ -446,24 +407,22 @@ function drawSiteAlerts(alerts) {
             tableCell: 'tableCell',
             rowNumberCell: 'rowNumberCell'
           }
-
         };
-
-
-
        table.draw(data, options);
 }
 
 function drawAllAlerts(alerts) {
 
     var data = new google.visualization.DataTable();
-    data.addColumn('datetime', 'time');
-    data.addColumn('string', 'type');
-    data.addColumn('number', 'value');
+        data.addColumn('datetime', 'time');
+        data.addColumn('string', 'name');
+        data.addColumn('string', 'type');
+        data.addColumn('number', 'value');
 
-    for (var i = 0; i < alerts.length; i++) {
-        data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
-    }
+        for (var i = 0; i < alerts.length; i++) {
+            data.addRow([new Date(alerts[i].time), alerts[i].name, alerts[i].type, alerts[i].value]);
+        }
+
 
     data.sort({
             column: 0,

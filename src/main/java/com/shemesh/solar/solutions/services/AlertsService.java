@@ -1,22 +1,18 @@
 package com.shemesh.solar.solutions.services;
 
 import com.shemesh.solar.solutions.dao.AlertsDao;
-import com.shemesh.solar.solutions.dao.DataDao;
 import com.shemesh.solar.solutions.models.Enums.AlertType;
 import com.shemesh.solar.solutions.models.Objects.Alert;
 import com.shemesh.solar.solutions.models.Requests.SendDataRequest;
 import com.shemesh.solar.solutions.models.Responses.AlertResponse;
 import com.shemesh.solar.solutions.utils.DbHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -35,32 +31,27 @@ public class AlertsService {
     private Date lastVoltAlert;
 
 
-
     public void CreateAlert(Alert alert) throws SQLException {
         String queryCreateAlert = dao.CreateAlertQuery(alert);
         dbHelper.executeQuery(queryCreateAlert);
     }
 
-    public void CreateAlertIfNeeded(SendDataRequest request) throws SQLException {
+    public void SetAlertStatus(SendDataRequest request) throws SQLException {
         Timestamp date = new Timestamp(System.currentTimeMillis());
-
-        if (isTmpAlert(request)) {
-            CreateAlert(new Alert(0, request.getIp(), date, AlertType.TMP, request.getTmp(), false));
-            lastTmpAlert = new Date(System.currentTimeMillis());
+        if ((request.getVolt() < 23 || request.getVolt() > 30)) {
+            String queryUpdateStatusTrue = dao.UpdateAlertStatusTrue(request.getIp(),request.getVolt(), AlertType.VOLT);
+            dbHelper.executeQuery(queryUpdateStatusTrue);
+        } else {
+            String updateAlertStatus = dao.UpdateAlertStatus(request.getIp(), AlertType.VOLT);
+            dbHelper.executeQuery(updateAlertStatus);
         }
-        if (isVoltAlert(request)) {
-            CreateAlert(new Alert(0, request.getIp(), date, AlertType.VOLT, request.getVolt(), false));
-            lastVoltAlert = new Date(System.currentTimeMillis());
+        if (request.getTmp() > 40 || request.getTmp() < 0) {
+            String queryUpdateStatusTrue = dao.UpdateAlertStatusTrue(request.getIp(),request.getTmp(), AlertType.TMP);
+            dbHelper.executeQuery(queryUpdateStatusTrue);
+        } else {
+            String updateAlertStatus = dao.UpdateAlertStatus(request.getIp(), AlertType.TMP);
+            dbHelper.executeQuery(updateAlertStatus);        }
 
-        }
-    }
-
-    private boolean isVoltAlert(SendDataRequest request) {
-        return (lastVoltAlert == null || (DateUtils.addHours(lastVoltAlert, 1)).before(new Date(System.currentTimeMillis()))) && (request.getVolt() < 23 || request.getVolt() > 30);
-    }
-
-    private boolean isTmpAlert(SendDataRequest request) {
-        return (lastTmpAlert == null || (DateUtils.addHours(lastTmpAlert, 1)).before(new Date(System.currentTimeMillis()))) && (request.getTmp() > 40 || request.getTmp() < 0);
     }
 
     public AlertResponse GetAlerts(Integer site_id) throws SQLException {
@@ -80,11 +71,11 @@ public class AlertsService {
             while (resultSet.next()) {
                 String type = resultSet.getString("type");
                 Timestamp time = resultSet.getTimestamp("time");
-                int site_id = resultSet.getInt("site_id");
-                boolean status = resultSet.getBoolean("status");
+                String name = resultSet.getString("name");
+                int status = resultSet.getInt("status");
                 float value = resultSet.getFloat("value");
 
-                list.add(new Alert(site_id,"", time, AlertType.valueOf(type), value, status));
+                list.add(new Alert(name, "", time, AlertType.valueOf(type), value, status));
             }
         } catch (Exception ex) {
             log.error(ex.getMessage());

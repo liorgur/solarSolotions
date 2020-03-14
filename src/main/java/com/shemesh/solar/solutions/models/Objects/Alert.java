@@ -16,12 +16,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Alert {
 
-    private int site_id;
+//    private int site_id;
+    private String name;
     private String ip;
     private Timestamp time;
     private AlertType type;
     private Float value;
-    private boolean status;
+    private int status;
 
 
 }

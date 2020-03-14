@@ -31,7 +31,7 @@ public class DataService {
     public void SendData(SendDataRequest request) throws SQLException {
         String queryInsertData = dao.CreateInsertDataQuery(request);
         dbHelper.executeQuery(queryInsertData);
-        alertsService.CreateAlertIfNeeded(request);
+        alertsService.SetAlertStatus(request);
     }
 
     public DataResponse GetData(String ip) throws SQLException {

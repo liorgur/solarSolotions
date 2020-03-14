@@ -375,11 +375,12 @@ function drawSiteAlerts(alerts) {
 
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'time');
+    data.addColumn('string', 'name');
     data.addColumn('string', 'type');
     data.addColumn('number', 'value');
 
     for (var i = 0; i < alerts.length; i++) {
-        data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
+        data.addRow([new Date(alerts[i].time), alerts[i].name, alerts[i].type, alerts[i].value]);
     }
 
     data.sort({
@@ -413,13 +414,15 @@ function drawSiteAlerts(alerts) {
 function drawAllAlerts(alerts) {
 
     var data = new google.visualization.DataTable();
-    data.addColumn('datetime', 'time');
-    data.addColumn('string', 'type');
-    data.addColumn('number', 'value');
+        data.addColumn('datetime', 'time');
+        data.addColumn('string', 'name');
+        data.addColumn('string', 'type');
+        data.addColumn('number', 'value');
 
-    for (var i = 0; i < alerts.length; i++) {
-        data.addRow([new Date(alerts[i].time), alerts[i].type, alerts[i].value]);
-    }
+        for (var i = 0; i < alerts.length; i++) {
+            data.addRow([new Date(alerts[i].time), alerts[i].name, alerts[i].type, alerts[i].value]);
+        }
+
 
     data.sort({
             column: 0,
