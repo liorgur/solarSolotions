@@ -1,5 +1,6 @@
 package com.shemesh.solar.solutions.services;
 
+import com.shemesh.solar.solutions.cache.SiteCache;
 import com.shemesh.solar.solutions.dao.SiteDao;
 import com.shemesh.solar.solutions.models.Objects.Site;
 import com.shemesh.solar.solutions.models.Requests.CreateNewSiteRequest;
@@ -24,6 +25,9 @@ public class SiteService {
     private SiteDao dao;
 
     @Autowired
+    private SiteCache cache;
+
+    @Autowired
     private DbHelper dbHelper;
 
     public NewSiteResponse CreateNewSite(CreateNewSiteRequest request) throws SQLException {
@@ -32,10 +36,12 @@ public class SiteService {
         return new NewSiteResponse(siteId);
     }
 
-    public SitesResponse GetSites(Integer id) throws SQLException {
-        String queryGetSites= dao.CreateGetSitesQuery(id);
-        ResultSet sites = dbHelper.executeQueryToResultSet(queryGetSites);
-        return ResultSetToSite(sites);
+    public SitesResponse GetSites() throws SQLException {
+
+        return new SitesResponse(cache.GetSiteList());
+//        String queryGetSites= dao.CreateGetSitesQuery(id);
+//        ResultSet sites = dbHelper.executeQueryToResultSet(queryGetSites);
+//        return ResultSetToSite(sites);
     }
 
     public void UpdateSite(UpdateSiteRequest updateSiteRequest) throws SQLException {
@@ -43,7 +49,7 @@ public class SiteService {
         dbHelper.executeQuery(queryUpdateSite);
     }
 
-    private SitesResponse ResultSetToSite(ResultSet resultSet) {
+    public List<Site> ResultSetToSite(ResultSet resultSet) {
         List<Site> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -64,7 +70,7 @@ public class SiteService {
 
                 list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description,provider1,provider2,provider3,provider4, cameras_link));
             }
-            return new SitesResponse(list);
+            return list;
         }
         catch (Exception ex) {
             log.error(ex.getMessage());

@@ -1,5 +1,5 @@
-var ip2 = 'localhost:8082'
-var ip  = '52.30.206.53'
+var ip = 'localhost:8082'
+var ip2  = '52.30.206.53'
 
 var sitsListData;
 var map;
@@ -109,11 +109,11 @@ function initMap() {
 
 }
 
-async function getSitesData(id) {
+async function getSitesData() {
     let param = " "
-    if (id != null) {
-        param = "?id=" + id
-    }
+//    if (id != null) {
+//        param = "?id=" + id
+//    }
     let response = await fetch('http://' + ip + '/api/v1/sites' + param);
     let data = await response.json()
     return data.sites;
@@ -181,7 +181,7 @@ function handleSiteClick(id) {
         drawMeters(siteData[0])
     })
 
-    getSitesData(id).then(data => drawSiteInfo(data)) //todo remove array to json
+    drawSiteInfo(sitsListData[id-1])
     getAlertsData(id).then(data => drawSiteAlerts(data)) //todo remove array to json
 
     document.querySelector('#buttons').style.display = 'flex';
@@ -337,16 +337,15 @@ function drawSiteInfo(siteInfo) {
     data.addColumn('string', 'data');
 
 
-    data.addRow(['name', siteInfo[0].name]); //todo remove array
-    data.addRow(['ip', siteInfo[0].ip]);
-//    data.addRow(['location', siteInfo[0].lat.toString()   + " , " +  siteInfo[0].lon.toString()]);
-    data.addRow(['description', siteInfo[0].description]);
-//    data.addRow(['cameras_link', siteInfo[0].cameras_link]);
-    data.addRow(['provider1', siteInfo[0].provider1]);
-    data.addRow(['provider2', siteInfo[0].provider2]);
-    data.addRow(['provider3', siteInfo[0].provider3]);
-    data.addRow(['provider4', siteInfo[0].provider4]);
-//    data.addRow(['id', siteInfo[0].id.toString()]);
+    data.addRow(['name', siteInfo.name]);
+    data.addRow(['ip', siteInfo.ip]);
+    data.addRow(['contact_person', siteInfo.contact_person]);
+    data.addRow(['contact_phone', siteInfo.contact_phone]);
+    data.addRow(['description', siteInfo.description]);
+    data.addRow(['provider1', siteInfo.provider1]);
+    data.addRow(['provider2', siteInfo.provider2]);
+    data.addRow(['provider3', siteInfo.provider3]);
+    data.addRow(['provider4', siteInfo.provider4]);
 
     var table = new google.visualization.Table(document.getElementById('site_info_div'));
 

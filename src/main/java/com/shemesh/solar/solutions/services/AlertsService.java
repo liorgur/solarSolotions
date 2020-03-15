@@ -55,6 +55,7 @@ public class AlertsService {
     }
 
     public AlertResponse GetAlerts(Integer site_id) throws SQLException {
+
         String queryInsertData = dao.CreateGetAlertsQuery(site_id);
         ResultSet resultSet = dbHelper.executeQueryToResultSet(queryInsertData);
         return ResultSetToAlert(resultSet);

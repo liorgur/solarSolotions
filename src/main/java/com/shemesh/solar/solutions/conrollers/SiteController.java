@@ -75,10 +75,10 @@ public class SiteController {
     @ApiOperation(value = "Get all Sites")
     @ResponseBody
     //@RolesAllowed()
-    public ResponseEntity GetSites(@RequestParam(value = "id", required = false) Integer id) {
+    public ResponseEntity GetSites() {
         log.info("Get All Sites");
         try {
-            SitesResponse newSiteResponse = siteService.GetSites(id);
+            SitesResponse newSiteResponse = siteService.GetSites();
             return ResponseEntity.ok()
                     .body(newSiteResponse);
         } catch (SQLException e) {

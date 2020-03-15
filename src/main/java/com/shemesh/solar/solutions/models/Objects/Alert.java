@@ -21,7 +21,7 @@ public class Alert {
     private String ip;
     private Timestamp time;
     private AlertType type;
-    private Float value;
+    private float value;
     private int status;
 
 
