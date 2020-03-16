@@ -23,5 +23,6 @@ public class DataPoint {
     private float humidity;
     private float volt;
     private float light;
+    private float gateway;
 
 }

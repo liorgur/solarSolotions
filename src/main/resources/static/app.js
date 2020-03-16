@@ -61,13 +61,12 @@ window.alert("button2_action "+ ip);
 
  function reset(ip) {
     window.alert("reset ip " + ip);
-     fetch('http://' + ip + ':84?reset_off')
-drawSitesOnMap(map, data);
+     fetch('http://' + ip + ':84?reset_off');
         setTimeout(() => {
-fetch('http://' + ip + '84?reset_on');
+fetch('http://' + ip + ':84?reset_on');
     window.alert("reset on ip " + ip) + " done ";
 
-        }, 800)
+        }, 10000)
 
 }
 
@@ -187,9 +186,9 @@ function handleSiteClick(id) {
     document.querySelector('#buttons').style.display = 'flex';
     document.querySelector('#buttons').style.flex = '0.2';
     document.querySelector('#extra_data').style.display = 'flex';
-    document.getElementById("button1").onclick = function() {button1_action(massage.ip)}
-    document.getElementById("button2").onclick = function() {button1_action(massage.ip)}
-    document.getElementById("reset").onclick = function() {reset(massage.ip)}
+    document.getElementById("button1").onclick = function() {button1_action(site_ip)}
+    document.getElementById("button2").onclick = function() {button1_action(site_ip)}
+    document.getElementById("reset").onclick = function() {reset(site_ip)}
     document.getElementById("cameras").onclick = function() {goToCameras(sitsListData[massage.id-1].cameras_link)}
         var bounds = {
         north: sitsListData[id-1].lat - 0.1,
