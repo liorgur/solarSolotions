@@ -1,5 +1,5 @@
-var ip = 'localhost:8082'
-var ip2  = '52.30.206.53'
+var ip2 = 'localhost:8082'
+var ip  = '52.30.206.53'
 
 var sitsListData;
 var map;
