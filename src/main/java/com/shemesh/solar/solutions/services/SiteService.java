@@ -56,6 +56,7 @@ public class SiteService {
 
                 int id = resultSet.getInt("id");
                 String ip = resultSet.getString("ip");
+                String ip2 = resultSet.getString("ip2");
                 String siteName = resultSet.getString("name");
                 String contact_person = resultSet.getString("contact_person");
                 String contact_phone = resultSet.getString("contact_phone");
@@ -68,7 +69,7 @@ public class SiteService {
                 String provider4 = resultSet.getString("provider4");
                 String cameras_link = resultSet.getString("cameras_link");
 
-                list.add(new Site(id,ip,siteName,contact_person,contact_phone,lat,lon,description,provider1,provider2,provider3,provider4, cameras_link));
+                list.add(new Site(id, ip, ip2, siteName, contact_person, contact_phone, lat, lon, description, provider1, provider2, provider3, provider4, cameras_link));
             }
             return list;
         }

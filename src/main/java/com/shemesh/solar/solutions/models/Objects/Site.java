@@ -18,6 +18,7 @@ public class Site {
 
     private int id;
     private String ip;
+    private String ip2;
     private String name;
     private String contact_person;
     private String contact_phone;

@@ -49,9 +49,11 @@ public class DataService {
                 float humidity = resultSet.getFloat("humidity");
                 float tmp = resultSet.getFloat("tmp");
                 float light = resultSet.getFloat("light");
+                float gateway = 1; //resultSet.getFloat("gw"); //todo
+
                 Timestamp time = resultSet.getTimestamp("time");
 
-                list.add(new DataPoint(ip, time, tmp, humidity, volt, light));
+                list.add(new DataPoint(ip, time, tmp, humidity, volt, light,gateway));
             }
             return new DataResponse(list);
         } catch (Exception ex) {

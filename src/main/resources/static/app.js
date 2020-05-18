@@ -29,6 +29,8 @@ var site_name = document.getElementById('sitesDropDown').value;
 var site_id = document.getElementById('sitesDropDown').selectedIndex;
 
 var ip = sitsListData[site_id-1].ip
+var ip2 = sitsListData[site_id-1].ip2
+
 var id = sitsListData[site_id-1].id
 handleSiteClick(site_id);
 
@@ -48,22 +50,37 @@ function closeModal() {
 
 function button1_action(ip){
     window.alert("button1_action "+ ip);
-         fetch('http://' + ip + ':84?buzz')
-
-
+         fetch('http://' + ip + ':84?on_relay1')
 }
+
 function button2_action(ip) {
 window.alert("button2_action "+ ip);
          fetch('http://' + ip + ':84?button2')
-
-
 }
+
+function switch_action(ip, id) {
+    {
+        if (document.getElementById("switch" +id ).value == "OFF") {
+            document.getElementById("switch"+id).value = "ON";
+            fetch('http://' + ip + ':84?on_relay' + id)
+        }
+
+        else if (document.getElementById("switch"+id).value == "ON") {
+            document.getElementById("switch" +id).value = "OFF";
+            fetch('http://' + ip + ':84?off_relay'+ id)
+        }
+    }
+}
+
+
+
+
 
  function reset(ip) {
     window.alert("reset ip " + ip);
-     fetch('http://' + ip + ':84?reset_off');
+     fetch('http://' + ip + ':84?reset1_off');
         setTimeout(() => {
-fetch('http://' + ip + ':84?reset_on');
+fetch('http://' + ip + ':84?reset1_on');
     window.alert("reset on ip " + ip) + " done ";
 
         }, 10000)
@@ -151,7 +168,6 @@ function attachMassage(marker, massage) {
 
     });
 
-
     marker.addListener('mouseover', function() {
         infowindow.open(marker.get('map'), marker);
     });
@@ -186,9 +202,13 @@ function handleSiteClick(id) {
     document.querySelector('#buttons').style.display = 'flex';
     document.querySelector('#buttons').style.flex = '0.2';
     document.querySelector('#extra_data').style.display = 'flex';
-    document.getElementById("button1").onclick = function() {button1_action(site_ip)}
-    document.getElementById("button2").onclick = function() {button1_action(site_ip)}
-    document.getElementById("reset").onclick = function() {reset(site_ip)}
+
+    document.getElementById("switch1").onclick = function() {switch_action(site_ip, 1)}
+    document.getElementById("switch2").onclick = function() {switch_action(site_ip, 2)}
+
+    document.getElementById("reset1").onclick = function() {reset(site_ip)}
+    document.getElementById("reset2").onclick = function() {reset(sitsListData[id-1].ip2)}
+
     document.getElementById("cameras").onclick = function() {goToCameras(sitsListData[massage.id-1].cameras_link)}
         var bounds = {
         north: sitsListData[id-1].lat - 0.1,
@@ -335,9 +355,9 @@ function drawSiteInfo(siteInfo) {
     data.addColumn('string', 'type');
     data.addColumn('string', 'data');
 
-
     data.addRow(['name', siteInfo.name]);
     data.addRow(['ip', siteInfo.ip]);
+    data.addRow(['ip2', siteInfo.ip2]);
     data.addRow(['contact_person', siteInfo.contact_person]);
     data.addRow(['contact_phone', siteInfo.contact_phone]);
     data.addRow(['description', siteInfo.description]);
