@@ -1,5 +1,5 @@
-var ip2 = 'localhost:8082'
-var ip  = '52.30.206.53'
+var ip = 'localhost:8082'
+var ip2  = '52.30.206.53'
 
 var sitsListData;
 var map;
@@ -181,12 +181,14 @@ function handleSiteClick(id) {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'time');
+        data.addColumn('string', 'ip');
+        data.addColumn('number', 'gateway');
         data.addColumn('number', 'tmp');
         data.addColumn('number', 'volt');
         data.addColumn('number', 'light');
         data.addColumn('number', 'humidity');
         for (var i = 0; i < siteData.length; i++) {
-            data.addRow([new Date(siteData[i].time), siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
+            data.addRow([new Date(siteData[i].time), siteData[i].ip, siteData[i].gateway, siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
         }
         drawDataTable(data)
         drawChart(data)
@@ -219,10 +221,13 @@ function handleSiteClick(id) {
     // Display the area between the location southWest and northEast.
     map.fitBounds(bounds);
 
-
 }
 
 function drawChart(data) {
+
+    var view = new google.visualization.DataView(data);
+    view.setColumns([0, 3, 4,5,6]);
+
     var options = {
         hAxis: {
             title: 'Time',
@@ -238,7 +243,7 @@ function drawChart(data) {
                height:'300%'
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
+    chart.draw(view, options);
 }
 
 function drawDataTable(data) {

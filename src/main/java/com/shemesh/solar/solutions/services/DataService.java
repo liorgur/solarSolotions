@@ -49,7 +49,7 @@ public class DataService {
                 float humidity = resultSet.getFloat("humidity");
                 float tmp = resultSet.getFloat("tmp");
                 float light = resultSet.getFloat("light");
-                float gateway = resultSet.getFloat("gw");
+                int gateway = resultSet.getInt("gateway");
 
                 Timestamp time = resultSet.getTimestamp("time");
 
