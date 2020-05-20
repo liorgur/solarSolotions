@@ -58,38 +58,26 @@ window.alert("button2_action "+ ip);
          fetch('http://' + ip + ':84?button2')
 }
 
-function switch1_action(ip) {
-{  if(document.getElementById("switch1").value=="OFF"){
-                                                                    document.getElementById("switch1").value="ON";
-                                                                      fetch('http://' + ip + ':84?on_relay1')
-                                                                      }
+function switch_action(ip, id) {
+    {
+        if (document.getElementById("switch" +id ).value == "OFF") {
+            document.getElementById("switch"+id).value = "ON";
+            fetch('http://' + ip + ':84?on_relay' + id)
+        }
 
-                                                                   else if(document.getElementById("switch1").value=="ON"){
-                                                                    document.getElementById("switch1").value="OFF";
-                                                                     fetch('http://' + ip + ':84?off_relay1')
-                                                                     }
-                                                                     }
-}
-
-function switch2_action(ip) {
-{  if(document.getElementById("switch2").value=="OFF"){
-                                                                    document.getElementById("switch2").value="ON";
-                                                                      fetch('http://' + ip + ':84?on_relay2')
-                                                                      }
-
-                                                                   else if(document.getElementById("switch2").value=="ON"){
-                                                                    document.getElementById("switch2").value="OFF";
-                                                                     fetch('http://' + ip + ':84?off_relay2')
-                                                                     }
-                                                                     }
+        else if (document.getElementById("switch"+id).value == "ON") {
+            document.getElementById("switch" +id).value = "OFF";
+            fetch('http://' + ip + ':84?off_relay'+ id)
+        }
+    }
 }
 
 
- function reset(ip) {
+ function reset(ip, id) {
     window.alert("reset ip " + ip);
-     fetch('http://' + ip + ':84?reset1_off');
+     fetch('http://' + ip + ':84?reset_off' + id);
         setTimeout(() => {
-fetch('http://' + ip + ':84?reset1_on');
+fetch('http://' + ip + ':84?reset_on'+ id);
     window.alert("reset on ip " + ip) + " done ";
 
         }, 10000)
@@ -212,11 +200,11 @@ function handleSiteClick(id) {
     document.querySelector('#buttons').style.flex = '0.2';
     document.querySelector('#extra_data').style.display = 'flex';
 
-    document.getElementById("switch1").onclick = function() {switch1_action(site_ip)}
-    document.getElementById("switch2").onclick = function() {switch2_action(site_ip)}
+    document.getElementById("switch1").onclick = function() {switch_action(site_ip, 1)}
+    document.getElementById("switch2").onclick = function() {switch_action(site_ip, 2)}
 
-    document.getElementById("reset1").onclick = function() {reset(site_ip)}
-    document.getElementById("reset2").onclick = function() {reset(sitsListData[id-1].ip2)}
+    document.getElementById("reset1").onclick = function() {reset(site_ip, 1)}
+    document.getElementById("reset2").onclick = function() {reset(sitsListData[id-1].ip2, 2)}
 
     document.getElementById("cameras").onclick = function() {goToCameras(sitsListData[massage.id-1].cameras_link)}
         var bounds = {
@@ -366,7 +354,7 @@ function drawSiteInfo(siteInfo) {
 
     data.addRow(['name', siteInfo.name]);
     data.addRow(['ip', siteInfo.ip]);
-    data.addRow(['ip2', siteInfo.ip]);
+    data.addRow(['ip2', siteInfo.ip2]);
     data.addRow(['contact_person', siteInfo.contact_person]);
     data.addRow(['contact_phone', siteInfo.contact_phone]);
     data.addRow(['description', siteInfo.description]);

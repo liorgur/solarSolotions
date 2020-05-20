@@ -33,9 +33,11 @@ public class DataController {
                                         @RequestParam(value = "tmp", required = false) Float tmp,
                                         @RequestParam(value = "volt", required = false) Float volt,
                                         @RequestParam(value = "humidity", required = false) Float humidity,
-                                        @RequestParam(value = "light", required = false) Float light) {
+                                        @RequestParam(value = "light", required = false) Float light,
+                                        @RequestParam(value = "gw", required = false) Integer gw) {
 
-        SendDataRequest request = new SendDataRequest(ip, tmp, humidity, volt, light);
+
+        SendDataRequest request = new SendDataRequest(ip, tmp, humidity, volt, light, gw);
 
         log.info("Add new Data");
 

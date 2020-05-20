@@ -73,14 +73,11 @@ function switch_action(ip, id) {
 }
 
 
-
-
-
- function reset(ip) {
+ function reset(ip, id) {
     window.alert("reset ip " + ip);
-     fetch('http://' + ip + ':84?reset1_off');
+     fetch('http://' + ip + ':84?reset_off' + id);
         setTimeout(() => {
-fetch('http://' + ip + ':84?reset1_on');
+fetch('http://' + ip + ':84?reset_on'+ id);
     window.alert("reset on ip " + ip) + " done ";
 
         }, 10000)
@@ -206,8 +203,8 @@ function handleSiteClick(id) {
     document.getElementById("switch1").onclick = function() {switch_action(site_ip, 1)}
     document.getElementById("switch2").onclick = function() {switch_action(site_ip, 2)}
 
-    document.getElementById("reset1").onclick = function() {reset(site_ip)}
-    document.getElementById("reset2").onclick = function() {reset(sitsListData[id-1].ip2)}
+    document.getElementById("reset1").onclick = function() {reset(site_ip, 1)}
+    document.getElementById("reset2").onclick = function() {reset(sitsListData[id-1].ip2, 2)}
 
     document.getElementById("cameras").onclick = function() {goToCameras(sitsListData[massage.id-1].cameras_link)}
         var bounds = {

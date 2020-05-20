@@ -19,6 +19,8 @@ public class SendDataRequest
     private Float humidity;
     private Float volt;
     private Float light;
+    private Integer gateway;
+
 
 
 

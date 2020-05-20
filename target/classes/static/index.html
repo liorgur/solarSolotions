@@ -37,9 +37,20 @@
             <div id="humidity_gauge"></div>
         </div>
         <div id="buttons">
-            <button id="reset" onclick="reset()">reset</button>
-            <button id="button1" rel="nofollow noopener" onclick="button1_action()">button1</button>
-            <button id="button2" onclick="button2_action()">button2</button>
+            <button id="reset1">reset 1</button>
+            <button id="reset2">reset 2</button>
+
+            <label class="switch" >
+                <input type="checkbox" id="switch1" value="OFF" title="asdads" >
+                <span class="slider round">Relay 1</span>
+
+            </label>
+            <label class="switch" >
+                <input type="checkbox" id="switch2" value="OFF">
+                <span class="slider round">Relay 2</span>
+            </label>
+
+
             <button id="extra_data" onclick="showModal()">extra_data</button>
             <button id="cameras">Cameras</button>
 

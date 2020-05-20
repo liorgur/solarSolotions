@@ -21,13 +21,14 @@ public class DataDao {
         Date date = new Date(System.currentTimeMillis());
 
         return "INSERT INTO " + DATA_TABLE + " " +
-                " (ip, volt,humidity,light,tmp, time) " +
+                " (ip, volt,humidity,light, tmp, gateway, time) " +
                 " VALUES (" +
                  "\'" + request.getIp() + "\'" +  "," +
                         request.getVolt() + "," +
                         request.getHumidity() + "," +
                         request.getLight() + "," +
                         request.getTmp() + ", " +
+                        request.getGateway() + ", " +
                  "\'" + formatter.format(date) +"\'" + " ) ";
     }
 
