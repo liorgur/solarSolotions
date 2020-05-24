@@ -14,6 +14,11 @@ window.onload = function () {
 })
 };
 
+async function PingServer(ip){
+reachable= await fetch('http://' + ip + '/api/v1/sites/ping');
+lior = reachable
+}
+
 function fillDropDown(sites){
 var select = document.getElementById("sitesDropDown");
     select.options[0] = new Option("Select Site:", -1);
@@ -175,6 +180,8 @@ function attachMassage(marker, massage) {
 
 function handleSiteClick(id) {
     var site_ip = sitsListData[id-1].ip
+     PingServer(site_ip)
+
     var select = document.getElementById("sitesDropDown");
     select.selectedIndex = id
     fetch('http://' + ip + '/api/v1/data/?ip=' + site_ip).then(data => data.json()).then((jsonDataRaw) => {

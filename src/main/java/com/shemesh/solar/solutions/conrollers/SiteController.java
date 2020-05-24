@@ -13,6 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 
 /**
@@ -89,5 +92,16 @@ public class SiteController {
                 .body("Get All Site Failed");
     }
 
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/ping", method = RequestMethod.GET, produces = "application/json")
+    @ApiOperation(value = "Ping Server")
+    @ResponseBody
+    //@RolesAllowed()
+    public ResponseEntity PingServer(String ip) throws IOException {
+        InetAddress address = InetAddress.getByName(ip);
+        boolean reachable = address.isReachable(10000);
+        return ResponseEntity.ok()
+                .body(reachable);
+    }
 
 }
