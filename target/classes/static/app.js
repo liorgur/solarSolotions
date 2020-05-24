@@ -181,11 +181,14 @@ function handleSiteClick(id) {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'time');
+//        data.addColumn('string', 'ip');
+//        data.addColumn('string', 'gw');
         data.addColumn('number', 'tmp');
         data.addColumn('number', 'volt');
         data.addColumn('number', 'light');
         data.addColumn('number', 'humidity');
         for (var i = 0; i < siteData.length; i++) {
+//            data.addRow([new Date(siteData[i].time), siteData[i].ip, siteData[i].gw, siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
             data.addRow([new Date(siteData[i].time), siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
         }
         drawDataTable(data)
@@ -218,7 +221,6 @@ function handleSiteClick(id) {
 
     // Display the area between the location southWest and northEast.
     map.fitBounds(bounds);
-
 
 }
 
