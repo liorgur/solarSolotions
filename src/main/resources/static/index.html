@@ -29,8 +29,14 @@
                 <select id="sitesDropDown" name="sitesDropDown" onChange="OnSelectedIndexChange()">
                 </select>
             </div>
-            <b id="Server1">Server1</b>
-            <b id="Server2">Server2</b>
+            <b id="Router1">Router1</b>
+            <b id="Router2">Router2</b>
+            <label class="switch" >
+                <input type="checkbox" id="router_switch" value="Router1" >
+                <div class="slider round"><span class="off">Router 1</span><span class="on">Router 2</span></div>
+
+
+            </label>
         </div>
 
         <div id="meters_div">
@@ -43,7 +49,7 @@
             <button id="reset1">reset 1</button>
             <button id="reset2">reset 2</button>
             <label class="switch" >
-                <input type="checkbox" id="switch1" value="OFF" title="asdads" >
+                <input type="checkbox" id="switch1" value="OFF" >
                 <span class="slider round">Relay 1</span>
 
             </label>
