@@ -14,10 +14,13 @@ window.onload = function () {
 })
 };
 
-async function PingServer(ip){
-reachable= await fetch('http://' + ip + '/api/v1/sites/ping');
-lior = reachable
-}
+async function PingServer(site_ip, id ){
+    let response= await fetch('http://' + ip + '/api/v1/sites/ping?ip=' +site_ip)
+    if (response.status == 200)
+        document.getElementById("Server" + id).style.color = "green";
+    else
+        document.getElementById("Server" + id).style.color = "red";
+    }
 
 function fillDropDown(sites){
 var select = document.getElementById("sitesDropDown");
@@ -180,7 +183,7 @@ function attachMassage(marker, massage) {
 
 function handleSiteClick(id) {
     var site_ip = sitsListData[id-1].ip
-     PingServer(site_ip)
+    PingServer(site_ip, 1).then(PingServer(sitsListData[id-1].ip2, 2))
 
     var select = document.getElementById("sitesDropDown");
     select.selectedIndex = id

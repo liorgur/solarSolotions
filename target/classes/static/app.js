@@ -14,6 +14,14 @@ window.onload = function () {
 })
 };
 
+async function PingServer(site_ip, id ){
+    let response= await fetch('http://' + ip + '/api/v1/sites/ping?ip=' +site_ip)
+    if (response.status == 200)
+        document.getElementById("Server" + id).style.color = "green";
+    else
+        document.getElementById("Server" + id).style.color = "red";
+    }
+
 function fillDropDown(sites){
 var select = document.getElementById("sitesDropDown");
     select.options[0] = new Option("Select Site:", -1);
@@ -175,21 +183,23 @@ function attachMassage(marker, massage) {
 
 function handleSiteClick(id) {
     var site_ip = sitsListData[id-1].ip
+    PingServer(site_ip, 1)
+    PingServer(sitsListData[id-1].ip2, 2)
+
     var select = document.getElementById("sitesDropDown");
     select.selectedIndex = id
     fetch('http://' + ip + '/api/v1/data/?ip=' + site_ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'time');
-//        data.addColumn('string', 'ip');
-//        data.addColumn('string', 'gw');
+        data.addColumn('string', 'ip');
+        data.addColumn('number', 'gateway');
         data.addColumn('number', 'tmp');
         data.addColumn('number', 'volt');
         data.addColumn('number', 'light');
         data.addColumn('number', 'humidity');
         for (var i = 0; i < siteData.length; i++) {
-//            data.addRow([new Date(siteData[i].time), siteData[i].ip, siteData[i].gw, siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
-            data.addRow([new Date(siteData[i].time), siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
+            data.addRow([new Date(siteData[i].time), siteData[i].ip, siteData[i].gateway, siteData[i].tmp, siteData[i].volt, siteData[i].light, siteData[i].humidity]);
         }
         drawDataTable(data)
         drawChart(data)
@@ -225,6 +235,10 @@ function handleSiteClick(id) {
 }
 
 function drawChart(data) {
+
+    var view = new google.visualization.DataView(data);
+    view.setColumns([0, 3, 4,5,6]);
+
     var options = {
         hAxis: {
             title: 'Time',
@@ -240,7 +254,7 @@ function drawChart(data) {
                height:'300%'
     };
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
+    chart.draw(view, options);
 }
 
 function drawDataTable(data) {

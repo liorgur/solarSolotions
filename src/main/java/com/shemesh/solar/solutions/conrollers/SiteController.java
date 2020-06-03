@@ -96,12 +96,12 @@ public class SiteController {
     @RequestMapping(value = "/ping", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "Ping Server")
     @ResponseBody
-    //@RolesAllowed()
     public ResponseEntity PingServer(String ip) throws IOException {
         InetAddress address = InetAddress.getByName(ip);
-        boolean reachable = address.isReachable(10000);
-        return ResponseEntity.ok()
-                .body(reachable);
+        boolean reachable = address.isReachable(1000);
+        if (reachable)
+            return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
     }
 
 }
