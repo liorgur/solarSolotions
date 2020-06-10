@@ -32,12 +32,14 @@
             <b id="Router1">Router1</b>
             <b id="Router2">Router2</b>
             <label class="switch" >
-                <input type="checkbox" id="router_switch" value="Router1" >
-                <div class="slider round"><span class="off">Router 1</span><span class="on">Router 2</span></div>
-
-
+                <input type="checkbox" id="router_switch">
+                <div class="slider round">
+                    <span class="off">Router 1</span>
+                    <span class="on">Router 2</span>
+                </div>
             </label>
         </div>
+
 
         <div id="meters_div">
             <div id="tmp_gauge"></div>
@@ -51,13 +53,16 @@
             <label class="switch" >
                 <input type="checkbox" id="switch1" value="OFF" >
                 <span class="slider round">Relay 1</span>
-
             </label>
             <label class="switch" >
                 <input type="checkbox" id="switch2" value="OFF">
                 <span class="slider round">Relay 2</span>
             </label>
-
+            <div class="slidecontainer">
+                <input type="range" min="0" max="255" value="50"  id="pwd_range">
+            </div>
+            <p>Value: <span id="slider_val"></span></p>
+            <button onclick="pwm_click()" id="pwm">pwm</button>
 
             <button id="extra_data" onclick="showModal()">extra_data</button>
             <button id="cameras">Cameras</button>

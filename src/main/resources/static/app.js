@@ -1,18 +1,29 @@
 var ip2 = 'localhost:8082'
 var ip = '52.30.206.53'
 var router = 1
-var sitsListData;
+var sitesListData;
 var map;
+var site_id;
+var slider_val_div;
 
-window.onload = function () {
+window.onload = function () { //todo
     getSitesData().then(data => {
-        sitsListData = data;
+        sitesListData = data;
         fillDropDown(data);
         initMap();
         handleSiteClick(1);
         document.getElementById("router_switch").onclick = function () { router_switch_action() }
-
         // document.getElementById('sitesDropDown').selectedIndex = 1
+
+        var sliderDiv = document.getElementById("pwd_range");
+        slider_val_div = document.getElementById("slider_val");
+        slider_val_div.innerHTML = sliderDiv.value;
+        slider_val = sliderDiv.value;
+        sliderDiv.oninput = function () {
+            slider_val_div.innerHTML = this.value;
+
+        }
+
 
     })
 };
@@ -40,10 +51,9 @@ function OnSelectedIndexChange() {
     var site_name = document.getElementById('sitesDropDown').value;
     var site_id = document.getElementById('sitesDropDown').selectedIndex;
 
-    var ip = sitsListData[site_id - 1].ip
-    var ip2 = sitsListData[site_id - 1].ip2
-
-    var id = sitsListData[site_id - 1].id
+    //    var ip = sitesListData[site_id - 1].ip
+    //    var ip2 = sitesListData[site_id - 1].ip2
+    //    var id = sitesListData[site_id - 1].id
     handleSiteClick(site_id);
 
 }
@@ -60,44 +70,61 @@ function closeModal() {
     document.querySelector('#modal').style.display = 'none';
 }
 
+function switch_action(site_id, switch_id) {
+    if (router == 1)
+        target_ip = sitesListData[site_id - 1].ip
+    else
+        target_ip = sitesListData[site_id - 1].ip2
 
-function switch_action(site_id, id) {
-     if (router ==1)
-                target_ip = sitsListData[site_id - 1].ip
-            else
-                target_ip = sitsListData[site_id - 1].ip2
-    {
-        if (document.getElementById("switch" + id).value == "OFF") {
-            document.getElementById("switch" + id).value = "ON";
-            fetch('http://' + target_ip + ':84?on_relay' + id)
+
+    if (switch_id == 1) {
+        if (document.getElementById("switch1").value == "OFF") {
+            document.getElementById("switch1").value = "ON"
+            document.getElementById("switch1").className = "slider:before"
+            fetch('http://' + target_ip + ':84?on_relay' + switch_id)
+            sitesListData[site_id - 1].switch1 = "ON"
+
+
         }
-
-        else if (document.getElementById("switch" + id).value == "ON") {
-            document.getElementById("switch" + id).value = "OFF";
-            fetch('http://' + target_ip + ':84?off_relay' + id)
+        else if (document.getElementById("switch1").value == "ON") {
+            document.getElementById("switch1").value = "OFF"
+            document.getElementById("switch1").className = "slider:before"
+            fetch('http://' + target_ip + ':84?off_relay' + switch_id)
+            sitesListData[site_id - 1].switch1 = "OFF"
         }
     }
+    if (switch_id == 2) {
+        if (document.getElementById("switch2").value == "OFF") {
+            document.getElementById("switch2").value = "ON"
+            fetch('http://' + target_ip + ':84?on_relay' + switch_id)
+            sitesListData[site_id - 1].switch2 = "ON"
+
+        }
+        else if (document.getElementById("switch2").value == "ON") {
+            document.getElementById("switch2").value = "OFF"
+            fetch('http://' + target_ip + ':84?off_relay' + switch_id)
+            sitesListData[site_id - 1].switch2 = "OFF"
+        }
+    }
+
 }
 
 function router_switch_action() {
-    if (document.getElementById("router_switch").value == "Router1") {
-        document.getElementById("router_switch").value = "Router2";
+    if (router == 1) {
         router = 2
     }
     else {
-        document.getElementById("router_switch").value = "Router1";
         router = 1
-
     }
 }
 
 
 function reset(site_id, reset_id) {
 
-    if (router ==1)
-            target_ip = sitsListData[site_id - 1].ip
-        else
-            target_ip = sitsListData[site_id - 1].ip2
+    if (router == 1)
+        target_ip = sitesListData[site_id - 1].ip
+    else
+        target_ip = sitesListData[site_id - 1].ip2
 
     window.alert("reset ip " + target_ip);
     fetch('http://' + target_ip + ':84?reset_off' + reset_id);
@@ -135,7 +162,7 @@ function initMap() {
     ////        }, 800)
     //    });
 
-    drawSitesOnMap(map, sitsListData);
+    drawSitesOnMap(map, sitesListData);
 
     getAlertsData().then(data => {
         setTimeout(() => {
@@ -199,9 +226,9 @@ function attachMassage(marker, massage) {
 }
 
 function handleSiteClick(id) {
-    var site_ip = sitsListData[id - 1].ip
-    PingServer(site_ip, 1).then(PingServer(sitsListData[id - 1].ip2, 2))
-
+    site_id = id
+    var site_ip = sitesListData[id - 1].ip
+    PingServer(site_ip, 1).then(PingServer(sitesListData[id - 1].ip2, 2))
     var select = document.getElementById("sitesDropDown");
     select.selectedIndex = id
     fetch('http://' + ip + '/api/v1/data/?ip=' + site_ip).then(data => data.json()).then((jsonDataRaw) => {
@@ -222,7 +249,7 @@ function handleSiteClick(id) {
         drawMeters(siteData[0])
     })
 
-    drawSiteInfo(sitsListData[id - 1])
+    drawSiteInfo(sitesListData[id - 1])
     getAlertsData(id).then(data => drawSiteAlerts(data)) //todo remove array to json
 
     document.querySelector('#buttons').style.display = 'flex';
@@ -235,12 +262,12 @@ function handleSiteClick(id) {
     document.getElementById("reset1").onclick = function () { reset(id, 1) }
     document.getElementById("reset2").onclick = function () { reset(id, 2) }
 
-    document.getElementById("cameras").onclick = function () { goToCameras(sitsListData[massage.id - 1].cameras_link) }
+    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[massage.id - 1].cameras_link) }
     var bounds = {
-        north: sitsListData[id - 1].lat - 0.1,
-        south: sitsListData[id - 1].lat + 0.1,
-        //        east: sitsListData[massage.id-1].lon - 0.1,
-        //        west: sitsListData[massage.id-1].lon + 0.1,
+        north: sitesListData[id - 1].lat - 0.1,
+        south: sitesListData[id - 1].lat + 0.1,
+        //        east: sitesListData[massage.id-1].lon - 0.1,
+        //        west: sitesListData[massage.id-1].lon + 0.1,
         east: 34.90,
         west: 34.80
     };
@@ -248,6 +275,19 @@ function handleSiteClick(id) {
     // Display the area between the location southWest and northEast.
     map.fitBounds(bounds);
 
+   if (sitesListData[site_id - 1].switch1 == null) {
+       document.getElementById("switch1").value = "OFF"
+       sitesListData[site_id - 1].switch1 = "OFF"
+   }
+   else
+       document.getElementById("switch1").value = sitesListData[site_id - 1].switch1
+
+   if (sitesListData[site_id - 1].switch2 == null) {
+       document.getElementById("switch2").value = "OFF"
+       sitesListData[site_id - 1].switch2 = "OFF"
+   }
+   else
+       document.getElementById("switch2").value = sitesListData[site_id - 1].switch2
 }
 
 function drawChart(data) {
@@ -502,3 +542,14 @@ function drawAllAlerts(alerts) {
 function goToCameras(link) {
     window.open(link, '_blank');
 }
+
+function pwm_click() {
+    if (router == 1)
+        target_ip = sitesListData[site_id - 1].ip
+    else
+        target_ip = sitesListData[site_id - 1].ip2
+    fetch('http://' + target_ip + ':84?pwm=' + slider_val_div.innerHTML)
+}
+
+
+
