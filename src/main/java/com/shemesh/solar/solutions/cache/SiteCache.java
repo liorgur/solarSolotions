@@ -38,7 +38,7 @@ public class SiteCache {
     }
 
 
-    private void UpdateSiteCache() {
+    public void UpdateSiteCache() {
         String queryGetSites = dao.CreateGetSitesQuery(null);
         try {
             ResultSet sites = dbHelper.executeQueryToResultSet(queryGetSites);

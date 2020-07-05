@@ -73,6 +73,27 @@ public class SiteController {
                 .body("Update Site Failed");
     }
 
+    @RequestMapping(value = "/switch/update", method = RequestMethod.GET , produces = "application/json")
+    @ApiOperation(value = "Update switch status")
+    @ResponseBody
+    //@RolesAllowed()
+    public ResponseEntity UpdateSwitchStatus(@RequestParam int site_id, @RequestParam int switch_id, @RequestParam boolean status) {
+
+        log.info("Update Switch Status, Site id " + site_id + "switch " + switch_id + "status" + status);
+
+        try {
+            siteService.UpdateSwitchStatus(site_id, switch_id, status);
+            return ResponseEntity.ok()
+                    .body("Switch updated successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("Switch updated Error " + e.getMessage());
+
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Update Site Failed");
+    }
+
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "", method = RequestMethod.GET , produces = "application/json")
     @ApiOperation(value = "Get all Sites")
@@ -84,7 +105,7 @@ public class SiteController {
             SitesResponse newSiteResponse = siteService.GetSites();
             return ResponseEntity.ok()
                     .body(newSiteResponse);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             log.error("Get All Site Error " + e.getMessage());
         }

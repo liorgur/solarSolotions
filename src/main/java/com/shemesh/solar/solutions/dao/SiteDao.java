@@ -35,4 +35,13 @@ public class SiteDao {
                 " WHERE id = " + updateSiteRequest.getId();
 
     }
+
+    public String UpdateSwitchStatus(int site_id, int switch_id, boolean status) {
+        return " UPDATE " + SITES_TABLE +
+                " SET switch" +switch_id + " = " + status +
+                " WHERE id = " +site_id;
+
+    }
+
+
 }

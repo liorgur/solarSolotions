@@ -30,6 +30,8 @@ public class Site {
     private String provider3;
     private String provider4;
     private String cameras_link;
+    private boolean switch1;
+    private boolean switch2;
 
 
 

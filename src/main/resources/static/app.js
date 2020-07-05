@@ -1,5 +1,5 @@
-var ip2 = 'localhost:8082'
-var ip = '52.30.206.53'
+var ip = 'localhost:8082'
+var ip2 = '52.30.206.53'
 var router = 1
 var sitesListData;
 var map;
@@ -13,6 +13,9 @@ window.onload = function () { //todo
         initMap();
         handleSiteClick(1);
         document.getElementById("router_switch").onclick = function () { router_switch_action() }
+//        document.getElementById("switch1").onclick = function () { switch_action() }
+//        document.getElementById("switch2").onclick = function () { switch_action() }
+
         // document.getElementById('sitesDropDown').selectedIndex = 1
 
         var sliderDiv = document.getElementById("pwd_range");
@@ -21,10 +24,7 @@ window.onload = function () { //todo
         slider_val = sliderDiv.value;
         sliderDiv.oninput = function () {
             slider_val_div.innerHTML = this.value;
-
         }
-
-
     })
 };
 
@@ -78,33 +78,27 @@ function switch_action(site_id, switch_id) {
 
 
     if (switch_id == 1) {
-        if (document.getElementById("switch1").value == "OFF") {
-            document.getElementById("switch1").value = "ON"
-            document.getElementById("switch1").className = "slider:before"
+        if (document.getElementById("switch1").checked) {
             fetch('http://' + target_ip + ':84?on_relay' + switch_id)
-            sitesListData[site_id - 1].switch1 = "ON"
-
-
+            sitesListData[site_id - 1].switch1 = true
+            change_switch_status(site_id, 1, 1)
         }
-        else if (document.getElementById("switch1").value == "ON") {
-            document.getElementById("switch1").value = "OFF"
-            document.getElementById("switch1").className = "slider:before"
+        else {
             fetch('http://' + target_ip + ':84?off_relay' + switch_id)
-            sitesListData[site_id - 1].switch1 = "OFF"
+            sitesListData[site_id - 1].switch1 = false
+            change_switch_status(site_id, 1, 0)
         }
     }
     if (switch_id == 2) {
-        if (document.getElementById("switch2").value == "OFF") {
-            document.getElementById("switch2").value = "ON"
+        if (document.getElementById("switch2").checked) {
             fetch('http://' + target_ip + ':84?on_relay' + switch_id)
-            sitesListData[site_id - 1].switch2 = "ON"
-
+            sitesListData[site_id - 1].switch2 = true
+            change_switch_status(site_id, 2, 1)
         }
-        else if (document.getElementById("switch2").value == "ON") {
-            document.getElementById("switch2").value = "OFF"
+        else {
             fetch('http://' + target_ip + ':84?off_relay' + switch_id)
-            sitesListData[site_id - 1].switch2 = "OFF"
-        }
+            sitesListData[site_id - 1].switch2 = false
+            change_switch_status(site_id, 2, 0)        }
     }
 
 }
@@ -175,14 +169,9 @@ function initMap() {
 }
 
 async function getSitesData() {
-    let param = " "
-    //    if (id != null) {
-    //        param = "?id=" + id
-    //    }
-    let response = await fetch('http://' + ip + '/api/v1/sites' + param);
+    let response = await fetch('http://' + ip + '/api/v1/sites');
     let data = await response.json()
     return data.sites;
-
 }
 
 async function getAlertsData(site_id) {
@@ -225,12 +214,11 @@ function attachMassage(marker, massage) {
     });
 }
 
-function handleSiteClick(id) {
-    site_id = id
-    var site_ip = sitesListData[id - 1].ip
-    PingServer(site_ip, 1).then(PingServer(sitesListData[id - 1].ip2, 2))
+function handleSiteClick(site_id) {
+    var site_ip = sitesListData[site_id - 1].ip
+    PingServer(site_ip, 1).then(PingServer(sitesListData[site_id - 1].ip2, 2))
     var select = document.getElementById("sitesDropDown");
-    select.selectedIndex = id
+    select.selectedIndex = site_id
     fetch('http://' + ip + '/api/v1/data/?ip=' + site_ip).then(data => data.json()).then((jsonDataRaw) => {
         const siteData = jsonDataRaw.data
         var data = new google.visualization.DataTable();
@@ -249,23 +237,23 @@ function handleSiteClick(id) {
         drawMeters(siteData[0])
     })
 
-    drawSiteInfo(sitesListData[id - 1])
-    getAlertsData(id).then(data => drawSiteAlerts(data)) //todo remove array to json
+    drawSiteInfo(sitesListData[site_id - 1])
+    getAlertsData(site_id).then(data => drawSiteAlerts(data)) //todo remove array to json
 
     document.querySelector('#buttons').style.display = 'flex';
     document.querySelector('#buttons').style.flex = '0.2';
     document.querySelector('#extra_data').style.display = 'flex';
 
-    document.getElementById("switch1").onclick = function () { switch_action(id, 1) }
-    document.getElementById("switch2").onclick = function () { switch_action(id, 2) }
+    document.getElementById("switch1").onclick = function () { switch_action(site_id, 1) }
+    document.getElementById("switch2").onclick = function () { switch_action(site_id, 2) }
 
-    document.getElementById("reset1").onclick = function () { reset(id, 1) }
-    document.getElementById("reset2").onclick = function () { reset(id, 2) }
+    document.getElementById("reset1").onclick = function () { reset(site_id, 1) }
+    document.getElementById("reset2").onclick = function () { reset(site_id, 2) }
 
-    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[massage.id - 1].cameras_link) }
+    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[massage.site_id - 1].cameras_link) }
     var bounds = {
-        north: sitesListData[id - 1].lat - 0.1,
-        south: sitesListData[id - 1].lat + 0.1,
+        north: sitesListData[site_id - 1].lat - 0.1,
+        south: sitesListData[site_id - 1].lat + 0.1,
         //        east: sitesListData[massage.id-1].lon - 0.1,
         //        west: sitesListData[massage.id-1].lon + 0.1,
         east: 34.90,
@@ -275,19 +263,35 @@ function handleSiteClick(id) {
     // Display the area between the location southWest and northEast.
     map.fitBounds(bounds);
 
-   if (sitesListData[site_id - 1].switch1 == null) {
-       document.getElementById("switch1").value = "OFF"
-       sitesListData[site_id - 1].switch1 = "OFF"
-   }
-   else
-       document.getElementById("switch1").value = sitesListData[site_id - 1].switch1
 
-   if (sitesListData[site_id - 1].switch2 == null) {
-       document.getElementById("switch2").value = "OFF"
-       sitesListData[site_id - 1].switch2 = "OFF"
-   }
-   else
-       document.getElementById("switch2").value = sitesListData[site_id - 1].switch2
+    if (sitesListData[site_id - 1].switch1 == true)
+        document.getElementById("switch1").checked = true
+    else
+        document.getElementById("switch1").checked = false
+
+
+     if (sitesListData[site_id - 1].switch2 ==true)
+        document.getElementById("switch2").checked = true
+     else
+        document.getElementById("switch2").checked = false
+
+//   document.getElementById("switch1").value = sitesListData[site_id - 1].switch1
+//
+//   document.getElementById("switch2").value = sitesListData[site_id - 1].switch2
+
+//   if (sitesListData[site_id - 1].switch1 == null || sitesListData[site_id - 1].switch1 ==0 ) {
+//       document.getElementById("switch1").value = "OFF"
+//       sitesListData[site_id - 1].switch1 = "OFF"
+//   }
+//   else
+//       document.getElementById("switch1").value = sitesListData[site_id - 1].switch1
+//
+//   if (sitesListData[site_id - 1].switch2 == null || sitesListData[site_id - 1].switch1 ==0) {
+//       document.getElementById("switch2").value = "OFF"
+//       sitesListData[site_id - 1].switch2 = "OFF"
+//   }
+//   else
+//       document.getElementById("switch2").value = sitesListData[site_id - 1].switch2
 }
 
 function drawChart(data) {
@@ -550,6 +554,11 @@ function pwm_click() {
         target_ip = sitesListData[site_id - 1].ip2
     fetch('http://' + target_ip + ':84?pwm=' + slider_val_div.innerHTML)
 }
+
+async function change_switch_status(site_id, switch_id, status) {
+
+  await fetch('http://' + ip + '/api/v1/sites/switch/update?site_id=' + site_id + '&switch_id='+ switch_id + '&status=' + status)
+  }
 
 
 
