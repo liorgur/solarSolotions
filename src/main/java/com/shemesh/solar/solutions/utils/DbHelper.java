@@ -1,5 +1,6 @@
 package com.shemesh.solar.solutions.utils;
 
+import com.sun.rowset.CachedRowSetImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.DbUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 
 import org.springframework.stereotype.Component;
 
+import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
 import java.util.List;
 
@@ -21,20 +23,24 @@ public class DbHelper {
     @Value(value = "${password}")
     private String password;
 
-    public ResultSet executeQueryToResultSet(String query) throws SQLException {
+    public CachedRowSet executeQueryToResultSet(String query) throws SQLException {
         Connection connection = getConnection();
         ResultSet resultSet = null;
-
+        CachedRowSet rowset = new CachedRowSetImpl();
         try {
             Statement stmt = connection.createStatement();
             resultSet = stmt.executeQuery(query);
+            rowset.populate(resultSet);
 
         } catch (Exception se) {
             log.error("Couldn't query the database " + se.getMessage());
             log.debug("Couldn't query the database.", se);
             se.printStackTrace();
         }
-        return resultSet;
+        finally {
+            DbUtils.closeQuietly(connection);
+        }
+        return rowset;
     }
 
     public long executeInsertQuery(String query) throws SQLException {
