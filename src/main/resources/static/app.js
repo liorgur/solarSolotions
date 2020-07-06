@@ -1,5 +1,5 @@
 var ip2 = 'localhost:8082'
-var ip = '52.30.206.53'
+var ip= '52.30.206.53'
 var router = 1
 var sitesListData;
 var map;
@@ -12,20 +12,21 @@ window.onload = function () { //todo
         sitesListData = data;
         fillDropDown(data);
         initMap();
-//        updateQueryStringParameter("site_id",1)
-
         handleSiteClick(chosen_ste_id);
 
-        var sliderDiv = document.getElementById("pwd_range");
-        slider_val_div = document.getElementById("slider_val");
-        slider_val_div.innerHTML = sliderDiv.value;
-        slider_val = sliderDiv.value;
-        sliderDiv.oninput = function () {
-            slider_val_div.innerHTML = this.value;
-        }
-        setInterval(function(){  handleSiteClick(chosen_ste_id); }, 3000);
+        setInterval(function(){  handleSiteClick(chosen_ste_id); }, 30000);
     })
 };
+
+function handle_pwm(){
+    var sliderDiv = document.getElementById("pwm_range");
+            sliderDiv.oninput = function () {
+              slider_val_div.innerHTML = this.value;
+            }
+    slider_val_div = document.getElementById("slider_val");
+    slider_val_div.innerHTML = sitesListData[chosen_ste_id-1].pwm
+    sliderDiv.value =sitesListData[chosen_ste_id-1].pwm
+}
 
 async function PingServer(site_ip, id) {
     let response = await fetch('http://' + ip + '/api/v1/sites/ping?ip=' + site_ip)
@@ -214,6 +215,7 @@ function attachMassage(marker, massage) {
 function handleSiteClick(site_id) {
     console.log(site_id)
     var site_ip = sitesListData[site_id - 1].ip
+    handle_pwm()
     PingServer(site_ip, 1).then(PingServer(sitesListData[site_id - 1].ip2, 2))
     var select = document.getElementById("sitesDropDown");
     select.selectedIndex = site_id
@@ -252,8 +254,6 @@ function handleSiteClick(site_id) {
     var bounds = {
         north: sitesListData[site_id - 1].lat - 0.1,
         south: sitesListData[site_id - 1].lat + 0.1,
-        //        east: sitesListData[massage.id-1].lon - 0.1,
-        //        west: sitesListData[massage.id-1].lon + 0.1,
         east: 34.90,
         west: 34.80
     };
@@ -527,12 +527,15 @@ function goToCameras(link) {
     window.open(link, '_blank');
 }
 
-function pwm_click() {
+async function pwm_click() {
     if (router == 1)
-        target_ip = sitesListData[site_id - 1].ip
+        target_ip = sitesListData[chosen_ste_id - 1].ip
     else
-        target_ip = sitesListData[site_id - 1].ip2
+        target_ip = sitesListData[chosen_ste_id - 1].ip2
+    sitesListData[chosen_ste_id-1].pwm = slider_val_div.innerHTML
     fetch('http://' + target_ip + ':84?pwm=' + slider_val_div.innerHTML)
+    await fetch('http://' + ip + '/api/v1/sites/pwm/update?site_id=' + chosen_ste_id + '&pwm='+ slider_val_div.innerHTML)
+
 }
 
 async function change_switch_status(site_id, switch_id, status) {

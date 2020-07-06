@@ -39,9 +39,7 @@ public class SiteService {
     public SitesResponse GetSites() {
 
         return new SitesResponse(cache.GetSiteList());
-//        String queryGetSites= dao.CreateGetSitesQuery(id);
-//        ResultSet sites = dbHelper.executeQueryToResultSet(queryGetSites);
-//        return ResultSetToSite(sites);
+
     }
 
     public void UpdateSite(UpdateSiteRequest updateSiteRequest) throws SQLException {
@@ -49,10 +47,10 @@ public class SiteService {
         dbHelper.executeQuery(queryUpdateSite);
     }
 
-    public void UpdateSwitchStatus(int site_id, int switch_id, boolean status)throws SQLException {
+    public void UpdateSwitchStatus(int site_id, int switch_id, boolean status) throws SQLException {
         String queryUpdateSite = dao.UpdateSwitchStatus(site_id, switch_id, status);
         dbHelper.executeQuery(queryUpdateSite);
-       cache.UpdateSiteCache();
+        cache.UpdateSiteCache();
     }
 
     public List<Site> ResultSetToSite(ResultSet resultSet) throws SQLException {
@@ -76,8 +74,9 @@ public class SiteService {
                 String cameras_link = resultSet.getString("cameras_link");
                 boolean switch1 = resultSet.getBoolean("switch1");
                 boolean switch2 = resultSet.getBoolean("switch2");
+                int pwm = resultSet.getInt("pwm");
 
-                list.add(new Site(id, ip, ip2, siteName, contact_person, contact_phone, lat, lon, description, provider1, provider2, provider3, provider4, cameras_link, switch1, switch2));
+                list.add(new Site(id, ip, ip2, siteName, contact_person, contact_phone, lat, lon, description, provider1, provider2, provider3, provider4, cameras_link, switch1, switch2, pwm));
             }
             return list;
         }
@@ -92,4 +91,9 @@ public class SiteService {
     }
 
 
+    public void UpdatePwm(int site_id, int pwm) throws SQLException {
+        String query_pwm = dao.UpdatePwm(site_id, pwm);
+        dbHelper.executeQuery(query_pwm);
+        cache.UpdateSiteCache();
+    }
 }

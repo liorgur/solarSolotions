@@ -39,6 +39,8 @@ public class DbHelper {
         }
         finally {
             DbUtils.closeQuietly(connection);
+            assert resultSet != null;
+            resultSet.close();
         }
         return rowset;
     }

@@ -44,4 +44,9 @@ public class SiteDao {
     }
 
 
+    public String UpdatePwm(int site_id, int pwm) {
+        return " UPDATE " + SITES_TABLE +
+                " SET pwm = " + pwm +
+                " WHERE id = " +site_id;
+    }
 }

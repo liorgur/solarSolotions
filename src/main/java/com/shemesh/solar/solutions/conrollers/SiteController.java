@@ -94,6 +94,27 @@ public class SiteController {
                 .body("Update Site Failed");
     }
 
+    @RequestMapping(value = "/pwm/update", method = RequestMethod.GET , produces = "application/json")
+    @ApiOperation(value = "Update pwm")
+    @ResponseBody
+    //@RolesAllowed()
+    public ResponseEntity UpdatePwm(@RequestParam int site_id, @RequestParam int pwm) {
+
+        log.info("Update pwm " + site_id + "pwm " + pwm );
+
+        try {
+            siteService.UpdatePwm(site_id, pwm);
+            return ResponseEntity.ok()
+                    .body("pwm updated successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            log.error("pwm updated Error " + e.getMessage());
+
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Update Site Failed");
+    }
+
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "", method = RequestMethod.GET , produces = "application/json")
     @ApiOperation(value = "Get all Sites")
