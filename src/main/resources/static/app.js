@@ -23,7 +23,7 @@ window.onload = function () { //todo
         sliderDiv.oninput = function () {
             slider_val_div.innerHTML = this.value;
         }
-        setInterval(function(){  handleSiteClick(chosen_ste_id); }, 30000);
+        setInterval(function(){  handleSiteClick(chosen_ste_id); }, 3000);
     })
 };
 

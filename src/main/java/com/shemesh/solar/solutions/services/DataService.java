@@ -40,7 +40,7 @@ public class DataService {
         return ResultSetToData(resultSet);
     }
 
-    private DataResponse ResultSetToData(ResultSet resultSet) {
+    private DataResponse ResultSetToData(ResultSet resultSet) throws SQLException {
         List<DataPoint> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -59,6 +59,9 @@ public class DataService {
         } catch (Exception ex) {
             log.error(ex.getMessage());
             log.debug(Arrays.toString(ex.getStackTrace())); //todo
+        }
+        finally {
+            resultSet.close();
         }
         return null;
     }

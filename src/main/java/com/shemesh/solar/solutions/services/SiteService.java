@@ -55,7 +55,7 @@ public class SiteService {
        cache.UpdateSiteCache();
     }
 
-    public List<Site> ResultSetToSite(ResultSet resultSet) {
+    public List<Site> ResultSetToSite(ResultSet resultSet) throws SQLException {
         List<Site> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -84,6 +84,9 @@ public class SiteService {
         catch (Exception ex) {
             log.error(ex.getMessage());
             log.debug(Arrays.toString(ex.getStackTrace())); //todo
+        }
+        finally {
+            resultSet.close();
         }
         return null;
     }

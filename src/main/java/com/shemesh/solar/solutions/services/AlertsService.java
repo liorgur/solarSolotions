@@ -66,7 +66,7 @@ public class AlertsService {
         dbHelper.executeQuery(queryInsertData);
     }
 
-    private AlertResponse ResultSetToAlert(ResultSet resultSet) {
+    private AlertResponse ResultSetToAlert(ResultSet resultSet) throws SQLException {
         List<Alert> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -81,6 +81,9 @@ public class AlertsService {
         } catch (Exception ex) {
             log.error(ex.getMessage());
             log.debug(Arrays.toString(ex.getStackTrace())); //todo
+        }
+        finally {
+            resultSet.close();
         }
         return new AlertResponse(list);
 
