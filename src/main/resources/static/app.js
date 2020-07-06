@@ -1,22 +1,20 @@
-var ip = 'localhost:8082'
-var ip2 = '52.30.206.53'
+var ip2 = 'localhost:8082'
+var ip = '52.30.206.53'
 var router = 1
 var sitesListData;
 var map;
 var site_id;
 var slider_val_div;
+var chosen_ste_id = getParameterByName("site_id") == null ? 1 : getParameterByName("site_id")
 
 window.onload = function () { //todo
     getSitesData().then(data => {
         sitesListData = data;
         fillDropDown(data);
         initMap();
-        handleSiteClick(1);
-        document.getElementById("router_switch").onclick = function () { router_switch_action() }
-//        document.getElementById("switch1").onclick = function () { switch_action() }
-//        document.getElementById("switch2").onclick = function () { switch_action() }
+//        updateQueryStringParameter("site_id",1)
 
-        // document.getElementById('sitesDropDown').selectedIndex = 1
+        handleSiteClick(chosen_ste_id);
 
         var sliderDiv = document.getElementById("pwd_range");
         slider_val_div = document.getElementById("slider_val");
@@ -25,6 +23,7 @@ window.onload = function () { //todo
         sliderDiv.oninput = function () {
             slider_val_div.innerHTML = this.value;
         }
+        setInterval(function(){  handleSiteClick(chosen_ste_id); }, 30000);
     })
 };
 
@@ -49,12 +48,10 @@ function fillDropDown(sites) {
 function OnSelectedIndexChange() {
 
     var site_name = document.getElementById('sitesDropDown').value;
-    var site_id = document.getElementById('sitesDropDown').selectedIndex;
+    chosen_ste_id = document.getElementById('sitesDropDown').selectedIndex;
 
-    //    var ip = sitesListData[site_id - 1].ip
-    //    var ip2 = sitesListData[site_id - 1].ip2
-    //    var id = sitesListData[site_id - 1].id
-    handleSiteClick(site_id);
+    handleSiteClick(chosen_ste_id);
+    updateQueryStringParameter("site_id",chosen_ste_id )
 
 }
 
@@ -215,6 +212,7 @@ function attachMassage(marker, massage) {
 }
 
 function handleSiteClick(site_id) {
+    console.log(site_id)
     var site_ip = sitesListData[site_id - 1].ip
     PingServer(site_ip, 1).then(PingServer(sitesListData[site_id - 1].ip2, 2))
     var select = document.getElementById("sitesDropDown");
@@ -234,7 +232,7 @@ function handleSiteClick(site_id) {
         }
         drawDataTable(data)
         drawChart(data)
-        drawMeters(siteData[0])
+        drawMeters(siteData[site_id - 1])
     })
 
     drawSiteInfo(sitesListData[site_id - 1])
@@ -274,24 +272,6 @@ function handleSiteClick(site_id) {
         document.getElementById("switch2").checked = true
      else
         document.getElementById("switch2").checked = false
-
-//   document.getElementById("switch1").value = sitesListData[site_id - 1].switch1
-//
-//   document.getElementById("switch2").value = sitesListData[site_id - 1].switch2
-
-//   if (sitesListData[site_id - 1].switch1 == null || sitesListData[site_id - 1].switch1 ==0 ) {
-//       document.getElementById("switch1").value = "OFF"
-//       sitesListData[site_id - 1].switch1 = "OFF"
-//   }
-//   else
-//       document.getElementById("switch1").value = sitesListData[site_id - 1].switch1
-//
-//   if (sitesListData[site_id - 1].switch2 == null || sitesListData[site_id - 1].switch1 ==0) {
-//       document.getElementById("switch2").value = "OFF"
-//       sitesListData[site_id - 1].switch2 = "OFF"
-//   }
-//   else
-//       document.getElementById("switch2").value = sitesListData[site_id - 1].switch2
 }
 
 function drawChart(data) {
@@ -560,5 +540,33 @@ async function change_switch_status(site_id, switch_id, status) {
   await fetch('http://' + ip + '/api/v1/sites/switch/update?site_id=' + site_id + '&switch_id='+ switch_id + '&status=' + status)
   }
 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return parseInt(decodeURIComponent(results[2].replace(/\+/g, ' ')));
+}
 
 
+var updateQueryStringParameter = function (key, value) {
+    var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''),
+        urlQueryString = document.location.search,
+        newParam = key + '=' + value,
+        params = '?' + newParam;
+
+    // If the "search" string exists, then build params from it
+    if (urlQueryString) {
+        keyRegex = new RegExp('([\?&])' + key + '[^&]*');
+
+        // If param exists already, update it
+        if (urlQueryString.match(keyRegex) !== null) {
+            params = urlQueryString.replace(keyRegex, "$1" + newParam);
+        } else { // Otherwise, add it to end of query string
+            params = urlQueryString + '&' + newParam;
+        }
+    }
+    window.history.replaceState({}, "", baseUrl + params);
+};

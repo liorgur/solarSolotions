@@ -9,11 +9,13 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Component
 public class SiteCache {
 
@@ -46,7 +48,7 @@ public class SiteCache {
             cacheLastUpdate = LocalDateTime.now();
 
         } catch (Exception ex) {
-            //todo
+            log.error("Error " + ex.getMessage());
         }
 
     }
