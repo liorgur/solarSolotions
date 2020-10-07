@@ -1,5 +1,5 @@
 var ip = 'localhost:8082'
-var ip2= '52.30.206.53'
+var ip2= '54.78.141.32'
 var router = 1
 var sitesListData;
 var map;
@@ -13,19 +13,19 @@ window.onload = function () { //todo
         fillDropDown(data);
         initMap();
         handleSiteClick(chosen_ste_id);
+
         setInterval(function(){  handleSiteClick(chosen_ste_id); }, 30000);
     })
 };
 
-function handle_pwm()
-{
- var sliderDiv = document.getElementById("pwm_range");
-        slider_val_div = document.getElementById("slider_val");
-        slider_val_div.innerHTML = sitesListData[chosen_ste_id-1].pwm
-        slider_val = sliderDiv.value;
-        sliderDiv.oninput = function () {
-            slider_val_div.innerHTML = this.value;
-        }
+function handle_pwm(){
+    var sliderDiv = document.getElementById("pwm_range");
+            sliderDiv.oninput = function () {
+              slider_val_div.innerHTML = this.value;
+            }
+    slider_val_div = document.getElementById("slider_val");
+    slider_val_div.innerHTML = sitesListData[chosen_ste_id-1].pwm
+    sliderDiv.value =sitesListData[chosen_ste_id-1].pwm
 }
 
 async function PingServer(site_ip, id) {
@@ -191,7 +191,10 @@ function drawSitesOnMap(map, sitesData) {
                 lat: sitesData[i].lat,
                 lng: sitesData[i].lon,
             },
-            map: map
+            map: map,
+            icon: {
+                  url: "http://maps.google.com/mapfiles/ms/icons/"+ sitesData[i].color + "-dot.png"
+                }
 
         });
         attachMassage(marker, sitesData[i]);
@@ -250,7 +253,7 @@ function handleSiteClick(site_id) {
     document.getElementById("reset1").onclick = function () { reset(site_id, 1) }
     document.getElementById("reset2").onclick = function () { reset(site_id, 2) }
 
-    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[massage.site_id - 1].cameras_link) }
+    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[site_id - 1].cameras_link) }
     var bounds = {
         north: sitesListData[site_id - 1].lat - 0.1,
         south: sitesListData[site_id - 1].lat + 0.1,
@@ -351,6 +354,8 @@ function drawMeters(data) {
     var tmp_options = {
         width: 500,
         height: 200,
+        greenFrom: 0,
+        greenTo: 40,
         redFrom: 60,
         redTo: 100,
         yellowFrom: 40,
@@ -360,29 +365,31 @@ function drawMeters(data) {
     var humidity_options = {
         width: 500,
         height: 200,
-        redFrom: 60,
-        redTo: 100,
-        yellowFrom: 40,
-        yellowTo: 60,
+//        redFrom: 60,
+//        redTo: 100,
+//        yellowFrom: 40,
+//        yellowTo: 60,
         minorTicks: 5
     };
     var volt_options = {
         width: 200,
         height: 200,
-        redFrom: 30,
-        redTo: 40,
-        yellowFrom: 0,
-        yellowTo: 23,
+        greenFrom: 25,
+        greenTo: 30,
+        redFrom: 0,
+        redTo: 23,
+        yellowFrom: 30,
+        yellowTo: 50,
         minorTicks: 5,
         max: 40
     };
     var light_options = {
         width: 600,
         height: 200,
-        redFrom: 900,
-        redTo: 1024,
-        yellowFrom: 700,
-        yellowTo: 900,
+//        redFrom: 900,
+//        redTo: 1024,
+//        yellowFrom: 700,
+//        yellowTo: 900,
         minorTicks: 5,
         //        majorTicks:['0','200','400','600','800'],
         max: 1024
@@ -532,8 +539,9 @@ async function pwm_click() {
         target_ip = sitesListData[chosen_ste_id - 1].ip
     else
         target_ip = sitesListData[chosen_ste_id - 1].ip2
+    sitesListData[chosen_ste_id-1].pwm = slider_val_div.innerHTML
     fetch('http://' + target_ip + ':84?pwm=' + slider_val_div.innerHTML)
-    await fetch('http://' + ip + '/api/v1/sites/pwm/update?site_id=' + site_id + '&pwm='+ slider_val_div.innerHTML)
+    await fetch('http://' + ip + '/api/v1/sites/pwm/update?site_id=' + chosen_ste_id + '&pwm='+ slider_val_div.innerHTML)
 
 }
 

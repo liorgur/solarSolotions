@@ -191,7 +191,10 @@ function drawSitesOnMap(map, sitesData) {
                 lat: sitesData[i].lat,
                 lng: sitesData[i].lon,
             },
-            map: map
+            map: map,
+            icon: {
+                  url: "http://maps.google.com/mapfiles/ms/icons/"+ sitesData[i].color + "-dot.png"
+                }
 
         });
         attachMassage(marker, sitesData[i]);
@@ -351,6 +354,8 @@ function drawMeters(data) {
     var tmp_options = {
         width: 500,
         height: 200,
+        greenFrom: 0,
+        greenTo: 40,
         redFrom: 60,
         redTo: 100,
         yellowFrom: 40,
@@ -360,29 +365,31 @@ function drawMeters(data) {
     var humidity_options = {
         width: 500,
         height: 200,
-        redFrom: 60,
-        redTo: 100,
-        yellowFrom: 40,
-        yellowTo: 60,
+//        redFrom: 60,
+//        redTo: 100,
+//        yellowFrom: 40,
+//        yellowTo: 60,
         minorTicks: 5
     };
     var volt_options = {
         width: 200,
         height: 200,
-        redFrom: 30,
-        redTo: 40,
-        yellowFrom: 0,
-        yellowTo: 23,
+        greenFrom: 25,
+        greenTo: 30,
+        redFrom: 0,
+        redTo: 23,
+        yellowFrom: 30,
+        yellowTo: 50,
         minorTicks: 5,
         max: 40
     };
     var light_options = {
         width: 600,
         height: 200,
-        redFrom: 900,
-        redTo: 1024,
-        yellowFrom: 700,
-        yellowTo: 900,
+//        redFrom: 900,
+//        redTo: 1024,
+//        yellowFrom: 700,
+//        yellowTo: 900,
         minorTicks: 5,
         //        majorTicks:['0','200','400','600','800'],
         max: 1024

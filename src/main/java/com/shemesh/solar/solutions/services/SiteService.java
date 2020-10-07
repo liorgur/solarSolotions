@@ -75,8 +75,9 @@ public class SiteService {
                 boolean switch1 = resultSet.getBoolean("switch1");
                 boolean switch2 = resultSet.getBoolean("switch2");
                 int pwm = resultSet.getInt("pwm");
+                String color = resultSet.getString("color");
 
-                list.add(new Site(id, ip, ip2, siteName, contact_person, contact_phone, lat, lon, description, provider1, provider2, provider3, provider4, cameras_link, switch1, switch2, pwm));
+                list.add(new Site(id, ip, ip2, siteName, contact_person, contact_phone, lat, lon, description, provider1, provider2, provider3, provider4, cameras_link, switch1, switch2, pwm, color));
             }
             return list;
         }

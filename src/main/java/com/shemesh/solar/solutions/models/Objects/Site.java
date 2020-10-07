@@ -33,6 +33,7 @@ public class Site {
     private boolean switch1;
     private boolean switch2;
     private int pwm;
+    private String color;
 
 
 
