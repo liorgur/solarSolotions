@@ -35,9 +35,10 @@ public class DataDao {
     public String CreateGetDataQuery(String ip) {
         return "SELECT * " +
                 " FROM " + DATA_TABLE + " " +
-                "WHERE EXISTS (select ip from SolarSolutions.sites where '" + ip + "' in (ip, ip2))" +
+                "WHERE ip in (select ip from SolarSolutions.sites where '" + ip + "' in (ip, ip2))" +
+                "OR ip in (select ip2 from SolarSolutions.sites where '" + ip + "' in (ip, ip2))" +
                 " ORDER BY time desc" +
-                " LIMIT 500";
+                        " LIMIT 500";
     }
 
 
