@@ -250,7 +250,7 @@ function handleSiteClick(site_id) {
     document.getElementById("reset1").onclick = function () { reset(site_id, 1) }
     document.getElementById("reset2").onclick = function () { reset(site_id, 2) }
 
-    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[massage.site_id - 1].cameras_link) }
+    document.getElementById("cameras").onclick = function () { goToCameras(sitesListData[site_id - 1].cameras_link) }
     var bounds = {
         north: sitesListData[site_id - 1].lat - 0.1,
         south: sitesListData[site_id - 1].lat + 0.1,
