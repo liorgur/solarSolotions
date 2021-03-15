@@ -9,6 +9,7 @@ window.onload = async function () { //todo
     }
     else
         {
+        await window.onload()
         }
         }
 
@@ -19,8 +20,7 @@ var password = "please";
 var x = prompt("Enter in the password ","");
 let response = await fetch('http://' + ip + '/api/v1/security/validate_pass?pass=' + x)
 if (response.status == 200) {
- loadjs("app.js")
-// loadScript("app.js")
+    return true
 }
 else {
  alert("Wrong Password");
