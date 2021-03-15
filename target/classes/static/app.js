@@ -22,7 +22,7 @@ window.onload = async function () { //todo
     }
     else
     {
-    alert("Wrong Password2");
+    window.onload()
     }
 
 
