@@ -1,5 +1,5 @@
-var ip = 'localhost:8082'
-var ip2= '54.78.141.32'
+var ip2 = 'localhost:8082'
+var ip= '54.78.141.32'
 var router = 1
 var sitesListData;
 var map;
