@@ -1,6 +1,5 @@
 package com.shemesh.solar.solutions.utils;
 
-import com.sun.rowset.CachedRowSetImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.DbUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import javax.sql.rowset.CachedRowSet;
+import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class DbHelper {
     public CachedRowSet executeQueryToResultSet(String query) throws SQLException {
         Connection connection = getConnection();
         ResultSet resultSet = null;
-        CachedRowSet rowset = new CachedRowSetImpl();
+        CachedRowSet rowset = RowSetProvider.newFactory().createCachedRowSet();
         try {
             Statement stmt = connection.createStatement();
             resultSet = stmt.executeQuery(query);

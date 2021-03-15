@@ -7,7 +7,10 @@ var site_id;
 var slider_val_div;
 var chosen_ste_id = getParameterByName("site_id") == null ? 1 : getParameterByName("site_id")
 
-window.onload = function () { //todo
+window.onload = async function () { //todo
+    let response = await validate_pass()
+    if (response == true) {
+
     getSitesData().then(data => {
         sitesListData = data;
         fillDropDown(data);
@@ -16,7 +19,30 @@ window.onload = function () { //todo
 
         setInterval(function(){  handleSiteClick(chosen_ste_id); }, 30000);
     })
+    }
+    else
+    {
+    alert("Wrong Password2");
+    }
+
+
 };
+
+async function validate_pass()
+{
+var password = "please";
+var x = prompt("Enter in the password "," ");
+let response = await fetch('http://' + ip + '/api/v1/security/validate_pass?pass=' + x)
+if (response.status == 200) {
+ return true
+}
+else {
+ alert("Wrong Password");
+return false
+}
+
+  }
+
 
 function handle_pwm(){
     var sliderDiv = document.getElementById("pwm_range");
